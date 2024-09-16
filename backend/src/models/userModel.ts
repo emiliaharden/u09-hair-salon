@@ -7,7 +7,7 @@ interface IUser extends Document {
   createdAt: Date;
   updatedAt: Date;
   isActive: boolean;
-  roles: string[];
+  roles: boolean;
 }
 
 const UserSchema: Schema = new Schema({
@@ -17,7 +17,7 @@ const UserSchema: Schema = new Schema({
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
   isActive: { type: Boolean, default: true },
-  roles: { type: [String], default: ["user"] },
+  roles: { type: Boolean, default: false },
 });
 
 export default mongoose.model<IUser>("User", UserSchema);
