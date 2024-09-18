@@ -36,14 +36,25 @@ export const updateUser = async (
 };
 
 // uppdatera bara lösenord för user
-export const updateUserPassword = async (id: string, newPassword: string) => {
+export const updateUserPassword = async (
+  id: string,
+  currentPassword: string,
+  newPassword: string
+) => {
   try {
+    console.log(`Findin user with ID: ${id}`);
     const user = await User.findById(id);
 
     if (!user) {
       throw new Error("User not found");
     }
+    //kolla om nuvarande lösen stämmer
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      throw new Error("Current password is incorrect");
+    }
 
+    // hasha nya lösen i databasen
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
 
@@ -57,6 +68,32 @@ export const updateUserPassword = async (id: string, newPassword: string) => {
     return updatedUser;
   } catch (error: any) {
     throw new Error(`Error updating password: ${error.message}`);
+  }
+};
+
+//  om användar glömt lösen
+export const resetUserPassword = async (id: string, newPassword: string) => {
+  try {
+    const user = await User.findById(id);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // hasha nya lösen i databasen
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    //uppdatera lösen i databasen
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { password: hashedPassword },
+      { new: true }
+    );
+
+    return updatedUser;
+  } catch (error: any) {
+    throw new Error(`Error resetting password: ${error.message}`);
   }
 };
 

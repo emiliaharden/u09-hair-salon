@@ -2,12 +2,12 @@
 // och skicka svar tillbaka till klienten.
 
 import { Request, Response } from "express";
-import User from "../models/userModel";
 import {
   createUser,
   deleteUser,
   findUserByEmail,
   getAllUsers,
+  resetUserPassword,
   updateUser,
   updateUserPassword,
 } from "../services/userService";
@@ -83,7 +83,8 @@ export const updateUserPasswordController = async (
   req: Request,
   res: Response
 ) => {
-  const { id, newPassword } = req.body;
+  const { id } = req.params;
+  const { currentPassword, newPassword } = req.body;
 
   if (!newPassword || newPassword.length < 6) {
     return res
@@ -92,7 +93,11 @@ export const updateUserPasswordController = async (
   }
 
   try {
-    const updatedUser = await updateUserPassword(id, newPassword);
+    const updatedUser = await updateUserPassword(
+      id,
+      currentPassword,
+      newPassword
+    );
 
     if (!updatedUser) {
       return res.status(404).json({ message: "User not found" });
@@ -100,6 +105,42 @@ export const updateUserPasswordController = async (
 
     res.status(200).json({
       message: "Password updated successfully",
+      user: {
+        id: updatedUser.id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        roles: updatedUser.roles,
+      },
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// kontroll för att resetta lösen
+export const resetUserPasswordController = async (
+  req: Request,
+  res: Response
+) => {
+  const { id } = req.params;
+  const { newPassword } = req.body;
+
+  if (!newPassword || newPassword.length < 6) {
+    return res
+      .status(400)
+      .json({ message: "Password must be at least 6 characters long" });
+  }
+
+  try {
+    //byt namn på const till något med reset
+    const updatedUser = await resetUserPassword(id, newPassword);
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      message: "Password reset successfully",
       user: {
         id: updatedUser.id,
         name: updatedUser.name,
