@@ -1,28 +1,42 @@
+// userController ansvarar för att hantera HTTP-förfrågningar
+// och skicka svar tillbaka till klienten.
+
 import { Request, Response } from "express";
-import User from "../models/userModel";
+import {
+  createUser,
+  deleteUser,
+  findUserByEmail,
+  getAllUsers,
+  resetUserPassword,
+  updateUser,
+  updateUserPassword,
+} from "../services/userService";
 
 const validRoles = ["user", "admin", "superadmin"];
+
 // Skapa en ny användare
-export const createUser = async (req: Request, res: Response) => {
+export const createUserController = async (req: Request, res: Response) => {
   const { name, email, password, roles } = req.body;
+
+  if (!password || password.length < 6) {
+    return res
+      .status(400)
+      .json({ message: "Password must be at least 6 characters long" });
+  }
 
   if (roles && !validRoles.includes(roles)) {
     return res.status(400).json({ message: "Invalid role" });
   }
+
   try {
-    const existingUser = await User.findOne({ email });
+    const existingUser = await findUserByEmail(email);
     if (existingUser) {
       return res
         .status(400)
         .json({ message: "Användare med denna e-postadress finns redan" });
     }
 
-    const newUser = await User.create({
-      name,
-      email,
-      password,
-      roles,
-    });
+    const newUser = await createUser(name, email, password, roles);
 
     res.status(201).json({
       id: newUser.id,
@@ -35,53 +49,132 @@ export const createUser = async (req: Request, res: Response) => {
   }
 };
 
-export const getUsers = async (req: Request, res: Response) => {
+//get
+export const getUsersController = async (req: Request, res: Response) => {
   try {
-    const users = await User.find().select("-password");
+    const users = await getAllUsers();
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: "Error fetching users", error });
   }
 };
 
-export const updateUser = async (req: Request, res: Response) => {
+// update
+export const updateUserController = async (req: Request, res: Response) => {
   const { id, name, email, roles } = req.body;
   console.log(req.body);
+
   if (roles && !validRoles.includes(roles)) {
     return res.status(400).json({ message: "Invalid role" });
   }
+
   try {
     // Hitta och uppdatera användaren baserat på id
-    const updateUser = await User.findOneAndUpdate(
-      // objektet vi letar efter
-      { _id: id },
-      // fälten som ska uppdateras
-      { name, email, roles },
-      // returnera det uppdaterade json dokumentet
-      { new: true }
-    );
+    const updatedUser = await updateUser(id, name, email, roles);
 
-    if (!updateUser) {
+    if (!updatedUser) {
       return res.status(404).json({ message: "User not found" });
     }
 
+    //vi får tillbaka det nya uppdaterade json-objektet
     res.status(200).json({
-      id: updateUser.id,
-      name: updateUser.name,
-      email: updateUser.email,
-      roles: updateUser.roles,
+      id: updatedUser.id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      roles: updatedUser.roles,
     });
   } catch (error) {
     res.status(500).json({ message: "Error updating user", error });
   }
 };
 
-export const deleteUser = async (req: Request, res: Response) => {
-  const { id } = req.body;
+// kontroll för att uppdatera lösenord
+export const updateUserPasswordController = async (
+  req: Request,
+  res: Response
+) => {
+  const { id } = req.params;
+  const { currentPassword, newPassword } = req.body;
+
+  if (!newPassword || newPassword.length < 6) {
+    return res
+      .status(400)
+      .json({ message: "Password must be at least 6 characters long" });
+  }
+
   try {
-    const userToDelete = await User.findByIdAndDelete(id);
-    console.log("User deleted successfully", userToDelete);
-    res.status(200).json(id);
+    const updatedUser = await updateUserPassword(
+      id,
+      currentPassword,
+      newPassword
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      message: "Password updated successfully",
+      user: {
+        id: updatedUser.id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        roles: updatedUser.roles,
+      },
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// kontroll för att resetta lösen
+export const resetUserPasswordController = async (
+  req: Request,
+  res: Response
+) => {
+  const { id } = req.params;
+  const { newPassword } = req.body;
+
+  if (!newPassword || newPassword.length < 6) {
+    return res
+      .status(400)
+      .json({ message: "Password must be at least 6 characters long" });
+  }
+
+  try {
+    //byt namn på const till något med reset
+    const updatedUser = await resetUserPassword(id, newPassword);
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      message: "Password reset successfully",
+      user: {
+        id: updatedUser.id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        roles: updatedUser.roles,
+      },
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+//delete
+export const deleteUserController = async (req: Request, res: Response) => {
+  const { id } = req.body;
+
+  try {
+    const deletedUser = await deleteUser(id);
+
+    if (!deletedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    console.log("User deleted successfully", deletedUser);
+    res.status(200).json({ message: "User deleted successfully: ", id });
   } catch (error) {
     res.status(500).json({ message: "Error deleting user", error });
   }
