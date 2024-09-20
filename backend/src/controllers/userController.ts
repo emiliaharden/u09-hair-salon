@@ -11,15 +11,23 @@ import {
   updateUser,
   updateUserPassword,
 } from "../services/userService";
+
 const validRoles = ["user", "admin", "superadmin"];
 
 // Skapa en ny användare
 export const createUserController = async (req: Request, res: Response) => {
   const { name, email, password, roles } = req.body;
 
+  if (!password || password.length < 6) {
+    return res
+      .status(400)
+      .json({ message: "Password must be at least 6 characters long" });
+  }
+
   if (roles && !validRoles.includes(roles)) {
     return res.status(400).json({ message: "Invalid role" });
   }
+
   try {
     const existingUser = await findUserByEmail(email);
     if (existingUser) {
@@ -55,9 +63,11 @@ export const getUsersController = async (req: Request, res: Response) => {
 export const updateUserController = async (req: Request, res: Response) => {
   const { id, name, email, roles } = req.body;
   console.log(req.body);
+
   if (roles && !validRoles.includes(roles)) {
     return res.status(400).json({ message: "Invalid role" });
   }
+
   try {
     // Hitta och uppdatera användaren baserat på id
     const updatedUser = await updateUser(id, name, email, roles);
@@ -156,6 +166,7 @@ export const resetUserPasswordController = async (
 //delete
 export const deleteUserController = async (req: Request, res: Response) => {
   const { id } = req.body;
+
   try {
     const deletedUser = await deleteUser(id);
 
