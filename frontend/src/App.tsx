@@ -1,11 +1,15 @@
 import './App.css'
+import LoginPage from './pages/login/loginPage';
 
 function App() {
  
 
   return (
-    <h1 className="text-3xl bg-primary font-bold underline text-center">Hello world!</h1>
-  )
+    <>
+    <LoginPage/>
+
+    </>
+  );
 }
 
 export default App
