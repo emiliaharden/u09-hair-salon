@@ -1,11 +1,17 @@
 import './App.css'
+import LoginPage from './pages/login/loginPage';
+import RegisterPage from './pages/register/registerPage';
 
 function App() {
  
 
   return (
-    <h1 className="text-3xl bg-primary font-bold underline text-center">Hello world!</h1>
-  )
+    <>
+    <LoginPage/>
+    <RegisterPage/>
+
+    </>
+  );
 }
 
 export default App
