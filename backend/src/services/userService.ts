@@ -4,17 +4,17 @@
 import User from "../models/UserModel";
 import bcrypt from "bcrypt";
 
-export const createUser = async (
-  name: string,
-  email: string,
-  password: string,
-  roles: string
-) => {
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
-  const newUser = new User({ name, email, password: hashedPassword, roles });
-  return await newUser.save();
-};
+// export const createUser = async (
+//   name: string,
+//   email: string,
+//   password: string,
+//   roles: string
+// ) => {
+//   const salt = await bcrypt.genSalt(10);
+//   const hashedPassword = await bcrypt.hash(password, salt);
+//   const newUser = new User({ name, email, password: hashedPassword, roles });
+//   return await newUser.save();
+// };
 
 //hämtar alla user
 export const getAllUsers = async () => {

@@ -25,3 +25,15 @@ export const loginUser = async (email: string, password: string) => {
 };
 
 //här kan vi lägga till andra auth operations, som logout eller change of password
+
+export const registerUser = async (
+  name: string,
+  email: string,
+  password: string,
+  roles: string
+) => {
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+  const newUser = new User({ name, email, password: hashedPassword, roles });
+  return await newUser.save();
+};
