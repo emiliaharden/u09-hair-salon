@@ -5,7 +5,7 @@ import {
   resetUserPasswordController,
   updateUserController,
   updateUserPasswordController,
-} from "../controllers/UserController";
+} from "../controllers/userController";
 import {
   requestPasswordResetController,
   resetPasswordController,
