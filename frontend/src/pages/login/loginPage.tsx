@@ -1,9 +1,26 @@
+import { useNavigate } from 'react-router-dom'
 import FormComponent from '../../components/formComponents'
 import { useState } from 'react'
 
 const LoginPage = () => {
+    const navigate = useNavigate()
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [user, setUser] = useState<{ name: string; email: string; roles: string[] } | null>(null)
+
+    const loginFields = [
+        {
+            label: 'Email',
+            type: 'email',
+            placeholder: 'Enter email',
+            name: 'email',
+        },
+        {
+            label: 'Password',
+            type: 'text',
+            placeholder: 'Enter password',
+            name: 'password',
+        },
+    ]
 
     const handleLogin = async (formData: { [key: string]: string }) => {
         const email = formData.email
@@ -24,6 +41,7 @@ const LoginPage = () => {
             if (response.ok) {
                 // Spara tokenen lokalt (t.ex. i localStorage)
                 localStorage.setItem('token', data.token)
+                navigate('/dashboard')
 
                 setUser(data.user)
 
@@ -39,21 +57,6 @@ const LoginPage = () => {
             console.error('Error logging in:', error)
         }
     }
-
-    const loginFields = [
-        {
-            label: 'Email',
-            type: 'email',
-            placeholder: 'Enter email',
-            name: 'email',
-        },
-        {
-            label: 'Password',
-            type: 'text',
-            placeholder: 'Enter password',
-            name: 'password',
-        },
-    ]
 
     const handleLogout = () => {
         localStorage.removeItem('token')
