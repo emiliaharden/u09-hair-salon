@@ -3,9 +3,7 @@
 
 import { Request, Response } from "express";
 import {
-  createUser,
   deleteUser,
-  findUserByEmail,
   getAllUsers,
   resetUserPassword,
   updateUser,
@@ -15,39 +13,39 @@ import {
 const validRoles = ["user", "admin", "superadmin"];
 
 // Skapa en ny användare
-export const createUserController = async (req: Request, res: Response) => {
-  const { name, email, password, roles } = req.body;
+// export const createUserController = async (req: Request, res: Response) => {
+//   const { name, email, password, roles } = req.body;
 
-  if (!password || password.length < 6) {
-    return res
-      .status(400)
-      .json({ message: "Password must be at least 6 characters long" });
-  }
+//   if (!password || password.length < 6) {
+//     return res
+//       .status(400)
+//       .json({ message: "Password must be at least 6 characters long" });
+//   }
 
-  if (roles && !validRoles.includes(roles)) {
-    return res.status(400).json({ message: "Invalid role" });
-  }
+//   if (roles && !validRoles.includes(roles)) {
+//     return res.status(400).json({ message: "Invalid role" });
+//   }
 
-  try {
-    const existingUser = await findUserByEmail(email);
-    if (existingUser) {
-      return res
-        .status(400)
-        .json({ message: "Användare med denna e-postadress finns redan" });
-    }
+//   try {
+//     const existingUser = await findUserByEmail(email);
+//     if (existingUser) {
+//       return res
+//         .status(400)
+//         .json({ message: "Användare med denna e-postadress finns redan" });
+//     }
 
-    const newUser = await createUser(name, email, password, roles);
+//     const newUser = await createUser(name, email, password, roles);
 
-    res.status(201).json({
-      id: newUser.id,
-      name: newUser.name,
-      email: newUser.email,
-      roles: newUser.roles,
-    });
-  } catch (error) {
-    res.status(500).json({ message: "Error creating user", error });
-  }
-};
+//     res.status(201).json({
+//       id: newUser.id,
+//       name: newUser.name,
+//       email: newUser.email,
+//       roles: newUser.roles,
+//     });
+//   } catch (error) {
+//     res.status(500).json({ message: "Error creating user", error });
+//   }
+// };
 
 //get
 export const getUsersController = async (req: Request, res: Response) => {
