@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import FormComponent from '../../components/formComponents'
+import FormComponent from '../../components/FormComponents'
 
 const RegisterPage = () => {
     const [error, setError] = useState<string | null>(null)
