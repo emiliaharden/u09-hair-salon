@@ -113,6 +113,28 @@ const AdminDashboardPage = () => {
         setUpdatedUserData({})
     }
 
+    const handleDeleteUser = async (userId: string) => {
+        try {
+            const response = await fetch(`http://localhost:3000/api/user/${userId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            })
+            const data = await response.json()
+
+            if (response.ok) {
+                setUsers((prevUsers) => prevUsers.filter((user) => user._id !== userId))
+                console.log('User deleted:', data)
+            } else {
+                console.error('Error deleting user:', data.message)
+            }
+        } catch (error) {
+            console.error('Error deleting user:', error)
+        }
+    }
+
     if (!user) return null
 
     return (
@@ -159,6 +181,7 @@ const AdminDashboardPage = () => {
                                 <div>
                                     {user.name} ({user.email}) - Roles: {user.roles.join(', ')}
                                     <button onClick={() => handleEditUser(user)}>Update</button>
+                                <button onClick={() => handleDeleteUser(user._id)}>Delete</button>
                                 </div>
                             )}
                         </li>
