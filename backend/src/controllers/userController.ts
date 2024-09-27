@@ -59,10 +59,16 @@ export const getUsersController = async (req: Request, res: Response) => {
 
 // update
 export const updateUserController = async (req: Request, res: Response) => {
-  const { id, name, email, roles } = req.body;
+  const { name, email, roles } = req.body;
+  const { id } = req.params;
   console.log(req.body);
 
-  if (roles && !validRoles.includes(roles)) {
+  const rolesArray = Array.isArray(roles) ? roles : [roles];
+
+  if (
+    rolesArray &&
+    !rolesArray.every((role: string) => validRoles.includes(role))
+  ) {
     return res.status(400).json({ message: "Invalid role" });
   }
 
@@ -76,7 +82,7 @@ export const updateUserController = async (req: Request, res: Response) => {
 
     //vi får tillbaka det nya uppdaterade json-objektet
     res.status(200).json({
-      id: updatedUser.id,
+      id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
       roles: updatedUser.roles,
