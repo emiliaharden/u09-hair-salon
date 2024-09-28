@@ -2,12 +2,14 @@ import { useNavigate } from 'react-router-dom'
 import { useUserStore } from '../../store/useUserStore'
 import { useEffect, useState } from 'react'
 import SearchComponent from '../../components/SearchComponent'
+import TableComponent from '@/components/table/TableComponent'
 
-interface User {
+export interface User {
     _id: string
     name: string
     email: string
     roles: string[]
+    [key: string]: any
 }
 
 const AdminDashboardPage = () => {
@@ -19,6 +21,8 @@ const AdminDashboardPage = () => {
     const user = useUserStore((state) => state.user)
     const clearUser = useUserStore((state) => state.clearUser)
 
+    console.log(editingUserId)
+    console.log(updatedUserData)
     const handleLogout = () => {
         localStorage.removeItem('token')
         console.log(localStorage)
@@ -83,53 +87,53 @@ const AdminDashboardPage = () => {
 
     // kunna ändra password
 
-    const handleInputChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-        field: string
-    ) => {
-        if (field === 'roles') {
-            setUpdatedUserData({ ...updatedUserData, roles: [e.target.value] })
-        } else {
-            setUpdatedUserData({ ...updatedUserData, [field]: e.target.value })
-        }
-    }
+    // const handleInputChange = (
+    //     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    //     field: string
+    // ) => {
+    //     if (field === 'roles') {
+    //         setUpdatedUserData({ ...updatedUserData, roles: [e.target.value] })
+    //     } else {
+    //         setUpdatedUserData({ ...updatedUserData, [field]: e.target.value })
+    //     }
+    // }
 
-    const handleSaveUser = async () => {
-        if (!editingUserId) {
-            console.error('No userId provided for update', editingUserId)
-            return
-        }
-        try {
-            const response = await fetch(`http://localhost:3000/api/user/${editingUserId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
-                },
-                body: JSON.stringify(updatedUserData),
-            })
-            const data = await response.json()
+    // const handleSaveUser = async () => {
+    //     if (!editingUserId) {
+    //         console.error('No userId provided for update', editingUserId)
+    //         return
+    //     }
+    //     try {
+    //         const response = await fetch(`http://localhost:3000/api/user/${editingUserId}`, {
+    //             method: 'PUT',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 Authorization: `Bearer ${localStorage.getItem('token')}`,
+    //             },
+    //             body: JSON.stringify(updatedUserData),
+    //         })
+    //         const data = await response.json()
 
-            if (response.ok) {
-                setUsers((prevUsers) =>
-                    prevUsers.map((user) =>
-                        user._id === editingUserId ? { ...user, ...updatedUserData } : user
-                    )
-                )
-                setEditingUserId(null)
-                setUpdatedUserData({})
-            } else {
-                console.error('Error updating user:', data.message)
-            }
-        } catch (error) {
-            console.error('Error updating user:', error)
-        }
-    }
+    //         if (response.ok) {
+    //             setUsers((prevUsers) =>
+    //                 prevUsers.map((user) =>
+    //                     user._id === editingUserId ? { ...user, ...updatedUserData } : user
+    //                 )
+    //             )
+    //             setEditingUserId(null)
+    //             setUpdatedUserData({})
+    //         } else {
+    //             console.error('Error updating user:', data.message)
+    //         }
+    //     } catch (error) {
+    //         console.error('Error updating user:', error)
+    //     }
+    // }
 
-    const handleCancelEdit = () => {
-        setEditingUserId(null)
-        setUpdatedUserData({})
-    }
+    // const handleCancelEdit = () => {
+    //     setEditingUserId(null)
+    //     setUpdatedUserData({})
+    // }
 
     const handleDeleteUser = async (userId: string) => {
         try {
@@ -172,7 +176,8 @@ const AdminDashboardPage = () => {
 
             <div>
                 <h3>All users</h3>
-                <ul>
+                <TableComponent data={filteredUsers} onEdit={handleEditUser} onDelete={handleDeleteUser}></TableComponent>
+                {/* <ul>
                     {filteredUsers.map((user, key) => (
                         <li key={key}>
                             {editingUserId === user._id ? (
@@ -208,7 +213,7 @@ const AdminDashboardPage = () => {
                             )}
                         </li>
                     ))}
-                </ul>
+                </ul> */}
             </div>
             <button onClick={handleLogout}>Logout</button>
         </div>
