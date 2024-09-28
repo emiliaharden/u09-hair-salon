@@ -59,10 +59,16 @@ export const getUsersController = async (req: Request, res: Response) => {
 
 // update
 export const updateUserController = async (req: Request, res: Response) => {
-  const { id, name, email, roles } = req.body;
+  const { name, email, roles } = req.body;
+  const { id } = req.params;
   console.log(req.body);
 
-  if (roles && !validRoles.includes(roles)) {
+  const rolesArray = Array.isArray(roles) ? roles : [roles];
+
+  if (
+    rolesArray &&
+    !rolesArray.every((role: string) => validRoles.includes(role))
+  ) {
     return res.status(400).json({ message: "Invalid role" });
   }
 
@@ -76,7 +82,6 @@ export const updateUserController = async (req: Request, res: Response) => {
 
     //vi får tillbaka det nya uppdaterade json-objektet
     res.status(200).json({
-      id: updatedUser.id,
       name: updatedUser.name,
       email: updatedUser.email,
       roles: updatedUser.roles,
@@ -114,7 +119,7 @@ export const updateUserPasswordController = async (
     res.status(200).json({
       message: "Password updated successfully",
       user: {
-        id: updatedUser.id,
+        id: updatedUser.id, //Glöm inte att ta bort id (safe)
         name: updatedUser.name,
         email: updatedUser.email,
         roles: updatedUser.roles,
@@ -150,7 +155,7 @@ export const resetUserPasswordController = async (
     res.status(200).json({
       message: "Password reset successfully",
       user: {
-        id: updatedUser.id,
+        id: updatedUser.id, //Ta bort id sen
         name: updatedUser.name,
         email: updatedUser.email,
         roles: updatedUser.roles,
@@ -163,7 +168,7 @@ export const resetUserPasswordController = async (
 
 //delete
 export const deleteUserController = async (req: Request, res: Response) => {
-  const { id } = req.body;
+  const { id } = req.params;
 
   try {
     const deletedUser = await deleteUser(id);
