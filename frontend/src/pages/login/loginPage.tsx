@@ -42,7 +42,13 @@ const LoginPage = () => {
                 // Spara tokenen lokalt (t.ex. i localStorage)
                 localStorage.setItem('token', data.token)
                 setUser(data.user)
-                navigate('/dashboard')
+
+                if (data.user.roles.includes('admin')) {
+                    navigate('/admin')
+                } else {
+                    navigate('/dashboard')
+                }
+
 
                 // Om du vill visa användarinformation eller navigera till annan sida:
                 console.log('Logged in successfully:', data.user)
