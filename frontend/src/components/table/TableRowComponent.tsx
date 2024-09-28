@@ -2,6 +2,7 @@ import { User } from '@/pages/admin/adminDashboardPage'
 import { TableCell, TableRow } from '../ui/table'
 import Actions from './Actions'
 
+
 interface TableRowProps {
     rowData: User
     columns: string[]
