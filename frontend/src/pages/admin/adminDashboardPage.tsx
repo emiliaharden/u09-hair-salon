@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useUserStore } from '../../store/useUserStore'
 import { useEffect, useState } from 'react'
+import SearchComponent from '../../components/SearchComponent'
 
 interface User {
     _id: string
@@ -11,6 +12,7 @@ interface User {
 
 const AdminDashboardPage = () => {
     const [users, setUsers] = useState<User[]>([])
+    const [filteredUsers, setFilteredUsers] = useState<User[]>([])
     const [editingUserId, setEditingUserId] = useState<string | null>(null)
     const [updatedUserData, setUpdatedUserData] = useState<Partial<User>>({})
     const navigate = useNavigate()
@@ -43,6 +45,7 @@ const AdminDashboardPage = () => {
                 const data = await response.json()
                 if (response.ok) {
                     setUsers(data)
+                    setFilteredUsers(data)
                 } else {
                     console.error('Error fetching users:', data.message)
                 }
@@ -53,6 +56,21 @@ const AdminDashboardPage = () => {
 
         fetchUsers()
     }, [])
+
+    const handleSearch = (searchTerm: string) => {
+        if (searchTerm === '') {
+            setFilteredUsers(users)
+        } else {
+            setFilteredUsers(
+                users.filter(
+                    (user) =>
+                        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        user.email.toLowerCase().includes(searchTerm.toLowerCase())
+                )
+            )
+        }
+        console.log(filteredUsers)
+    }
 
     const handleEditUser = (user: User) => {
         if (!user._id) {
@@ -150,10 +168,12 @@ const AdminDashboardPage = () => {
                 <button>Delete user</button>
             </div>
 
+            <SearchComponent onSearch={handleSearch} placeholder="Search users..." />
+
             <div>
                 <h3>All users</h3>
                 <ul>
-                    {users.map((user, key) => (
+                    {filteredUsers.map((user, key) => (
                         <li key={key}>
                             {editingUserId === user._id ? (
                                 <div>
@@ -181,7 +201,9 @@ const AdminDashboardPage = () => {
                                 <div>
                                     {user.name} ({user.email}) - Roles: {user.roles.join(', ')}
                                     <button onClick={() => handleEditUser(user)}>Update</button>
-                                <button onClick={() => handleDeleteUser(user._id)}>Delete</button>
+                                    <button onClick={() => handleDeleteUser(user._id)}>
+                                        Delete
+                                    </button>
                                 </div>
                             )}
                         </li>
