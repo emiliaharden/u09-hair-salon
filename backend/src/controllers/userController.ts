@@ -82,7 +82,6 @@ export const updateUserController = async (req: Request, res: Response) => {
 
     //vi får tillbaka det nya uppdaterade json-objektet
     res.status(200).json({
-      id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
       roles: updatedUser.roles,
@@ -120,7 +119,7 @@ export const updateUserPasswordController = async (
     res.status(200).json({
       message: "Password updated successfully",
       user: {
-        id: updatedUser.id,
+        id: updatedUser.id, //Glöm inte att ta bort id (safe)
         name: updatedUser.name,
         email: updatedUser.email,
         roles: updatedUser.roles,
@@ -156,7 +155,7 @@ export const resetUserPasswordController = async (
     res.status(200).json({
       message: "Password reset successfully",
       user: {
-        id: updatedUser.id,
+        id: updatedUser.id, //Ta bort id sen
         name: updatedUser.name,
         email: updatedUser.email,
         roles: updatedUser.roles,
@@ -169,7 +168,7 @@ export const resetUserPasswordController = async (
 
 //delete
 export const deleteUserController = async (req: Request, res: Response) => {
-  const { id } = req.body;
+  const { id } = req.params;
 
   try {
     const deletedUser = await deleteUser(id);
