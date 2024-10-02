@@ -2,7 +2,7 @@
 // och skicka svar tillbaka till klienten.
 
 import { Request, Response } from "express";
-import { deleteUser, getAllUsers, updateUser } from "../services/userService";
+import { deleteUser, getAllUsers, updateUser } from "../services/UserService";
 
 const validRoles = ["user", "admin", "superadmin"];
 
