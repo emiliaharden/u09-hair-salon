@@ -15,7 +15,14 @@ export const login = async (req: Request, res: Response) => {
 const validRoles = ["user", "admin", "superadmin"];
 
 export const registerUserController = async (req: Request, res: Response) => {
-  const { name, email, password, roles } = req.body;
+  let { name, email, password, roles } = req.body;
+
+  const existingUser = await findUserByEmail(email);
+  if (existingUser) {
+    return res
+      .status(400)
+      .json({ message: "User with this email does already exist." });
+  }
 
   if (!password || password.length < 6) {
     return res
@@ -23,18 +30,15 @@ export const registerUserController = async (req: Request, res: Response) => {
       .json({ message: "Password must be at least 6 characters long" });
   }
 
-  if (roles && !validRoles.includes(roles)) {
+  if (typeof roles === "string") {
+    roles = [roles];
+  }
+
+  if (roles && !roles.every((role: string) => validRoles.includes(role))) {
     return res.status(400).json({ message: "Invalid role" });
   }
 
   try {
-    const existingUser = await findUserByEmail(email);
-    if (existingUser) {
-      return res
-        .status(400)
-        .json({ message: "Användare med denna e-postadress finns redan" });
-    }
-
     const newUser = await registerUser(name, email, password, roles);
 
     res.status(201).json({
