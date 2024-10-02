@@ -9,7 +9,7 @@ import {
   resetPasswordController,
   resetUserPasswordController,
   updateUserPasswordController,
-} from "../controllers/PasswordController";
+} from "../controllers/passwordController";
 import { authMiddleware } from "../middleware/authMiddleware";
 import { roleMiddleware } from "../middleware/roleMiddleware";
 

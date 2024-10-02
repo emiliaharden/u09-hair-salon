@@ -30,11 +30,23 @@ export const registerUser = async (
   name: string,
   email: string,
   password: string,
-  roles: string
+  roles: string[]
 ) => {
+  const rolesArray = Array.isArray(roles) ? roles : [roles];
+
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
-  const newUser = new User({ name, email, password: hashedPassword, roles });
-  return await newUser.save();
+  const newUser = new User({
+    name,
+    email,
+    password: hashedPassword,
+    roles: rolesArray,
+  });
+  try {
+    return await newUser.save();
+  } catch (error) {
+    console.error("Error registering user:", error);
+    throw new Error("User registration failed");
+  }
 };
