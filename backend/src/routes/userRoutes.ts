@@ -3,13 +3,13 @@ import {
   deleteUserController,
   getUsersController,
   updateUserController,
-} from "../controllers/userController";
+} from "../controllers/UserController";
 import {
   requestPasswordResetController,
   resetPasswordController,
   resetUserPasswordController,
   updateUserPasswordController,
-} from "../controllers/passwordController";
+} from "../controllers/PasswordController";
 import { authMiddleware } from "../middleware/authMiddleware";
 import { roleMiddleware } from "../middleware/roleMiddleware";
 
