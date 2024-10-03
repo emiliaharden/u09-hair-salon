@@ -7,7 +7,7 @@ import User from "../../src/models/UserModel";
 // Use a real database
 beforeAll(async () => {
   await mongoose.connect(
-    process.env.MONGO_URI || "mongodb://localhost:27017/testdb"
+    process.env.MONGO_URI || "mongodb://localhost:27018/testdb"
   );
 });
 
