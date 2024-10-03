@@ -1,17 +1,21 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
-dotenv.config();
-
 const connectDB = async () => {
+  const envFile = process.env.NODE_ENV === "test" ? ".env.test" : ".env";
+  dotenv.config({ path: envFile });
+
   try {
-    await mongoose.connect(
-      process.env.MONGO_URI || "mongodb://127.0.0.1:27017/u09_hair_salon"
-    );
+    const dbUri = process.env.MONGO_URI;
+    await mongoose.connect(dbUri as string);
     console.log("MongoDB connected");
   } catch (error) {
     console.error("MongoDB connection error:", error);
-    process.exit(1);
+    if (process.env.NODE_ENV !== "test") {
+      process.exit(1);
+    } else {
+      throw new Error("MongoDB connection failed in test enviroment");
+    }
   }
 };
 

@@ -8,7 +8,7 @@ function App() {
         
         <main>
           <Navbar/>
-          {/* <ModeToggle /> */}
+          <ModeToggle />
             <Outlet />
         </main>
   
