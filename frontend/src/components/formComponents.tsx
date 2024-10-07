@@ -30,10 +30,10 @@ const FormComponent: React.FC<FormComponentProps> = ({ fields, buttonText, onSub
 
     return (
         <>
-            <div>
-                <form className="flex flex-col" onSubmit={handleSubmit}>
+            <div className='flex space-evenly'>
+                <form className="flex flex-col space-y-2" onSubmit={handleSubmit}>
                     {fields.map((field, index) => (
-                        <label key={index}>
+                        <label key={index} className='flex flex-col'>
                             {field.label}
                             <input
                                 type={field.type}
