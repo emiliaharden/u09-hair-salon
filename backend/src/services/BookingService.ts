@@ -40,3 +40,60 @@ export const createBooking = async (data: any) => {
     throw new Error(error.message || "Error creating booking");
   }
 };
+
+//hitta bokning
+
+export const getAllBookings = async () => {
+  try {
+    const bookings = await Booking.find()
+      .populate("user", "name email")
+      .populate("employee", "name email");
+    return bookings;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+//hitta en specifik bokning
+
+export const getBookingById = async (id: string) => {
+  try {
+    const booking = await Booking.findById(id)
+      .populate("user", "name email")
+      .populate("employee", "name email");
+    if (!booking) {
+      throw new Error("Booking not found");
+    }
+    return booking;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+//uppdatera bokning
+
+export const updateBooking = async (id: string, data: any) => {
+  try {
+    const updatedBooking = await Booking.findByIdAndUpdate(id, data, {
+      new: true,
+    });
+    if (!updateBooking) {
+      throw new Error("Booking not found");
+    }
+    return updatedBooking;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const deleteBooking = async (id: string) => {
+  try {
+    const deletedBooking = await Booking.findByIdAndDelete(id);
+    if (!deletedBooking) {
+      throw new Error("Booking not found");
+    }
+    return deletedBooking;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
