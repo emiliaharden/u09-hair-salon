@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import FormComponent from '../../components/FormComponents'
+import FormComponent from '../../components/formComponents'
 import { useUserStore } from '../../store/useUserStore'
 import { useState } from 'react'
 
@@ -44,7 +44,7 @@ const LoginPage = () => {
                 setUser(data.user)
 
                 if (data.user.roles.includes('admin')) {
-                    navigate('/admin-dashboard')
+                    navigate('/admin/dashboard')
                 } else {
                     navigate('/dashboard')
                 }

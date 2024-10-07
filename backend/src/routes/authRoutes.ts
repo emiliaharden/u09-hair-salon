@@ -17,7 +17,7 @@ router.get("/dashboard", authMiddleware, (req, res) => {
   });
 });
 router.get(
-  "/admin-dashboard",
+  "/admin/dashboard",
   authMiddleware,
   roleMiddleware("admin"),
   (req, res) => {
