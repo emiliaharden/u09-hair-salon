@@ -75,7 +75,6 @@ const CreateUserComponent = ({ onSuccess, buttonText }: createUserProps) => {
 
     return (
         <div>
-            <h2>Register</h2>
             {error && <p className="text-red-500">{error}</p>}
             {success && <p className="text-green-500">{success}</p>}
             <FormComponent

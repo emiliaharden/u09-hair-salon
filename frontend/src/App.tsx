@@ -1,18 +1,21 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import './App.css'
 import { ModeToggle } from './components/ModeToogle'
 import Navbar from './components/Navbar'
 
 function App() {
-    return (
-        
-        <main>
-          <Navbar/>
-          <ModeToggle />
-            <Outlet />
-        </main>
-  
+    const location = useLocation()
 
+    //Kolla om sökvägen innehåller admin
+    const isAdminRoute = location.pathname.startsWith('/admin')
+    return (
+        <main>
+            {!isAdminRoute && <Navbar path={location.pathname} />}
+            <Outlet />
+            <div className="fixed bottom-4 right-4">
+                <ModeToggle />
+            </div>
+        </main>
     )
 }
 

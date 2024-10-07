@@ -7,8 +7,10 @@ import RegisterPage from './pages/register/registerPage.tsx'
 import DashboardPage from './pages/dashboard/dashboardPage.tsx'
 import ProtectedRoute from './components/ProtectedRoute.tsx'
 import AdminDashboardPage from './pages/admin/adminDashboardPage.tsx'
-import CreateNewUser from './pages/admin/createNewUser.tsx'
 import { ThemeProvider } from './components/ThemeProvider.tsx'
+import AdminUsersPage from './pages/admin/adminUsersPage.tsx'
+import AdminDashboardOverview from './components/AdminDashboardOverview.tsx'
+import AdminSettingsPage from './pages/admin/adminSettingsPage.tsx'
 
 const router = createBrowserRouter([
     {
@@ -28,21 +30,20 @@ const router = createBrowserRouter([
                 ),
             },
             {
-                path: '/admin-dashboard',
+                path: '/admin/dashboard',
                 element: (
                     <ProtectedRoute requiredRole='admin'>
                         <AdminDashboardPage />
                     </ProtectedRoute>
                 ),
+                children: [
+                    { path: '', element: <AdminDashboardOverview /> }, // Detta är adminens översiktssida
+                    { path: 'users', element: <AdminUsersPage /> }, // Användarhanteringsvyn
+                    { path: 'settings', element: <AdminSettingsPage /> }, // Admininställningar
+                ],
             },
-            {
-                path: 'admin/create-user',
-                element: (
-                    <ProtectedRoute requiredRole='admin'>
-                        <CreateNewUser />
-                    </ProtectedRoute>
-                ),
-            },
+                
+          
         ],
     },
 ])
