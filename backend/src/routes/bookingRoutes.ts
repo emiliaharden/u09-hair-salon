@@ -13,36 +13,31 @@ const router = Router();
 
 router.put(
   "/bookings/:id",
-  //   authMiddleware,
-  //   roleMiddleware("admin"),
+  authMiddleware,
+  roleMiddleware("admin"),
   updateBookingController
 );
 
 router.get(
   "/bookings",
-  //   authMiddleware,
-  //   roleMiddleware("admin"),
+  authMiddleware,
+  roleMiddleware("admin"),
   getAllBookingsController
 );
 
-router.get(
-  "/bookings/:id",
-  //   authMiddleware,
-  //   roleMiddleware("admin"),
-  getBookingByIdController
-);
+router.get("/bookings/:id", authMiddleware, getBookingByIdController);
 
 router.post(
   "/bookings",
-  //   authMiddleware,
-  //   roleMiddleware("user"),
+  authMiddleware,
+  roleMiddleware("user"),
   createBookingController
 );
 
 router.delete(
   "/bookings/:id",
-  //   authMiddleware,
-  //   roleMiddleware("admin"),
+  authMiddleware,
+  roleMiddleware("admin"),
   deleteBookingController
 );
 
