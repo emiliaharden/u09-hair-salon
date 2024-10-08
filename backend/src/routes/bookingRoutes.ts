@@ -11,12 +11,7 @@ import {
 
 const router = Router();
 
-router.put(
-  "/bookings/:id",
-  authMiddleware,
-  roleMiddleware("admin"),
-  updateBookingController
-);
+router.put("/bookings/:id", authMiddleware, updateBookingController);
 
 router.get(
   "/bookings",
@@ -34,11 +29,6 @@ router.post(
   createBookingController
 );
 
-router.delete(
-  "/bookings/:id",
-  authMiddleware,
-  roleMiddleware("admin"),
-  deleteBookingController
-);
+router.delete("/bookings/:id", authMiddleware, deleteBookingController);
 
 export default router;

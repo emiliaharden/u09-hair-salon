@@ -85,7 +85,30 @@ export const getBookingByIdController = async (req: Request, res: Response) => {
 
 export const updateBookingController = async (req: Request, res: Response) => {
   try {
-    const updatedBooking = await updateBooking(req.params.id, req.body);
+    const booking = await Booking.findById(req.params.id);
+
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+
+    const userId = (req as any).user.id;
+    console.log("User from token:", userId);
+    console.log("Booking owner (user ObjectId:", booking.user);
+
+    if (
+      !(req as any).user.roles.includes("admin") &&
+      booking.user.toString() !== userId
+    ) {
+      console.log("Access denied: User does not own the booking");
+      return res.status(403).json({ message: "Access denied" });
+    }
+
+    const updatedBooking = await Booking.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+
     res.status(200).json(updatedBooking);
   } catch (error: any) {
     res.status(400).json({ message: error.message });
@@ -94,7 +117,25 @@ export const updateBookingController = async (req: Request, res: Response) => {
 
 export const deleteBookingController = async (req: Request, res: Response) => {
   try {
-    await deleteBooking(req.params.id);
+    const booking = await Booking.findById(req.params.id);
+
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+
+    const userId = (req as any).user.id;
+    console.log("User from token:", userId);
+    console.log("Booking owner (user ObjectId:", booking.user);
+
+    if (
+      !(req as any).user.roles.includes("admin") &&
+      booking.user.toString() !== userId
+    ) {
+      console.log("Access denied: User does not own the booking");
+      return res.status(403).json({ message: "Access denied" });
+    }
+
+    await Booking.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: "Booking deleted successfully" });
   } catch (error: any) {
     res.status(400).json({ message: error.message });
