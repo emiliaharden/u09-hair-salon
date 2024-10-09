@@ -2,7 +2,7 @@ import mongoose, { Schema, Document } from "mongoose";
 
 interface IBooking extends Document {
   user: mongoose.Schema.Types.ObjectId;
-  service: string;
+  service?: ("Haircut" | "Color" | "Balayage")[];
   employee: mongoose.Schema.Types.ObjectId;
   date: Date;
   status: string;
@@ -11,7 +11,11 @@ interface IBooking extends Document {
 
 const BookingSchema: Schema = new Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  service: { type: String, required: true },
+  service: {
+    type: [String],
+    enum: ["Haircut", "Color", "Balayage"],
+    required: true,
+  },
   employee: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
