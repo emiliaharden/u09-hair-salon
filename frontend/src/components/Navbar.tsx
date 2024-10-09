@@ -13,7 +13,9 @@ const Navbar: React.FC<NavbarProps> = () => {
                 </li>
                 <li>Om oss</li>
                 <li>Behandlingar</li>
-                <li>Bokning</li>
+                <li>
+                    <Link to={'/bookings'}>Bokning</Link>
+                </li>
                 <li>Kontakt</li>
             </ul>
         </nav>
