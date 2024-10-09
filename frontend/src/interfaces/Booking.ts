@@ -4,4 +4,10 @@ export interface Booking {
     date: string
     status: string
     notes?: string
+
+    employee: {
+        _id: string
+        name: string
+        email: string
+    }
 }
