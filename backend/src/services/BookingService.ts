@@ -54,6 +54,23 @@ export const getAllBookings = async () => {
   }
 };
 
+export const getBookingsByUser = async (userId: string) => {
+  try {
+    const bookings = await Booking.find({ user: userId }).populate(
+      "employee",
+      "name email"
+    );
+
+    if (!bookings.length) {
+      throw new Error("No bookings found for this user");
+    }
+
+    return bookings;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
 //hitta en specifik bokning
 
 export const getBookingById = async (id: string) => {

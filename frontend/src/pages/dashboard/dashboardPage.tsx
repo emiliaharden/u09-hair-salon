@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import { useUserStore } from '../../store/useUserStore'
 
 const DashboardPage = () => {
@@ -24,6 +24,7 @@ const DashboardPage = () => {
             <p>Your roles: {user.roles.join(', ')}</p>
 
             <button onClick={handleLogout}>Logout</button>
+            <Outlet />
         </div>
     )
 }

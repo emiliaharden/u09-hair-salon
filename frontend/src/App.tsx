@@ -7,10 +7,10 @@ function App() {
     const location = useLocation()
 
     //Kolla om sökvägen innehåller admin
-    const isAdminRoute = location.pathname.startsWith('/admin')
+    // const isAdminRoute = location.pathname.startsWith('/admin')
     return (
         <main>
-            {!isAdminRoute && <Navbar path={location.pathname} />}
+            {<Navbar path={location.pathname} />}
             <Outlet />
             <div className="fixed bottom-4 right-4">
                 <ModeToggle />
