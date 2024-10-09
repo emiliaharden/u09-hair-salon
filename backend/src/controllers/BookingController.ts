@@ -13,8 +13,19 @@ import { Booking } from "../models/BookingModel";
 
 export const createBookingController = async (req: Request, res: Response) => {
   try {
+    const userId = (req as any).user.id;
+    const { service, employee, date, notes } = req.body;
+
+    if (!employee) {
+      return res.status(400).json({ message: "Employee ID is required" });
+    }
+
     console.log("Create booking request received:", req.body);
-    const newBooking = await createBooking(req.body);
+
+    const newBooking = await createBooking({
+      ...req.body,
+      user: userId,
+    });
 
     return res.status(201).json(newBooking);
   } catch (error: any) {

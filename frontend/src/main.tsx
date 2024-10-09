@@ -12,6 +12,7 @@ import AdminUsersPage from './pages/admin/components/adminUsersPage.tsx'
 import AdminDashboardOverview from './pages/admin/components/AdminDashboardOverview.tsx'
 import AdminSettingsPage from './pages/admin/components/adminSettingsPage.tsx'
 import UserBookingsList from './pages/dashboard/components/bookingList.tsx'
+import BookingForm from './pages/dashboard/components/bookingForm.tsx'
 
 const router = createBrowserRouter([
     {
@@ -38,6 +39,12 @@ const router = createBrowserRouter([
                                 <UserBookingsList />
                         ),
                     },
+
+                    { path: 'bookings',
+                        element: (
+                            <BookingForm />
+                        )
+                     }
                 ],
             },
             {

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   deleteUserController,
+  getAllAdminsController,
   getUsersController,
   updateUserController,
 } from "../controllers/UserController";
@@ -21,6 +22,10 @@ router.get(
   roleMiddleware("admin"),
   getUsersController
 );
+
+//route för att hämta alla admins
+router.get("/admins", authMiddleware, getAllAdminsController);
+
 router.put(
   "/user/:id",
   authMiddleware,
