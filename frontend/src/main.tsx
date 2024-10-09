@@ -13,6 +13,9 @@ import AdminDashboardOverview from './pages/admin/components/AdminDashboardOverv
 import AdminSettingsPage from './pages/admin/components/adminSettingsPage.tsx'
 import UserBookingsList from './pages/dashboard/components/bookingList.tsx'
 import BookingForm from './pages/dashboard/components/bookingForm.tsx'
+import UserOverview from './pages/dashboard/components/UserOverview.tsx'
+import BookingHistory from './pages/dashboard/components/BookingHistory.tsx'
+import UserProfile from './pages/dashboard/components/UserProfile.tsx'
 
 const router = createBrowserRouter([
     {
@@ -34,6 +37,10 @@ const router = createBrowserRouter([
                 ),
                 children: [
                     {
+                        path: '',
+                        element: <UserOverview />, // Flik för översikt
+                    },
+                    {
                         path: 'bookings/user',
                         element: (
                                 <UserBookingsList />
@@ -43,6 +50,16 @@ const router = createBrowserRouter([
                     { path: 'bookings',
                         element: (
                             <BookingForm />
+                        )
+                     },
+                    { path: 'history',
+                        element: (
+                            <BookingHistory />
+                        )
+                     },
+                    { path: 'profile',
+                        element: (
+                            <UserProfile />
                         )
                      }
                 ],
