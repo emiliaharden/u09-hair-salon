@@ -21,6 +21,15 @@ export const getAllUsers = async () => {
   return await User.find().select("-password");
 };
 
+export const getAllAdmins = async () => {
+  try {
+    const admins = await User.find({ roles: "admin" }).select("name _id");
+    return admins;
+  } catch (error) {
+    throw new Error("Error fetching admins");
+  }
+};
+
 //uppdatera user
 export const updateUser = async (
   id: string,

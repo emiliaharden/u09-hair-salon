@@ -7,6 +7,7 @@ declare module 'jwt-decode' {
 }
 
 interface DecodedToken {
+    id:string,
     name: string
     email: string
     roles: string[]
@@ -47,6 +48,7 @@ const ProtectedRoute = ({ children, requiredRole }: ProtectedRouteProps) => {
             // Sätt användardata i Zustand om den inte redan är satt
             if (!user) {
                 setUser({
+                    id: decodedToken.id,
                     name: decodedToken.name,
                     email: decodedToken.email,
                     roles: decodedToken.roles,

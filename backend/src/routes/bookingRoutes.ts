@@ -6,12 +6,11 @@ import {
   deleteBookingController,
   getAllBookingsController,
   getBookingByIdController,
+  getBookingsByUserController,
   updateBookingController,
 } from "../controllers/BookingController";
 
 const router = Router();
-
-router.put("/bookings/:id", authMiddleware, updateBookingController);
 
 router.get(
   "/bookings",
@@ -19,6 +18,8 @@ router.get(
   roleMiddleware("admin"),
   getAllBookingsController
 );
+
+router.get("/bookings/user", authMiddleware, getBookingsByUserController);
 
 router.get("/bookings/:id", authMiddleware, getBookingByIdController);
 
@@ -28,6 +29,8 @@ router.post(
   roleMiddleware("user"),
   createBookingController
 );
+
+router.put("/bookings/:id", authMiddleware, updateBookingController);
 
 router.delete("/bookings/:id", authMiddleware, deleteBookingController);
 

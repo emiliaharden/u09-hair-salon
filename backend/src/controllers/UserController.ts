@@ -2,7 +2,12 @@
 // och skicka svar tillbaka till klienten.
 
 import { Request, Response } from "express";
-import { deleteUser, getAllUsers, updateUser } from "../services/UserService";
+import {
+  deleteUser,
+  getAllUsers,
+  updateUser,
+  getAllAdmins,
+} from "../services/UserService";
 
 const validRoles = ["user", "admin", "superadmin"];
 
@@ -13,6 +18,15 @@ export const getUsersController = async (req: Request, res: Response) => {
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: "Error fetching users", error });
+  }
+};
+
+export const getAllAdminsController = async (req: Request, res: Response) => {
+  try {
+    const admins = await getAllAdmins();
+    res.status(200).json(admins);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching admins", error });
   }
 };
 

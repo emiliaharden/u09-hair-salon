@@ -8,15 +8,19 @@ import DashboardPage from './pages/dashboard/dashboardPage.tsx'
 import ProtectedRoute from './components/ProtectedRoute.tsx'
 import AdminDashboardPage from './pages/admin/adminDashboardPage.tsx'
 import { ThemeProvider } from './components/ThemeProvider.tsx'
-import AdminUsersPage from './pages/admin/adminUsersPage.tsx'
-import AdminDashboardOverview from './components/AdminDashboardOverview.tsx'
-import AdminSettingsPage from './pages/admin/adminSettingsPage.tsx'
+import AdminUsersPage from './pages/admin/components/adminUsersPage.tsx'
+import AdminDashboardOverview from './pages/admin/components/AdminDashboardOverview.tsx'
+import AdminSettingsPage from './pages/admin/components/adminSettingsPage.tsx'
+import UserBookingsList from './pages/dashboard/components/bookingList.tsx'
+import BookingForm from './pages/dashboard/components/bookingForm.tsx'
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: (
-        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme"><App /></ThemeProvider> 
+            <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+                <App />
+            </ThemeProvider>
         ),
         children: [
             { path: 'login', element: <LoginPage /> },
@@ -28,11 +32,25 @@ const router = createBrowserRouter([
                         <DashboardPage />
                     </ProtectedRoute>
                 ),
+                children: [
+                    {
+                        path: 'bookings/user',
+                        element: (
+                                <UserBookingsList />
+                        ),
+                    },
+
+                    { path: 'bookings',
+                        element: (
+                            <BookingForm />
+                        )
+                     }
+                ],
             },
             {
                 path: '/admin/dashboard',
                 element: (
-                    <ProtectedRoute requiredRole='admin'>
+                    <ProtectedRoute requiredRole="admin">
                         <AdminDashboardPage />
                     </ProtectedRoute>
                 ),
@@ -42,8 +60,6 @@ const router = createBrowserRouter([
                     { path: 'settings', element: <AdminSettingsPage /> }, // Admininställningar
                 ],
             },
-                
-          
         ],
     },
 ])

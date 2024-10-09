@@ -1,18 +1,31 @@
 import { Request, Response } from "express";
+import User from "../models/UserModel"; // Se till att User-modellen är importerad
 import {
   createBooking,
   updateBooking,
   deleteBooking,
   getAllBookings,
   getBookingById,
+  getBookingsByUser,
 } from "../services/BookingService";
 
 import { Booking } from "../models/BookingModel";
 
 export const createBookingController = async (req: Request, res: Response) => {
   try {
+    const userId = (req as any).user.id;
+    const { service, employee, date, notes } = req.body;
+
+    if (!employee) {
+      return res.status(400).json({ message: "Employee ID is required" });
+    }
+
     console.log("Create booking request received:", req.body);
-    const newBooking = await createBooking(req.body);
+
+    const newBooking = await createBooking({
+      ...req.body,
+      user: userId,
+    });
 
     return res.status(201).json(newBooking);
   } catch (error: any) {
@@ -39,12 +52,26 @@ export const getAllBookingsController = async (req: Request, res: Response) => {
   }
 };
 
-import User from "../models/UserModel"; // Se till att User-modellen är importerad
+export const getBookingsByUserController = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const userId = (req as any).user.id;
+    console.log("Fetching bookings for user ID:", userId);
+
+    const bookings = await getBookingsByUser(userId);
+
+    res.status(200).json(bookings);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 export const getBookingByIdController = async (req: Request, res: Response) => {
   try {
     // Hämta bokningen utan populate
-    const booking = await Booking.findById(req.params.id);
+    const booking = await getBookingById(req.params.id);
 
     if (!booking) {
       return res.status(404).json({ message: "Booking not found" });
