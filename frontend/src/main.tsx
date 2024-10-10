@@ -16,6 +16,11 @@ import BookingForm from './pages/dashboard/components/bookingForm.tsx'
 import UserOverview from './pages/dashboard/components/UserOverview.tsx'
 import BookingHistory from './pages/dashboard/components/BookingHistory.tsx'
 import UserProfile from './pages/dashboard/components/UserProfile.tsx'
+import TreatmentsPage from './pages/treatments/treatmentsPage.tsx'
+import AboutPage from './pages/about/aboutPage.tsx'
+import ContactPage from './pages/contact/contactPage.tsx'
+import HomePage from './pages/home/homePage.tsx'
+import BookingPage from './pages/booking/bookingPage.tsx'
 
 const router = createBrowserRouter([
     {
@@ -26,8 +31,16 @@ const router = createBrowserRouter([
             </ThemeProvider>
         ),
         children: [
+            { path: 'home', element: <HomePage /> },
             { path: 'login', element: <LoginPage /> },
             { path: 'register', element: <RegisterPage /> },
+            { path: 'about', element: <AboutPage /> },
+            { path: 'treatments', element: <TreatmentsPage /> },
+            {
+                path: 'bookings',
+                element: <BookingPage />,
+            },
+            { path: 'contact', element: <ContactPage /> },
             {
                 path: '/dashboard',
                 element: (
@@ -38,30 +51,24 @@ const router = createBrowserRouter([
                 children: [
                     {
                         path: '',
-                        element: <UserOverview />, // Flik för översikt
+                        element: <UserOverview />,
                     },
                     {
                         path: 'bookings/user',
-                        element: (
-                                <UserBookingsList />
-                        ),
+                        element: <UserBookingsList />,
                     },
-
-                    { path: 'bookings',
-                        element: (
-                            <BookingForm />
-                        )
-                     },
-                    { path: 'history',
-                        element: (
-                            <BookingHistory />
-                        )
-                     },
-                    { path: 'profile',
-                        element: (
-                            <UserProfile />
-                        )
-                     }
+                    {
+                        path: 'bookings',
+                        element: <BookingForm />,
+                    },
+                    {
+                        path: 'history',
+                        element: <BookingHistory />,
+                    },
+                    {
+                        path: 'profile',
+                        element: <UserProfile />,
+                    },
                 ],
             },
             {
@@ -72,9 +79,9 @@ const router = createBrowserRouter([
                     </ProtectedRoute>
                 ),
                 children: [
-                    { path: '', element: <AdminDashboardOverview /> }, // Detta är adminens översiktssida
-                    { path: 'users', element: <AdminUsersPage /> }, // Användarhanteringsvyn
-                    { path: 'settings', element: <AdminSettingsPage /> }, // Admininställningar
+                    { path: '', element: <AdminDashboardOverview /> },
+                    { path: 'users', element: <AdminUsersPage /> },
+                    { path: 'settings', element: <AdminSettingsPage /> },
                 ],
             },
         ],

@@ -1,4 +1,3 @@
-
 const BookingHistory = () => {
     return (
         <div>
@@ -8,4 +7,4 @@ const BookingHistory = () => {
     )
 }
 
-export default BookingHistory;
+export default BookingHistory

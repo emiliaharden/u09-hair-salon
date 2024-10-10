@@ -49,7 +49,6 @@ const LoginPage = () => {
                     navigate('/dashboard')
                 }
 
-
                 // Om du vill visa användarinformation eller navigera till annan sida:
                 console.log('Logged in successfully:', data.user)
                 // Redirect eller uppdatera state för inloggning
@@ -71,8 +70,8 @@ const LoginPage = () => {
     // }
 
     return (
-        <div>
-            <h2>Login</h2>
+        <div className="max-w-md mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-lg mt-10">
+            <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
             <FormComponent fields={loginFields} buttonText="Login" onSubmit={handleLogin} />
         </div>
     )
