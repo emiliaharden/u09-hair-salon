@@ -4,7 +4,7 @@ import { useState } from 'react'
 interface DialogComponentProps {
     title?: string
     description?: string
-    triggerText: string
+    triggerText: React.ReactNode
     children?: React.ReactNode
     onConfirm: () => void
     confirmText?: string

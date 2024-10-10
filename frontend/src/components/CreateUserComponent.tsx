@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import FormComponent from './FormComponents'
+import FormComponent from './formComponents'
 import { useUserStore } from '../store/useUserStore'
 
 interface createUserProps {
