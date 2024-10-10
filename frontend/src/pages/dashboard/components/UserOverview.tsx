@@ -1,5 +1,4 @@
-import { useUserStore } from "@/store/useUserStore"
-
+import { useUserStore } from '@/store/useUserStore'
 
 const UserOverview = () => {
     const user = useUserStore((state) => state.user)

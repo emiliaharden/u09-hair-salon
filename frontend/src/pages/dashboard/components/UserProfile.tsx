@@ -1,7 +1,5 @@
-
 const UserProfile = () => {
-
-    return(
+    return (
         <div>
             <h2>Profile</h2>
             <p>Här var det tomt! Sidan uppdateras.</p>
@@ -9,4 +7,4 @@ const UserProfile = () => {
     )
 }
 
-export default UserProfile;
+export default UserProfile
