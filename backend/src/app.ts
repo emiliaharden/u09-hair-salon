@@ -3,6 +3,7 @@ import express, { Express, Request, Response } from "express";
 import userRoutes from "./routes/userRoutes";
 import authRoutes from "./routes/authRoutes";
 import bookingRoutes from "./routes/bookingRoutes";
+import scheduleRoutes from "./routes/scheduleRoutes";
 import connectDB from "./config/db";
 
 const app: Express = express();
@@ -29,5 +30,7 @@ app.use("/api", userRoutes);
 app.use("/api/auth", authRoutes);
 
 app.use("/api", bookingRoutes);
+
+app.use("/api", scheduleRoutes);
 
 export default app;
