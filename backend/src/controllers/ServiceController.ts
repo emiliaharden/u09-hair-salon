@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   createService,
   deleteService,
+  getAllServices,
   getServiceById,
   updateService,
 } from "../services/ServiceService";
@@ -29,6 +30,14 @@ export const getServiceByIdController = async (req: Request, res: Response) => {
   }
 };
 
+export const getAllServicesController = async (req: Request, res: Response) => {
+  try {
+    const services = await getAllServices();
+    res.status(200).json(services);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
 // Uppdatera en service
 
 export const updateServiceController = async (req: Request, res: Response) => {
