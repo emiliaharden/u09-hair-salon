@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import ServiceSelectionComponent from '@/components/ServiceSelectionComponent'
 
 interface User {
     _id: string
@@ -7,14 +8,13 @@ interface User {
 }
 
 const BookingForm = () => {
-    const [service, setService] = useState('Select service')
     const [date, setDate] = useState('')
     const [notes, setNotes] = useState('')
     const [employee, setEmployee] = useState('') // Employee ID
     const [employees, setEmployees] = useState<User[]>([]) //Lista över frisörer
+    const [selectedServices, setSelectedServices] = useState<string[]>([]) // Valda tjänster
 
-    //Hämta en lista över frisörer från backend
-
+    // Hämta en lista över frisörer från backend
     useEffect(() => {
         const fetchEmployees = async () => {
             const token = localStorage.getItem('token')
@@ -37,7 +37,6 @@ const BookingForm = () => {
                 }
 
                 const data = await response.json()
-
                 setEmployees(data)
             } catch (error) {
                 console.error('Error fetching employees:', error)
@@ -64,10 +63,10 @@ const BookingForm = () => {
                     Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify({
-                    service,
+                    service: selectedServices, // Skicka array av service IDs
                     date,
                     notes,
-                    employee, //skickar employee till backend
+                    employee,
                 }),
             })
 
@@ -86,15 +85,10 @@ const BookingForm = () => {
         <form onSubmit={handleSubmit}>
             <h2>Create a Booking</h2>
 
-            <label>
-                {' '}
-                Service:
-                <select value={service} onChange={(e) => setService(e.target.value)}>
-                    <option value="Haircut">Haircut</option>
-                    <option value="Color">Color</option>
-                    <option value="Balayage">Balayage</option>
-                </select>
-            </label>
+            <ServiceSelectionComponent
+                selectedServices={selectedServices}
+                setSelectedServices={(services) => setSelectedServices(services)} // Funktionen som tar en array
+            />
 
             <label>
                 Date:
