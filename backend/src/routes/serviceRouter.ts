@@ -3,6 +3,7 @@ import { authMiddleware } from "../middleware/authMiddleware";
 import {
   createServiceController,
   deleteServiceController,
+  getAllServicesController,
   getServiceByIdController,
   updateServiceController,
 } from "../controllers/ServiceController";
@@ -20,6 +21,8 @@ router.post(
 
 //Hämta en specifik service med ID
 router.get("/services/:id", authMiddleware, getServiceByIdController);
+
+router.get("/services", getAllServicesController);
 
 //Uppdatera en befintlig service
 router.put(

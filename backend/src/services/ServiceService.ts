@@ -29,6 +29,15 @@ export const getServiceById = async (id: string) => {
   }
 };
 
+export const getAllServices = async () => {
+  try {
+    const services = await Service.find(); //hämtar alla services
+    return services;
+  } catch (error: any) {
+    throw new Error("Error fetching services");
+  }
+};
+
 //uppdatera en service
 export const updateService = async (
   id: string,
