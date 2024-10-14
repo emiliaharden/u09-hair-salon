@@ -47,7 +47,8 @@ export const getAllBookings = async () => {
   try {
     const bookings = await Booking.find()
       .populate("user", "name email")
-      .populate("employee", "name email");
+      .populate("employee", "name email")
+      .populate("service");
     return bookings;
   } catch (error: any) {
     throw new Error(error.message);
@@ -56,10 +57,9 @@ export const getAllBookings = async () => {
 
 export const getBookingsByUser = async (userId: string) => {
   try {
-    const bookings = await Booking.find({ user: userId }).populate(
-      "employee",
-      "name email"
-    );
+    const bookings = await Booking.find({ user: userId })
+      .populate("service", "name duration price")
+      .populate("employee", "name email");
 
     if (!bookings.length) {
       throw new Error("No bookings found for this user");

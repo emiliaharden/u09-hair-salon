@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-interface Service {
+export interface Service {
     id: string
     name: string
     duration: number

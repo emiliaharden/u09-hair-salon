@@ -1,6 +1,7 @@
+import { Service } from '../store/useServiceStore'
 export interface Booking {
     _id: string
-    service: string[]
+    service: Service[]
     date: string
     status: string
     notes?: string
