@@ -23,6 +23,11 @@ const AdminSidebar: React.FC = () => {
                     </NavLink>
                 </li>
                 <li>
+                <NavLink to={'/admin/dashboard/schedules'} className="hover:text-gray-400">
+                        View Schedules
+                    </NavLink>
+                </li>
+                <li>
                     <NavLink to={'/admin/dashboard/users'} className="hover:text-gray-400">
                         Manage Users
                     </NavLink>
