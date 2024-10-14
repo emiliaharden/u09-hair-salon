@@ -52,6 +52,7 @@ const UserNavbar = () => {
                         Min Profil
                     </NavLink>
                 </li>
+
                 <li>
                     <button onClick={handleLogout} className="text-white hover:text-red-500">
                         Logga Ut

@@ -1,11 +1,15 @@
 import { Booking } from "../models/BookingModel";
+import { Service } from "../models/ServiceModel";
 import User from "../models/UserModel";
 
-// skapa en ny bokning
 export const createBooking = async (data: any) => {
   const { user, service, employee, date, notes } = data;
 
-  console.log("Creating booking with data:", data);
+  const validServices = await Service.find({ _id: { $in: service } });
+  if (validServices.length !== service.length) {
+    throw new Error("One or more selected services are invalid");
+  }
+
   try {
     const employeeUser = await User.findById(employee);
     if (!employeeUser) {
@@ -17,13 +21,11 @@ export const createBooking = async (data: any) => {
       throw new Error("Selected employee is not an admin");
     }
 
-    //kontrollerar om bokningen krockar med en annan bokning för samma anställd
     const existingBooking = await Booking.findOne({ employee, date });
     if (existingBooking) {
       throw new Error("Employee already has a booking at this time");
     }
 
-    //skapa en ny bokning
     const newBooking = new Booking({
       user,
       service,
@@ -33,10 +35,8 @@ export const createBooking = async (data: any) => {
     });
 
     const savedBooking = await newBooking.save();
-    console.log("Boking saved successfully", savedBooking);
     return savedBooking;
   } catch (error: any) {
-    console.error("Error while saving booking:", error);
     throw new Error(error.message || "Error creating booking");
   }
 };
@@ -47,7 +47,8 @@ export const getAllBookings = async () => {
   try {
     const bookings = await Booking.find()
       .populate("user", "name email")
-      .populate("employee", "name email");
+      .populate("employee", "name email")
+      .populate("service");
     return bookings;
   } catch (error: any) {
     throw new Error(error.message);
@@ -56,10 +57,9 @@ export const getAllBookings = async () => {
 
 export const getBookingsByUser = async (userId: string) => {
   try {
-    const bookings = await Booking.find({ user: userId }).populate(
-      "employee",
-      "name email"
-    );
+    const bookings = await Booking.find({ user: userId })
+      .populate("service", "name duration price")
+      .populate("employee", "name email");
 
     if (!bookings.length) {
       throw new Error("No bookings found for this user");
