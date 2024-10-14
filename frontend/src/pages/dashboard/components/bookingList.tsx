@@ -93,7 +93,8 @@ const UserBookingsList = () => {
                         key={booking._id}
                         className="border border-black rounded-lg p-4 mb-4 shadow-md bg-white"
                     >
-                        <h3 className="text-lg font-semibold">{booking.service.join(', ')}</h3>
+                        <h3 className="text-lg font-semibold">
+                            {booking.service && booking.service.length > 0 ? booking.service.map((s) => s.name).join(', ') : 'No services available'}</h3>
                         <p className="text-gray-600">
                             <strong>Date:</strong> {new Date(booking.date).toLocaleDateString()}
                         </p>

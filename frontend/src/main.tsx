@@ -11,7 +11,6 @@ import { ThemeProvider } from './components/ThemeProvider.tsx'
 import AdminUsersPage from './pages/admin/components/adminUsersPage.tsx'
 import AdminDashboardOverview from './pages/admin/components/AdminDashboardOverview.tsx'
 import AdminSettingsPage from './pages/admin/components/adminSettingsPage.tsx'
-import UserBookingsList from './pages/dashboard/components/bookingList.tsx'
 import BookingForm from './pages/dashboard/components/bookingForm.tsx'
 import UserOverview from './pages/dashboard/components/UserOverview.tsx'
 import BookingHistory from './pages/dashboard/components/BookingHistory.tsx'
@@ -21,6 +20,8 @@ import AboutPage from './pages/about/aboutPage.tsx'
 import ContactPage from './pages/contact/contactPage.tsx'
 import HomePage from './pages/home/homePage.tsx'
 import BookingPage from './pages/booking/bookingPage.tsx'
+import CreateServiceComponent from './pages/admin/components/createServiceComponent.tsx'
+import UserBookingsList from './pages/dashboard/components/bookingList.tsx'
 
 const router = createBrowserRouter([
     {
@@ -69,6 +70,7 @@ const router = createBrowserRouter([
                         path: 'profile',
                         element: <UserProfile />,
                     },
+                   
                 ],
             },
             {
@@ -81,6 +83,7 @@ const router = createBrowserRouter([
                 children: [
                     { path: '', element: <AdminDashboardOverview /> },
                     { path: 'users', element: <AdminUsersPage /> },
+                    { path: 'services', element: <CreateServiceComponent /> },
                     { path: 'settings', element: <AdminSettingsPage /> },
                 ],
             },
