@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 
 interface ServiceSelectionProps {
     selectedServices: string[];
-    setSelectedServices: React.Dispatch<React.SetStateAction<string[]>>; 
+    setSelectedServices: (services: string[]) => void;
 }
 
 
@@ -47,11 +47,10 @@ const ServiceSelectionComponent: React.FC<ServiceSelectionProps> = ({
     }, [setServices]);
 
     const handleServiceChange = (serviceId: string) => {
-        setSelectedServices((prevSelected: string[]) =>
-            prevSelected.includes(serviceId)
-                ? prevSelected.filter((id) => id !== serviceId)
-                : [...prevSelected, serviceId]
-        );
+        // Uppdatera tillståndet direkt med ny array
+        setSelectedServices(selectedServices.includes(serviceId)
+            ? selectedServices.filter(id => id !== serviceId) // Ta bort om redan valt
+            : [...selectedServices, serviceId]); // Lägg till om ej valt
     };
 
     return (
