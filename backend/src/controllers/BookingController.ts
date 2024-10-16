@@ -14,21 +14,38 @@ import { Booking } from "../models/BookingModel";
 export const createBookingController = async (req: Request, res: Response) => {
   try {
     const userId = (req as any).user.id;
-    const { service, employee, date, notes } = req.body;
+    const { service, employee, date, startTime, notes } = req.body;
+
+    if (!service || service.length === 0) {
+      return res
+        .status(400)
+        .json({ message: "At least one service is required" });
+    }
+
+    console.log("Selected services:", service);
 
     if (!employee) {
       return res.status(400).json({ message: "Employee ID is required" });
     }
 
+    if (!date || !startTime) {
+      return res
+        .status(400)
+        .json({ message: "Date and start time are required" });
+    }
+
     console.log("Create booking request received:", req.body);
 
+    // Kalla createBooking-funktionen med rätt parametrar
     const newBooking = await createBooking({
       ...req.body,
       user: userId,
     });
 
+    // Om bokningen skapas framgångsrikt, returnera bokningen
     return res.status(201).json(newBooking);
   } catch (error: any) {
+    console.error("Error creating booking:", error.message);
     return res.status(400).json({ message: error.message });
   }
 };

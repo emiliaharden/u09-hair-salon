@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import ServiceSelectionComponent from '@/components/ServiceSelectionComponent'
+import { Service } from '@/store/useServiceStore'
 
 interface User {
     _id: string
@@ -9,11 +10,13 @@ interface User {
 
 const BookingForm = () => {
     const [date, setDate] = useState('')
+    const [startTime, setStartTime] = useState('') // Starttid för bokningen
+    const [endTime, setEndTime] = useState('') // Sluttid för bokningen
     const [notes, setNotes] = useState('')
     const [employee, setEmployee] = useState('') // Employee ID
     const [employees, setEmployees] = useState<User[]>([]) //Lista över frisörer
     const [selectedServices, setSelectedServices] = useState<string[]>([]) // Valda tjänster
-
+    const [availableServices, setAvailableServices] = useState<Service[]>([]) // Til
     // Hämta en lista över frisörer från backend
     useEffect(() => {
         const fetchEmployees = async () => {
@@ -46,6 +49,59 @@ const BookingForm = () => {
         fetchEmployees()
     }, [])
 
+    useEffect(() => {
+        const fetchServices = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/api/services', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                })
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch services')
+                }
+
+                const data = await response.json()
+                setAvailableServices(data) // Sätt tillgängliga tjänster
+            } catch (error) {
+                console.error('Error fetching services:', error)
+            }
+        }
+
+        fetchServices()
+    }, [])
+
+    // Beräkna sluttid baserat på starttid och vald tjänsts varaktighet
+    useEffect(() => {
+        if (startTime && selectedServices.length > 0) {
+            const totalDuration = selectedServices.reduce((total, serviceId) => {
+                const service = availableServices.find((s) => s._id === serviceId)
+                return service ? total + service.duration : total
+            }, 0)
+
+            if (totalDuration > 0) {
+                const calculatedEndTime = calculateEndTime(startTime, totalDuration);
+                setEndTime(calculatedEndTime);
+            }
+        }
+    }, [startTime, selectedServices, availableServices])
+
+    // Funktion för att beräkna sluttiden baserat på starttid och varaktighet
+    const calculateEndTime = (start: string, duration: number) => {
+        const [hours, minutes] = start.split(':').map(Number)
+        const startDateTime = new Date()
+        startDateTime.setHours(hours)
+        startDateTime.setMinutes(minutes)
+
+        const endDateTime = new Date(startDateTime.getTime() + duration * 60000) // Lägg till varaktigheten i minuter
+        const endHours = String(endDateTime.getHours()).padStart(2, '0')
+        const endMinutes = String(endDateTime.getMinutes()).padStart(2, '0')
+        return `${endHours}:${endMinutes}`
+    }
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
 
@@ -65,6 +121,8 @@ const BookingForm = () => {
                 body: JSON.stringify({
                     service: selectedServices, // Skicka array av service IDs
                     date,
+                    startTime,
+                    endTime,
                     notes,
                     employee,
                 }),
@@ -93,11 +151,26 @@ const BookingForm = () => {
             <label>
                 Date:
                 <input
-                    type="datetime-local"
+                    type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                     required
                 />
+            </label>
+
+            <label>
+                Start Time:
+                <input
+                    type="time"
+                    value={startTime}
+                    onChange={(e) => setStartTime(e.target.value)}
+                    required
+                />
+            </label>
+
+            <label>
+                End Time (Calculated):
+                <input type="time" value={endTime} readOnly />
             </label>
 
             <label>
