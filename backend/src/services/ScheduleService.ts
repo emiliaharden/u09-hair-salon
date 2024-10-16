@@ -3,15 +3,38 @@ import User from "../models/UserModel";
 
 export const createSchedule = async (
   adminId: string,
-  slots: ISlot[],
-  date: Date
+  startTime: string,
+  endTime: string,
+  dateInput: Date | string
 ) => {
   try {
     const adminUser = await User.findById(adminId);
     if (!adminUser || !adminUser.roles?.includes("admin")) {
       throw new Error("Admin user not found or user is not an admin");
     }
+    const date =
+      typeof dateInput === "string" ? new Date(dateInput) : dateInput;
 
+    const slots: ISlot[] = [];
+    let currentStartTime = new Date(
+      `${date.toISOString().split("T")[0]}T${startTime}:00Z`
+    );
+    const scheduleEndTime = new Date(
+      `${date.toISOString().split("T")[0]}T${endTime}:00Z`
+    );
+
+    // Dela upp arbetsdagen i 30-minuters slots
+    while (currentStartTime < scheduleEndTime) {
+      const currentEndTime = new Date(currentStartTime.getTime() + 30 * 60000); // Lägg till 30 minuter
+      slots.push({
+        startTime: currentStartTime.toISOString(),
+        endTime: currentEndTime.toISOString(),
+        isBooked: false, // Alla slots är lediga när de skapas
+      });
+      currentStartTime = currentEndTime; // Flytta starttiden till nästa slot
+    }
+
+    console.log("Generated slots:", slots);
     const newSchedule = new Schedule({
       admin: adminId,
       date,
