@@ -207,34 +207,36 @@ export const updateBooking = async (id: string, data: any) => {
 
 export const deleteBooking = async (id: string) => {
   try {
-    // Hitta bokningen som ska tas bort
     const deletedBooking = await Booking.findByIdAndDelete(id);
     if (!deletedBooking) {
       throw new Error("Booking not found");
     }
 
-    // Hitta schemat där bokningens slot är associerad
-    const schedule = await Schedule.findOne({
-      "slots.booking": deletedBooking._id,
-    });
-    if (!schedule) {
-      throw new Error("No schedule found for this booking");
+    console.log("Booking deleted:", deletedBooking); // Logga den raderade bokningen
+
+    const updatedSchedule = await Schedule.findOneAndUpdate(
+      { "slots.booking": deletedBooking._id },
+      {
+        $set: {
+          "slots.$[slot].isBooked": false,
+          "slots.$[slot].booking": undefined,
+        },
+      },
+      {
+        arrayFilters: [{ "slot.booking": deletedBooking._id }],
+        new: true,
+      }
+    );
+
+    if (!updatedSchedule) {
+      throw new Error("Schedule not found or no matching slots to update");
     }
 
-    // Gå igenom slots och uppdatera den som är kopplad till bokningen
-    schedule.slots.forEach((slot) => {
-      if (slot.booking && slot.booking.equals(deletedBooking.id)) {
-        slot.isBooked = false; // Återställ slotten som ledig
-        slot.booking = undefined; // Ta bort boknings-ID
-      }
-    });
-
-    // Spara schemat med de uppdaterade slots
-    await schedule.save();
+    console.log("Schedule updated:", updatedSchedule); // Logga det uppdaterade schemat
 
     return deletedBooking;
   } catch (error: any) {
-    console.error("Error deleting booking:", error);
+    console.error("Error deleting booking and updating schedule:", error);
     throw new Error(error.message);
   }
 };
