@@ -50,6 +50,7 @@ const UserBookingsList = () => {
     }, [user])
 
     const handleCancelBooking = async (bookingId: string) => {
+        console.log('Canceling booking with ID:', bookingId); // Lägg till loggning
         const token = localStorage.getItem('token')
         if (!token) {
             console.error('No token found')
