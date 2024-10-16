@@ -6,7 +6,7 @@ import User from "../models/UserModel";
 import mongoose from "mongoose";
 
 export const createBooking = async (data: any) => {
-  const { user, service, employee, date, startTime, endTime, notes } = data;
+  const { user, service, employee, date, startTime, notes } = data;
 
   // Validera att alla valda tjänster är giltiga
   const validServices = await Service.find({ _id: { $in: service } });
@@ -23,6 +23,7 @@ export const createBooking = async (data: any) => {
     (total, service) => total + service.duration,
     0
   );
+  console.log("Total Duration (mins):", totalDuration);
 
   try {
     const employeeUser = await User.findById(employee);
@@ -37,15 +38,18 @@ export const createBooking = async (data: any) => {
 
     // Konvertera start- och sluttid till Date-objekt
     const bookingStartTime = new Date(`${date}T${startTime}:00Z`);
-    // Beräkna sluttiden baserat på starttiden och den totala varaktigheten
     const bookingEndTime = new Date(
       bookingStartTime.getTime() + totalDuration * 60000
-    ); // Multiplicera varaktigheten (i minuter) med 60000 för att få millisekunder
+    );
+
+    // Logga start- och sluttid för bokningen
+    console.log("Booking Start Time:", bookingStartTime);
+    console.log("Booking End Time (Calculated):", bookingEndTime);
 
     // Hämta schemat för den anställda baserat på datumet
     const schedule = await Schedule.findOne({
       admin: employee,
-      date: new Date(date), // Jämför endast datum
+      date: new Date(date),
     });
 
     if (!schedule) {
@@ -54,31 +58,62 @@ export const createBooking = async (data: any) => {
       );
     }
 
-    // Hitta en ledig slot där bokningens start- och sluttid matchar slotens tider
+    // Logga slots från schemat för att se tillgängliga tider
+    console.log(
+      "Slots in schedule:",
+      schedule.slots.map((slot) => ({
+        startTime: slot.startTime,
+        endTime: slot.endTime,
+        isBooked: slot.isBooked,
+      }))
+    );
+
+    // // Hitta en ledig slot där bokningens start- och sluttid matchar slotens tider
+    // const availableSlots = schedule.slots.filter((slot) => {
+    //   const slotStartTime = new Date(slot.startTime).getTime();
+    //   const slotEndTime = new Date(slot.endTime).getTime();
+
+    //   // Kontrollera om bokningens tid ligger inom slotens tider och att sloten inte är bokad
+    //   return (
+    //     bookingStartTime.getTime() >= slotStartTime &&
+    //     bookingEndTime.getTime() <= slotEndTime &&
+    //     !slot.isBooked
+    //   );
+    // });
+
     const availableSlots = schedule.slots.filter((slot) => {
       const slotStartTime = new Date(slot.startTime).getTime();
       const slotEndTime = new Date(slot.endTime).getTime();
 
-      // Kontrollera om bokningens tid ligger inom slotens tider och att sloten inte är bokad
+      // Justera tidsjämförelsen för att kontrollera om slot ligger inom bokningens tid.
       return (
-        bookingStartTime.getTime() >= slotStartTime &&
-        bookingEndTime.getTime() <= slotEndTime &&
+        bookingStartTime.getTime() <= slotEndTime && // Slot måste sluta efter bokningens start
+        bookingEndTime.getTime() >= slotStartTime && // Slot måste börja innan bokningens slut
         !slot.isBooked
       );
     });
+    // Logga de slots som är tillgängliga efter filtrering
+    console.log(
+      "Available Slots after filtering:",
+      availableSlots.map((slot) => ({
+        startTime: slot.startTime,
+        endTime: slot.endTime,
+        isBooked: slot.isBooked,
+      }))
+    );
+
     const requiredSlots = Math.ceil(totalDuration / 30);
     let consecutiveSlots = 0;
     let slotStartIndex = -1;
-    console.log("Total duration:", totalDuration); // För att se om duration är korrekt
-    console.log("Required slots:", requiredSlots); // För att se om antal slots är korrekt
+    console.log("Required Slots:", requiredSlots);
 
     // Gå igenom de tillgängliga slots och kontrollera att de är sammanhängande
     for (let i = 0; i < availableSlots.length; i++) {
-      if (
-        i > 0 &&
-        new Date(availableSlots[i].startTime).getTime() !==
-          new Date(availableSlots[i - 1].endTime).getTime()
-      ) {
+      const currentSlotStart = new Date(availableSlots[i].startTime).getTime();
+      const previousSlotEnd =
+        i > 0 ? new Date(availableSlots[i - 1].endTime).getTime() : null;
+
+      if (previousSlotEnd && currentSlotStart !== previousSlotEnd) {
         console.log(`Slot ${i} och ${i - 1} är inte sammanhängande`);
         // Slotsen är inte sammanhängande
         consecutiveSlots = 0;
@@ -89,7 +124,9 @@ export const createBooking = async (data: any) => {
         if (consecutiveSlots >= requiredSlots) break;
       }
     }
+
     console.log("Found consecutive slots:", consecutiveSlots);
+
     if (consecutiveSlots < requiredSlots) {
       throw new Error(
         "Not enough continuous available slots for the selected time and duration"
@@ -111,16 +148,6 @@ export const createBooking = async (data: any) => {
     const savedBooking = await newBooking.save();
 
     // Markera alla berörda slots som bokade och associera dem med bokningen
-    // availableSlots
-    //   .slice(slotStartIndex, slotStartIndex + requiredSlots)
-    //   .forEach((slot, index) => {
-    //     console.log(
-    //       `Slot ${index}: ${slot.startTime} - ${slot.endTime}, Booked: ${slot.isBooked}`
-    //     );
-    //     slot.isBooked = true;
-    //     slot.booking = savedBooking._id as mongoose.Types.ObjectId;
-    //   });
-
     availableSlots.slice(0, requiredSlots).forEach((slot) => {
       slot.isBooked = true; // Markera slotten som bokad
       slot.booking = savedBooking._id as mongoose.Types.ObjectId; // Koppla bokningen till slotten
@@ -129,16 +156,11 @@ export const createBooking = async (data: any) => {
     // Spara schemat efter att slots har uppdaterats
     await schedule.save();
 
-    console.log(
-      "Available slots:",
-      availableSlots.map((slot) => slot._id)
-    );
     console.log("Required slots for booking:", requiredSlots);
-
-    await schedule.save();
 
     return savedBooking;
   } catch (error: any) {
+    console.error("Error creating booking:", error.message);
     throw new Error(error.message || "Error creating booking");
   }
 };
