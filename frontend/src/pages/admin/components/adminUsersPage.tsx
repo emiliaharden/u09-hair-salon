@@ -3,6 +3,7 @@ import TableComponent from '@/components/table/TableComponent'
 import SearchComponent from '@/components/SearchComponent'
 import DialogComponent from '@/components/DialogComponent'
 import CreateUserComponent from '@/components/CreateUserComponent'
+import { API_URL } from '@/config'
 
 export interface User {
     _id: string
@@ -19,7 +20,7 @@ const AdminUsersPage = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api/users', {
+                const response = await fetch(`${API_URL}/users`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -58,7 +59,7 @@ const AdminUsersPage = () => {
 
     const handleEditUser = async (updatedUser: User) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/user/${updatedUser._id}`, {
+            const response = await fetch(`${API_URL}/api/user/${updatedUser._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -85,7 +86,7 @@ const AdminUsersPage = () => {
 
     const handleDeleteUser = async (userId: string) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/user/${userId}`, {
+            const response = await fetch(`${API_URL}/api/user/${userId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
