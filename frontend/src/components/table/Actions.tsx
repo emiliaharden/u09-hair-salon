@@ -1,6 +1,6 @@
-import { User } from '@/pages/admin/adminDashboardPage'
 import { useState } from 'react'
 import DialogComponent from '../DialogComponent';
+import { User } from '@/pages/admin/components/adminUsersPage';
 
 interface ActionsProps {
     rowData: User
