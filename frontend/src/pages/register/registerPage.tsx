@@ -1,42 +1,16 @@
-import FormComponent from '../../components/formComponents'
+import CreateUserComponent from "../../components/CreateUserComponent"
 
 const RegisterPage = () => {
-    const registerFields = [
-        {
-            label: 'Name',
-            type: 'text',
-            placeholder: 'Enter name',
-            name: 'name',
-        },
-        {
-            label: 'Email',
-            type: 'email',
-            placeholder: 'Enter email',
-            name: 'email',
-        },
-        {
-            label: 'Password',
-            type: 'password',
-            placeholder: 'Enter password',
-            name: 'password',
-        },
-        {
-            label: 'Confirm password',
-            type: 'password',
-            placeholder: 'Enter password',
-            name: 'password',
-        },
-    ]
+
 
     return (
-        <div>
-            <h2>Register</h2>
-            <FormComponent
-                fields={registerFields}
+        <div className="max-w-md mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-lg mt-10">
+            <h2 className="text-2xl font-semibold text-center mb-6">Register</h2>
+            <CreateUserComponent 
+                onSuccess={() => console.log('User created successfully')}
                 buttonText="Register"
-                onSubmit={(data) => console.log('Register form data:', data)}
             />
         </div>
-    )
+    );
 }
 export default RegisterPage
