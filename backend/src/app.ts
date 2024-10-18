@@ -11,35 +11,34 @@ const app: Express = express();
 
 app.use(
   cors({
-    origin: "https://u09-hair-salon.netlify.app",
+    origin: "https://u09-hair-salon.netlify.app", // Ta bort avslutande snedstreck
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
   })
 );
 
-app.use(express.json());
+app.use(express.json()); // Middleware för att parsa JSON
 
-connectDB();
-
-// logga inkommande requests för felsökning/testning
+// Logga alla inkommande förfrågningar för felsökning
 app.use((req, res, next) => {
   console.log(`Request received at ${req.path}`);
+  console.log(`Method: ${req.method}`);
+  console.log(`Headers: ${JSON.stringify(req.headers)}`);
   next();
 });
+
+// Anslut till databasen
+connectDB();
 
 // Routes
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });
 
-app.use("/api", userRoutes);
-
+app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
-
-app.use("/api", bookingRoutes);
-
-app.use("/api", scheduleRoutes);
-
-app.use("/api", serviceRoutes);
+app.use("/api/bookings", bookingRoutes);
+app.use("/api/schedules", scheduleRoutes);
+app.use("/api/services", serviceRoutes);
 
 export default app;
