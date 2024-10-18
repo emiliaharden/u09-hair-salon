@@ -50,7 +50,7 @@ const CreateUserComponent = ({ onSuccess, buttonText }: createUserProps) => {
         }
 
         try {
-            const response = await fetch(`${API_URL}/api/auth/user`, {
+            const response = await fetch(`${API_URL}/auth/user`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -17,7 +17,7 @@ const ServiceSelectionComponent: React.FC<ServiceSelectionProps> = ({
     useEffect(() => {
         const fetchServices = async () => {
             try {
-                const response = await fetch(`${API_URL}/api/services`, {
+                const response = await fetch(`${API_URL}/services`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
