@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useServiceStore } from '@/store/useServiceStore'
+import { API_URL } from '@/config';
 
 
 
@@ -12,7 +13,7 @@ const CreateServiceComponent = () => {
     useEffect(() => {
         const fetchServices = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api/services', {
+                const response = await fetch(`${API_URL}/services`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -48,7 +49,7 @@ const CreateServiceComponent = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:3000/api/services', {
+            const response = await fetch(`${API_URL}/services`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

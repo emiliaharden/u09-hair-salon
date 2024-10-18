@@ -9,7 +9,11 @@ import connectDB from "./config/db";
 
 const app: Express = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://u09-hair-salon.netlify.app/",
+  })
+);
 
 app.use(express.json());
 

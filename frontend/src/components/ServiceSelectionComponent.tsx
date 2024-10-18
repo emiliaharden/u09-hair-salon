@@ -1,3 +1,4 @@
+import { API_URL } from '@/config';
 import { useServiceStore } from '@/store/useServiceStore'
 import { useEffect } from 'react'
 
@@ -16,7 +17,7 @@ const ServiceSelectionComponent: React.FC<ServiceSelectionProps> = ({
     useEffect(() => {
         const fetchServices = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api/services', {
+                const response = await fetch(`${API_URL}/api/services`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
