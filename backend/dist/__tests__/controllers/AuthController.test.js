@@ -10,7 +10,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const UserModel_1 = __importDefault(require("../../src/models/UserModel"));
 // Use a real database
 beforeAll(async () => {
-    await mongoose_1.default.connect(process.env.MONGO_URI || "mongodb://localhost:27017/testdb");
+    await mongoose_1.default.connect(process.env.MONGO_URI || "mongodb://localhost:27018/testdb");
 });
 // clean up before each test
 beforeEach(async () => {
