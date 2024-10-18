@@ -58,7 +58,7 @@ const UserBookingsList = () => {
         }
 
         try {
-            const response = await fetch(`http://localhost:3000/api/bookings/${bookingId}`, {
+            const response = await fetch(`${API_URL}/bookings/${bookingId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
