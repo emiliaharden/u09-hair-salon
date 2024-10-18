@@ -26,7 +26,7 @@ const LoginPage = () => {
 
     const handleLogin = async (formData: { [key: string]: string }) => {
         const { email, password } = formData
-
+        console.log('API URL:', API_URL);
         try {
             const response = await fetch(`${API_URL}/auth/login`, {
                 method: 'POST',
