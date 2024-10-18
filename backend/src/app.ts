@@ -11,7 +11,9 @@ const app: Express = express();
 
 app.use(
   cors({
-    origin: "https://u09-hair-salon.netlify.app/",
+    origin: "https://u09-hair-salon.netlify.app",
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true,
   })
 );
 
