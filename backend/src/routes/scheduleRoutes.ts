@@ -3,6 +3,7 @@ import {
   createScheduleController,
   deleteScheduleController,
   getAllSchedulesController,
+  getScheduleByAdminController,
   updateScheduleController,
 } from "../controllers/ScheduleController";
 import { authMiddleware } from "../middleware/authMiddleware";
@@ -18,6 +19,13 @@ router.get(
 );
 
 router.get("/schedules/available", authMiddleware, getAllSchedulesController);
+
+router.get(
+  "/schedules/:adminId",
+  authMiddleware,
+  roleMiddleware("admin"),
+  getScheduleByAdminController
+);
 
 router.post(
   "/schedules",
