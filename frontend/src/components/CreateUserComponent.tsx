@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import FormComponent from './formComponents'
 import { useUserStore } from '../store/useUserStore'
+import { API_URL } from '@/config'
 
 interface createUserProps {
     onSuccess?: () => void
@@ -49,7 +50,7 @@ const CreateUserComponent = ({ onSuccess, buttonText }: createUserProps) => {
         }
 
         try {
-            const response = await fetch('http://localhost:3000/api/auth/user', {
+            const response = await fetch(`${API_URL}/auth/user`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
