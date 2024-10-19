@@ -4,6 +4,7 @@ import { Schedule } from "../models/ScheduleModel";
 import { Service } from "../models/ServiceModel";
 import User from "../models/UserModel";
 import mongoose from "mongoose";
+import { toISO, toUTC } from "../utils/timeUtils";
 
 export const createBooking = async (data: any) => {
   const { user, service, employee, date, startTime, notes } = data;
@@ -37,7 +38,7 @@ export const createBooking = async (data: any) => {
     }
 
     // Konvertera start- och sluttid till Date-objekt
-    const bookingStartTime = new Date(`${date}T${startTime}:00Z`);
+    const bookingStartTime = toUTC(startTime); // Använd startTime direkt
     const bookingEndTime = new Date(
       bookingStartTime.getTime() + totalDuration * 60000
     );
@@ -49,7 +50,7 @@ export const createBooking = async (data: any) => {
     // Hämta schemat för den anställda baserat på datumet
     const schedule = await Schedule.findOne({
       admin: employee,
-      date: new Date(date),
+      date: toUTC(date),
     });
 
     if (!schedule) {
@@ -205,7 +206,11 @@ export const getBookingById = async (id: string) => {
     if (!booking) {
       throw new Error("Booking not found");
     }
-    return booking;
+    return {
+      ...booking.toObject(),
+      startTime: toISO(booking.startTime),
+      endTime: toISO(booking.endTime),
+    };
   } catch (error: any) {
     throw new Error(error.message);
   }

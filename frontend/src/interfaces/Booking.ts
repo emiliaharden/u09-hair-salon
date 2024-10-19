@@ -3,6 +3,8 @@ export interface Booking {
     _id: string
     service: Service[]
     date: string
+    startTime: string
+    endTime: string
     status: string
     notes?: string
 
