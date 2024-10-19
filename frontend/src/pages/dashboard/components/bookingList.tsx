@@ -1,4 +1,5 @@
 import DialogComponent from '@/components/DialogComponent'
+import { API_URL } from '@/config'
 import { Booking } from '@/interfaces/Booking'
 import { useUserStore } from '@/store/useUserStore'
 import { useEffect, useState } from 'react'
@@ -23,7 +24,7 @@ const UserBookingsList = () => {
                     throw new Error('No token found')
                 }
 
-                const response = await fetch(`http://localhost:3000/api/bookings/user`, {
+                const response = await fetch(`${API_URL}/bookings/user`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -58,7 +59,7 @@ const UserBookingsList = () => {
         }
 
         try {
-            const response = await fetch(`http://localhost:3000/api/bookings/${bookingId}`, {
+            const response = await fetch(`${API_URL}/bookings/${bookingId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

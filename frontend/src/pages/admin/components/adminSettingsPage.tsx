@@ -1,5 +1,6 @@
 import DialogComponent from '@/components/DialogComponent'
 import FormComponent from '@/components/formComponents'
+import { API_URL } from '@/config'
 import { useState } from 'react'
 
 const AdminSettingsPage: React.FC = () => {
@@ -37,7 +38,7 @@ const AdminSettingsPage: React.FC = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:3000/api/user/${userId}/update-password', {
+            const response = await fetch(`${API_URL}/user/${'userId'}/update-password`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

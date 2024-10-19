@@ -1,4 +1,4 @@
-import { User } from '@/pages/admin/adminDashboardPage'
+import { User } from '@/pages/admin/components/adminUsersPage'
 import { TableCell, TableRow } from '../ui/table'
 import Actions from './Actions'
 
