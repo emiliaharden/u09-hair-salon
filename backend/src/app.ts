@@ -9,17 +9,29 @@ import connectDB from "./config/db";
 
 const app: Express = express();
 
-app.use(cors());
+const corsOptions = {
+  origin:
+    process.env.NODE_ENV === "production"
+      ? "https://u09-hair-salon.netlify.app" // Produktions-URL
+      : "http://localhost:5173", // Utvecklings-URL
+  methods: ["GET", "POST", "PUT", "DELETE"], // Tillåtna metoder
+  credentials: true, // Tillåt cookies och andra credentials
+};
+console.log(`CORS origin set to: ${corsOptions.origin}`);
+app.use(cors(corsOptions));
 
-app.use(express.json());
+app.use(express.json()); // Middleware för att parsa JSON
 
+// Logga alla inkommande förfrågningar för felsökning
+// app.use((req, res, next) => {
+//   console.log(`Request received at ${req.path}`);
+//   console.log(`Method: ${req.method}`);
+//   console.log(`Headers: ${JSON.stringify(req.headers)}`);
+//   next();
+// });
+
+// Anslut till databasen
 connectDB();
-
-// logga inkommande requests för felsökning/testning
-app.use((req, res, next) => {
-  console.log(`Request received at ${req.path}`);
-  next();
-});
 
 // Routes
 app.get("/", (req: Request, res: Response) => {
@@ -27,13 +39,9 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/api", userRoutes);
-
 app.use("/api/auth", authRoutes);
-
 app.use("/api", bookingRoutes);
-
 app.use("/api", scheduleRoutes);
-
 app.use("/api", serviceRoutes);
 
 export default app;
