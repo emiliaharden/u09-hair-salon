@@ -3,7 +3,7 @@ import columns from './Columns'
 import { TableBody, Table } from '../ui/table'
 import TableRowComponent from './TableRowComponent'
 import TableHeaderComponent from './TableHeaderComponent'
-import { User } from '@/pages/admin/adminDashboardPage'
+import { User } from '@/pages/admin/components/adminUsersPage'
 
 interface TableComponentProps {
     data: User[]

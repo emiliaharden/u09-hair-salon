@@ -15,9 +15,10 @@ benchmarks/graphs
 # Enviroment variables
 .env
 .env.test
-
+.env.production
+.env.development
 # Dist
-dist
+
 
 # ignore additional files using core.excludesFile
 # http://git-scm.com/docs/gitignore

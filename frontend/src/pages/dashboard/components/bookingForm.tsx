@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import ServiceSelectionComponent from '@/components/ServiceSelectionComponent';
-import { Service } from '@/store/useServiceStore';
+import { useEffect, useState } from 'react'
+import ServiceSelectionComponent from '@/components/ServiceSelectionComponent'
+import { API_URL } from '@/config'
 
 interface User {
     _id: string;
@@ -28,7 +28,7 @@ const BookingForm = () => {
             }
 
             try {
-                const response = await fetch('http://localhost:3000/api/admins', {
+                const response = await fetch(`${API_URL}/admins`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -127,7 +127,7 @@ const BookingForm = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:3000/api/bookings', {
+            const response = await fetch(`${API_URL}/bookings`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
