@@ -59,7 +59,7 @@ const AdminUsersPage = () => {
 
     const handleEditUser = async (updatedUser: User) => {
         try {
-            const response = await fetch(`${API_URL}/api/user/${updatedUser._id}`, {
+            const response = await fetch(`${API_URL}/user/${updatedUser._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ const AdminUsersPage = () => {
 
     const handleDeleteUser = async (userId: string) => {
         try {
-            const response = await fetch(`${API_URL}/api/user/${userId}`, {
+            const response = await fetch(`${API_URL}/user/${userId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

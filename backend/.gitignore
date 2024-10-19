@@ -15,7 +15,8 @@ benchmarks/graphs
 # Enviroment variables
 .env
 .env.test
-
+.env.production
+.env.development
 # Dist
 
 
