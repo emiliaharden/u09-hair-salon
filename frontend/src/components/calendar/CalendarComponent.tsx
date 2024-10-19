@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import CalendarItem from './CalendarItem';
 import { Schedule } from '@/interfaces/Schedule'; // Använd ditt befintliga interface
+import { useUserStore } from '@/store/useUserStore';
 
 const CalendarComponent = () => {
+    const user = useUserStore((state) => state.user)
     const [schedules, setSchedules] = useState<Schedule[]>([]);
 
     useEffect(() => {
         const fetchSchedules = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api/schedules', {
+                const response = await fetch(`http://localhost:3000/api/schedules/${user?.id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -26,7 +28,7 @@ const CalendarComponent = () => {
         };
 
         fetchSchedules();
-    }, []);
+    }, [user?.id]);
 
     const days = Array.from({ length: 7 }, (_, i) => {
         const date = new Date();

@@ -3,15 +3,15 @@ import { CalendarItemProps, Schedule } from '@/interfaces/Schedule'
 
 const CalendarItem: React.FC<CalendarItemProps> = ({ day, schedules }) => {
     // Jämför schemadatum med det valda datumet (dag) utan att ta hänsyn till tid
-    const daySchedules = schedules.filter((schedule: Schedule) => {
-        const scheduleDate = new Date(schedule.date).setHours(0, 0, 0, 0) // Nollställ tid för schemadatum
-        const currentDate = new Date(day).setHours(0, 0, 0, 0) // Nollställ tid för den aktuella dagen
-        return scheduleDate === currentDate // Jämför datum utan tid
-    })
+    const daySchedules = (Array.isArray(schedules) ? schedules : []).filter((schedule: Schedule) => {
+        const scheduleDate = new Date(schedule.date).toDateString(); // Nollställ tid för schemadatum
+        const currentDate = new Date(day).toDateString(); // Nollställ tid för den aktuella dagen
+        return scheduleDate === currentDate; // Jämför datum utan tid
+      });
 
     return (
         <div className="p-4">
-            <div>{new Date(day).toLocaleDateString('sv-SE')}</div> {/* Datum för dagen */}
+            <div>{new Date(day).toLocaleString('sv-SE')}</div> {/* Datum för dagen */}
 
             {/* Om det finns ett schema för dagen */}
             {daySchedules.length > 0 ? (
