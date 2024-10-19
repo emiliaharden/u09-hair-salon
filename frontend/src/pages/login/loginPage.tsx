@@ -40,7 +40,6 @@ const LoginPage = () => {
             console.log('Response data:', data)
 
             if (response.ok) {
-                // Spara tokenen lokalt (t.ex. i localStorage)
                 localStorage.setItem('token', data.token)
                 setUser(data.user)
 
@@ -49,10 +48,6 @@ const LoginPage = () => {
                 } else {
                     navigate('/dashboard')
                 }
-
-                // Om du vill visa användarinformation eller navigera till annan sida:
-                console.log('Logged in successfully:', data.user)
-                // Redirect eller uppdatera state för inloggning
             } else {
                 setError(data.message || 'Login failed')
                 console.error('Login failed:', data.message, error)
@@ -63,18 +58,12 @@ const LoginPage = () => {
         }
     }
 
-    // const handleLogout = () => {
-    //     localStorage.removeItem('token')
-    //     setUser(null)
-    //     setIsLoggedIn(false)
-    //     console.log('Logged out')
-    // }
-
     return (
-        <div className="max-w-md mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-lg mt-10">
+        <div className="max-w-md mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-lg mt-20">
             <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
             <FormComponent fields={loginFields} buttonText="Login" onSubmit={handleLogin} />
         </div>
     )
 }
+
 export default LoginPage

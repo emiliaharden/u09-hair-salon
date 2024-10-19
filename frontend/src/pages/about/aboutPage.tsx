@@ -1,6 +1,6 @@
 const AboutPage = () => {
     return (
-        <div className="p-4 text-center mt-10">
+        <div className="p-4 text-center mt-10 min-h-screen">
             <h2 className="text-3xl font-bold mb-4">Om oss</h2>
             <hr className="mt-2 mb-4 border-t-2 border-gray-300 w-3/4 mx-auto" />
 
@@ -61,4 +61,4 @@ const AboutPage = () => {
     )
 }
 
-export default AboutPage
+export default AboutPage;

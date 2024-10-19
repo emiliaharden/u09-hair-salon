@@ -61,7 +61,7 @@ const Navbar: React.FC = () => {
                                 isActive ? 'text-blue-600' : 'text-black'
                             }
                         >
-                            Priser
+                            Behandlingar
                         </NavLink>
                     </li>
                     <li>
