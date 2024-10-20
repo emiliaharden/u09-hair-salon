@@ -1,4 +1,6 @@
+import { IBooking } from "../models/BookingModel";
 import { ISlot, Schedule } from "../models/ScheduleModel";
+import { IService } from "../models/ServiceModel";
 import User from "../models/UserModel";
 import { toUTC } from "../utils/timeUtils";
 
@@ -40,13 +42,13 @@ export const createSchedule = async (
 
     // Dela upp arbetsdagen i 30-minuters slots
     while (currentStartTime < scheduleEndTime) {
-      const currentEndTime = new Date(currentStartTime.getTime() + 30 * 60000); // Lägg till 30 minuter
+      const currentEndTime = new Date(currentStartTime.getTime() + 30 * 60000);
       slots.push({
         startTime: currentStartTime.toISOString(),
         endTime: currentEndTime.toISOString(),
-        isBooked: false, // Alla slots är lediga när de skapas
+        isBooked: false,
       });
-      currentStartTime = currentEndTime; // Flytta starttiden till nästa slot
+      currentStartTime = currentEndTime;
     }
 
     console.log("Generated slots:", slots);
@@ -81,16 +83,51 @@ export const getAllSchedules = async () => {
 export const getSchedulesByAdmin = async (adminId: string) => {
   try {
     console.log("Fetching schedules for admin:", adminId);
-    // Hämta alla scheman för en specifik admin utan att filtrera på datum
+
     const schedules = await Schedule.find({
       admin: adminId,
-    }).populate("admin", "name");
+    })
+      .populate("admin", "name")
+      .populate({
+        path: "slots.booking",
+        populate: [
+          { path: "user", model: "User", select: "name email" },
+          { path: "service", model: "Service", select: "name duration" },
+        ],
+      });
 
     if (!schedules || schedules.length === 0) {
       throw new Error("No schedules found for this admin.");
     }
 
-    console.log("Schedules for admin:", schedules);
+    const scheduleData = schedules.map((schedule) => ({
+      date: schedule.date,
+      slots: schedule.slots.map((slot) => {
+        if (slot.booking && (slot.booking as IBooking).user) {
+          const booking = slot.booking as IBooking;
+          return {
+            isBooked: slot.isBooked,
+            user: booking.user,
+            services: booking.service.map((s) => {
+              if (typeof s === "object" && "name" in s) {
+                return (s as IService).name;
+              } else {
+                return "Unknown service";
+              }
+            }),
+          };
+        } else {
+          return {
+            isBooked: slot.isBooked,
+            user: null,
+            services: [],
+          };
+        }
+      }),
+    }));
+
+    console.log(scheduleData);
+
     return schedules;
   } catch (error: any) {
     console.error("Error fetching schedules for admin:", error);
