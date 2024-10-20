@@ -135,7 +135,7 @@ const UserBookingsList = () => {
                     </div>
                 ))
             ) : (
-                <p>No bookings found</p>
+                <p>Du har inga kommande bokningar</p>
             )}
         </div>
     )
