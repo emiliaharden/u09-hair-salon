@@ -12,18 +12,24 @@ const UserNavbar = () => {
     }
 
     return (
-        <nav className="flex flex-col w-64 h-full p-4 bg-gray-800 text-white">
+        <nav className="w-64 p-6 bg-white border border-gray-300 rounded-lg shadow-md">
             <ul className="space-y-4">
-                <NavLink
-                    to="/dashboard"
-                    className={({ isActive }) => (isActive ? 'text-blue-400' : 'text-white')}
-                >
-                    Dashboard
-                </NavLink>
+                <li>
+                    <NavLink
+                        to="/dashboard"
+                        className={({ isActive }) =>
+                            isActive ? 'text-blue-600 font-semibold' : 'text-gray-700'
+                        }
+                    >
+                        Dashboard
+                    </NavLink>
+                </li>
                 <li>
                     <NavLink
                         to="/dashboard/bookings/user"
-                        className={({ isActive }) => (isActive ? 'text-blue-500' : 'text-white')}
+                        className={({ isActive }) =>
+                            isActive ? 'text-blue-600 font-semibold' : 'text-gray-700'
+                        }
                     >
                         Kommande Bokningar
                     </NavLink>
@@ -31,7 +37,9 @@ const UserNavbar = () => {
                 <li>
                     <NavLink
                         to="/dashboard/bookings"
-                        className={({ isActive }) => (isActive ? 'text-blue-500' : 'text-white')}
+                        className={({ isActive }) =>
+                            isActive ? 'text-blue-600 font-semibold' : 'text-gray-700'
+                        }
                     >
                         Boka Tid
                     </NavLink>
@@ -39,7 +47,9 @@ const UserNavbar = () => {
                 <li>
                     <NavLink
                         to="/dashboard/history"
-                        className={({ isActive }) => (isActive ? 'text-blue-500' : 'text-white')}
+                        className={({ isActive }) =>
+                            isActive ? 'text-blue-600 font-semibold' : 'text-gray-700'
+                        }
                     >
                         Bokningshistorik
                     </NavLink>
@@ -47,14 +57,18 @@ const UserNavbar = () => {
                 <li>
                     <NavLink
                         to="/dashboard/profile"
-                        className={({ isActive }) => (isActive ? 'text-blue-500' : 'text-white')}
+                        className={({ isActive }) =>
+                            isActive ? 'text-blue-600 font-semibold' : 'text-gray-700'
+                        }
                     >
                         Min Profil
                     </NavLink>
                 </li>
-
                 <li>
-                    <button onClick={handleLogout} className="text-white hover:text-red-500">
+                    <button
+                        onClick={handleLogout}
+                        className="text-gray-700 hover:text-red-600 font-semibold"
+                    >
                         Logga Ut
                     </button>
                 </li>

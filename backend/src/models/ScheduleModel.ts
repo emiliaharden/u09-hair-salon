@@ -1,10 +1,11 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { IBooking } from "./BookingModel";
 
 export interface ISlot {
   startTime: string;
   endTime: string;
   isBooked: boolean;
-  booking?: mongoose.Types.ObjectId;
+  booking?: IBooking | mongoose.Types.ObjectId; // Kan vara ett bokningsobjekt eller en ObjectId
   _id?: mongoose.Types.ObjectId;
 }
 
