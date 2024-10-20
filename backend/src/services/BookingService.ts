@@ -186,8 +186,9 @@ export const getBookingsByUser = async (userId: string) => {
       .populate("service", "name duration price")
       .populate("employee", "name email");
 
+    // Om inga bokningar hittas, returnera en tom lista
     if (!bookings.length) {
-      throw new Error("No bookings found for this user");
+      return []; // Returnera en tom array istället för att kasta ett fel
     }
 
     return bookings;

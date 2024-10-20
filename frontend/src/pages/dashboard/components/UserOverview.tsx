@@ -6,11 +6,16 @@ const UserOverview = () => {
     if (!user) return null
 
     return (
-        <div>
-            <h2>User Overview</h2>
-            <p>Welcome, {user.name}!</p>
-            <p>Email: {user.email}</p>
-            <p>Role(s): {user.roles.join(', ')}</p>
+        <div className="bg-white shadow-md rounded-lg p-6 max-w-md mx-auto mt-10">
+            <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
+            Välkommen, {user.name}!
+            </h2>
+            <div className="flex flex-col items-center space-y-2">
+                <p className="text-gray-600">
+                    Vad vill du göra idag?
+                </p>
+                
+            </div>
         </div>
     )
 }

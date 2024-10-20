@@ -1,13 +1,13 @@
 import SettingsComponent from '@/components/SettingsComponent'
 import { useUserStore } from '@/store/useUserStore'
 
-const AdminSettingsPage: React.FC = () => {
+const UserSettingsPage: React.FC = () => {
     const { user } = useUserStore()
 
     return (
         <div>
             {user ? (
-                <SettingsComponent userId={user.id} userRole="admin" />
+                <SettingsComponent userId={user.id} userRole="user" />
             ) : (
                 <p>User is not logged in. Please log in to change your settings.</p>
             )}
@@ -15,4 +15,4 @@ const AdminSettingsPage: React.FC = () => {
     )
 }
 
-export default AdminSettingsPage
+export default UserSettingsPage
