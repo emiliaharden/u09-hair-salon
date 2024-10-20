@@ -1,70 +1,90 @@
 import { useState } from 'react'
-import DialogComponent from '../DialogComponent';
-import { User } from '@/pages/admin/components/adminUsersPage';
+import DialogComponent from '../DialogComponent'
+import { User } from '@/pages/admin/components/adminUsersPage'
+import { Service } from '@/store/useServiceStore'
 
 interface ActionsProps {
-    rowData: User
-    onEdit: (user: User) => void
-    onDelete: (userId: string) => void
+    rowData: User | Service
+    onEdit: (item: User | Service) => void
+    onDelete: (itemId: string) => void
 }
 
 const Actions: React.FC<ActionsProps> = ({ rowData, onEdit, onDelete }) => {
-    const [updatedUserData, setUpdatedUserData] = useState(rowData)
+    const [updatedData, setUpdatedData] = useState(rowData)
 
-    const handleInputChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-        field: string
-    ) => {
-        setUpdatedUserData({ ...updatedUserData, [field]: e.target.value })
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
+        setUpdatedData({ ...updatedData, [field]: e.target.value })
     }
 
     const handleSave = () => {
-        onEdit(updatedUserData)
+        if ('duration' in updatedData) {
+            const roundedDuration = Math.ceil(updatedData.duration / 30) * 30
+            onEdit({ ...updatedData, duration: roundedDuration })
+        } else {
+            onEdit(updatedData)
+        }
     }
 
     const handleDelete = () => {
-        console.log('Deleting:', rowData)
         onDelete(rowData._id)
     }
 
     return (
         <div>
             <DialogComponent
-                title="Edit user"
-                description="Update user details"
+                title={'duration' in rowData ? 'Edit service' : 'Edit user'}
+                description={
+                    'duration' in rowData ? 'Update service details' : 'Update user details'
+                }
                 triggerText="Edit"
                 onConfirm={handleSave}
             >
                 <input
                     type="text"
-                    value={updatedUserData.name}
+                    value={updatedData.name}
                     onChange={(e) => handleInputChange(e, 'name')}
                     placeholder="Name"
                 />
-                <input
-                    type="email"
-                    value={updatedUserData.email}
-                    onChange={(e) => handleInputChange(e, 'email')}
-                    placeholder="Email"
-                />
-                <select
-                    value={updatedUserData.roles[0]}
-                    onChange={(e) => handleInputChange(e, 'roles')}
-                >
-                    <option value="user">User</option>
-                    <option value="admin">Admin</option>
-                </select>
+                {'duration' in updatedData && (
+                    <>
+                        <input
+                            type="number"
+                            value={updatedData.duration}
+                            onChange={(e) =>
+                                setUpdatedData({
+                                    ...updatedData,
+                                    duration: Math.ceil(Number(e.target.value) / 30) * 30,
+                                })
+                            }
+                            placeholder="Duration"
+                            min={30}
+                            step={30}
+                        />
+                        <input
+                            type="number"
+                            value={updatedData.price}
+                            onChange={(e) => handleInputChange(e, 'price')}
+                            placeholder="Price"
+                        />
+                    </>
+                )}
+                {'email' in updatedData && (
+                    <input
+                        type="email"
+                        value={updatedData.email}
+                        onChange={(e) => handleInputChange(e, 'email')}
+                        placeholder="Email"
+                    />
+                )}
             </DialogComponent>
 
             <DialogComponent
-            title='Delete user'
-            description={`Are you sure you want to delete ${rowData.name}?`}
-            triggerText='Delete'
-            onConfirm={handleDelete}
-            isDeleteConfirmation={true}
+                title={'duration' in rowData ? 'Delete service' : 'Delete user'}
+                description={`Are you sure you want to delete ${rowData.name}?`}
+                triggerText="Delete"
+                onConfirm={handleDelete}
+                isDeleteConfirmation={true}
             />
-            
-            
         </div>
     )
 }
