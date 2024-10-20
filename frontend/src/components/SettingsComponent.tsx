@@ -5,14 +5,13 @@ import { API_URL } from '@/config'
 import { useState } from 'react'
 
 interface SettingsComponentProps {
-    userId: string;
-    userRole: string;
+    userId: string
+    userRole: string
 }
 
 const SettingsComponent: React.FC<SettingsComponentProps> = ({ userId, userRole }) => {
     const [message, setMessage] = useState('')
 
-    // Fält för formuläret
     const fields = [
         {
             label: 'Current Password',
@@ -34,7 +33,6 @@ const SettingsComponent: React.FC<SettingsComponentProps> = ({ userId, userRole 
         },
     ]
 
-    // Hantera formsubmit från FormComponent
     const handleSubmit = async (formData: { [key: string]: string }) => {
         const { currentPassword, newPassword, confirmPassword } = formData
 
@@ -63,23 +61,39 @@ const SettingsComponent: React.FC<SettingsComponentProps> = ({ userId, userRole 
                 setMessage(`Error: ${data.message}`)
             }
         } catch (error) {
-            setMessage(error instanceof Error ? `Error: ${error.message}` : 'An unknown error occurred')
+            setMessage(
+                error instanceof Error ? `Error: ${error.message}` : 'An unknown error occurred'
+            )
         }
     }
 
     return (
-        <div className="p-4">
-            <h2>{userRole === 'admin' ? 'Admin Settings' : 'User Settings'}</h2>
-            <DialogComponent
-                triggerText="Change Password"
-                title="Change Password"
-                description="Please enter your current and new password to update your credentials."
-                onConfirm={() => {}}
-            >
-                <FormComponent fields={fields} buttonText="Change Password" onSubmit={handleSubmit} />
-            </DialogComponent>
+        <div className="container mx-auto p-6 max-w-lg">
+            <h2 className="text-2xl font-bold mb-4">
+                {userRole === 'admin' ? 'Admin Settings' : 'User Settings'}
+            </h2>
+            <div className="bg-white shadow-md rounded-lg p-6">
+                <DialogComponent
+                    triggerText="Change Password"
+                    title="Change Password"
+                    description="Please enter your current and new password to update your credentials."
+                    onConfirm={() => {}}
+                >
+                    <FormComponent
+                        fields={fields}
+                        buttonText="Change Password"
+                        onSubmit={handleSubmit}
+                    />
+                </DialogComponent>
 
-            {message && <p className="mt-4">{message}</p>}
+                {message && (
+                    <p
+                        className={`mt-4 ${message.startsWith('Error') ? 'text-red-500' : 'text-green-500'}`}
+                    >
+                        {message}
+                    </p>
+                )}
+            </div>
         </div>
     )
 }

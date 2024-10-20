@@ -10,7 +10,6 @@ export interface User {
     name: string
     email: string
     roles: string[]
-    [key: string]: any
 }
 
 const AdminUsersPage = () => {
@@ -106,6 +105,8 @@ const AdminUsersPage = () => {
         }
     }
 
+    const userColumns = ['name', 'email', 'roles']
+
     return (
         <div className="p-4">
             <h2>Manage Users</h2>
@@ -113,8 +114,9 @@ const AdminUsersPage = () => {
             <DialogComponent title="Create new user" triggerText="Create" onConfirm={() => {}}>
                 <CreateUserComponent buttonText="Create user" />
             </DialogComponent>
-            <TableComponent
+            <TableComponent<User>
                 data={filteredUsers}
+                columns={userColumns}
                 onEdit={handleEditUser}
                 onDelete={handleDeleteUser}
             />
