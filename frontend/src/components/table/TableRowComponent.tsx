@@ -1,23 +1,32 @@
-import { User } from '@/pages/admin/components/adminUsersPage'
 import { TableCell, TableRow } from '../ui/table'
 import Actions from './Actions'
+import { User } from '@/pages/admin/components/adminUsersPage'
+import { Service } from '@/store/useServiceStore'
 
-
-interface TableRowProps {
-    rowData: User
+interface TableRowProps<T> {
+    rowData: T
     columns: string[]
-    onEdit: (user: User) => void
-    onDelete: (userId: string) => void
+    onEdit: (item: T) => void
+    onDelete: (itemId: string) => void
 }
 
-const TableRowComponent: React.FC<TableRowProps> = ({ rowData, columns, onEdit, onDelete }) => {
+const TableRowComponent = <T extends User | Service>({
+    rowData,
+    columns,
+    onEdit,
+    onDelete,
+}: TableRowProps<T>) => {
     return (
         <TableRow>
             {columns.map((column, index) => (
-                <TableCell key={index}>{rowData[column] || 'N/A'}</TableCell>
+                <TableCell key={index}>{(rowData as any)[column] || 'N/A'}</TableCell>
             ))}
             <TableCell>
-                <Actions rowData={rowData} onEdit={onEdit} onDelete={onDelete}></Actions>
+                <Actions
+                    rowData={rowData as User | Service}
+                    onEdit={(item) => onEdit(item as T)}
+                    onDelete={() => onDelete((rowData as any)._id)}
+                />
             </TableCell>
         </TableRow>
     )
