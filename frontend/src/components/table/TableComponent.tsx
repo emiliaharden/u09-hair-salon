@@ -18,7 +18,7 @@ const TableComponent = <T extends User | Service>({
     onDelete,
 }: TableComponentProps<T>) => {
     return (
-        <Table>
+        <Table className='mt-8'>
             <TableHeaderComponent columns={columns} />
             <TableBody>
                 {data.map((rowData, index) => (
