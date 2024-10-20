@@ -3,6 +3,12 @@ import { Service, useServiceStore } from '@/store/useServiceStore'
 import { API_URL } from '@/config'
 import TableComponent from '@/components/table/TableComponent'
 import { Button } from '@/components/ui/button'
+import {
+    Accordion,
+    AccordionItem,
+    AccordionTrigger,
+    AccordionContent,
+} from '@/components/ui/accordion' // Import the accordion components
 
 const CreateServiceComponent = () => {
     const { services, setServices } = useServiceStore()
@@ -139,50 +145,58 @@ const CreateServiceComponent = () => {
 
     return (
         <div className="container mx-auto mt-6">
-            <h2 className="text-2xl font-bold mb-4">Create New Service</h2>
-            <div className="bg-white shadow-md rounded-lg p-6">
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2">
-                        Service Name
-                    </label>
-                    <input
-                        type="text"
-                        value={serviceName}
-                        onChange={(e) => setServiceName(e.target.value)}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Enter service name"
-                    />
-                </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2">
-                        Duration (in minutes)
-                    </label>
-                    <input
-                        type="number"
-                        value={serviceDuration}
-                        onChange={(e) =>
-                            setServiceDuration(Math.ceil(Number(e.target.value) / 30) * 30)
-                        }
-                        min={30}
-                        step={30}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Enter duration (must be a multiple of 30)"
-                    />
-                </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2">Price</label>
-                    <input
-                        type="number"
-                        value={servicePrice}
-                        onChange={(e) => setServicePrice(Number(e.target.value))}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Enter price"
-                    />
-                </div>
-                <Button variant="default" onClick={handleCreateService}>
-                    Create Service
-                </Button>
-            </div>
+            <Accordion type="single" collapsible>
+                <AccordionItem value="item-1">
+                    <AccordionTrigger>
+                        <h2 className="text-2xl font-bold">Create New Service</h2>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                        <div className="bg-white shadow-md rounded-lg p-6">
+                            <div className="mb-4">
+                                <label className="block text-gray-700 text-sm font-bold mb-2">
+                                    Service Name
+                                </label>
+                                <input
+                                    type="text"
+                                    value={serviceName}
+                                    onChange={(e) => setServiceName(e.target.value)}
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    placeholder="Enter service name"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-gray-700 text-sm font-bold mb-2">
+                                    Duration (in minutes)
+                                </label>
+                                <input
+                                    type="number"
+                                    value={serviceDuration}
+                                    onChange={(e) =>
+                                        setServiceDuration(Math.ceil(Number(e.target.value) / 30) * 30)
+                                    }
+                                    min={30}
+                                    step={30}
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    placeholder="Enter duration (must be a multiple of 30)"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-gray-700 text-sm font-bold mb-2">Price</label>
+                                <input
+                                    type="number"
+                                    value={servicePrice}
+                                    onChange={(e) => setServicePrice(Number(e.target.value))}
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    placeholder="Enter price"
+                                />
+                            </div>
+                            <Button variant="default" onClick={handleCreateService}>
+                                Create Service
+                            </Button>
+                        </div>
+                    </AccordionContent>
+                </AccordionItem>
+            </Accordion>
 
             <h3 className="text-xl font-bold mt-6 mb-4">Available Services</h3>
             <TableComponent<Service>

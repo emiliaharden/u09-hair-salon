@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import CalendarItem from './CalendarItem';
-import { Schedule } from '@/interfaces/Schedule'; // Använd ditt befintliga interface
 import { useUserStore } from '@/store/useUserStore';
+import { Schedule } from '@/interfaces/Schedule';
 
 const CalendarComponent = () => {
     const user = useUserStore((state) => state.user)
