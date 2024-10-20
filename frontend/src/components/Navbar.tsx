@@ -1,7 +1,10 @@
+import { useState } from 'react'
 import { useUserStore } from '@/store/useUserStore'
 import { NavLink, useLocation } from 'react-router-dom'
+import { Menu, X } from 'lucide-react'
 
 const Navbar: React.FC = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
     const user = useUserStore((state) => state.user)
     const location = useLocation()
 
@@ -10,30 +13,33 @@ const Navbar: React.FC = () => {
         return null
     }
 
-    return (
-        <header className="relative bg-gray-100">
-            <div className="absolute top-4 right-4">
-                {!user ? (
-                    <NavLink to="/login">
-                        <button className="py-2 px-4 rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                            Sign in
-                        </button>
-                    </NavLink>
-                ) : (
-                    <NavLink to="/dashboard">
-                        <button className="py-2 px-4 rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                            {user.name}'s Dashboard
-                        </button>
-                    </NavLink>
-                )}
-            </div>
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen)
+    }
 
+    return (
+        <header className="relative">
             <div className="flex justify-center py-4">
                 <h1 className="text-3xl font-bold">Salong Saxen</h1>
             </div>
 
-            <nav className="flex justify-center space-x-6 py-6 bg-gray-100">
-                <ul className="flex space-x-32">
+            {/* Mobilnav */}
+            <nav className="md:hidden flex justify-between items-center p-4">
+                <button
+                    onClick={toggleMenu}
+                    className="text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                    {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
+            </nav>
+
+            {/* Mobilmeny */}
+            <nav
+                className={`${
+                    isMenuOpen ? 'block' : 'hidden'
+                } md:flex md:justify-center space-y-4 md:space-y-0 md:space-x-6 py-6 md:bg-transparent`}
+            >
+                <ul className="flex flex-col md:flex-row md:space-x-6 items-center">
                     <li>
                         <NavLink
                             to="/home"
@@ -84,8 +90,49 @@ const Navbar: React.FC = () => {
                             Boka tid
                         </NavLink>
                     </li>
+                    {!user ? (
+                    <li className="block md:hidden">
+                    <NavLink
+                        to="/login"
+                        className={({ isActive }) =>
+                            isActive ? 'text-blue-600' : 'text-black'
+                        }
+                    >
+                        Sign in
+                    </NavLink>
+                </li>
+                
+                    ) : (
+                        <li>
+                            <NavLink
+                                to="/dashboard"
+                                className={({ isActive }) =>
+                                    isActive ? 'text-blue-600' : 'text-black'
+                                }
+                            >
+                                {user.name}'s Dashboard
+                            </NavLink>
+                        </li>
+                    )}
                 </ul>
             </nav>
+
+            {/* "Sign in"-knappen i desktop-vy (borttagen från mobilvy) */}
+            <div className="hidden md:block absolute top-4 right-4">
+                {!user ? (
+                    <NavLink to="/login">
+                        <button className="py-2 px-4 rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                            Sign in
+                        </button>
+                    </NavLink>
+                ) : (
+                    <NavLink to="/dashboard">
+                        <button className="py-2 px-4 rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                            {user.name}'s Dashboard
+                        </button>
+                    </NavLink>
+                )}
+            </div>
         </header>
     )
 }
