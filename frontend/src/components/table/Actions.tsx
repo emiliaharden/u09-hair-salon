@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Pen, Trash2 } from 'lucide-react' // Importing the Pen and Trash2 icons from lucide-react
 import DialogComponent from '../DialogComponent'
 import { User } from '@/pages/admin/components/adminUsersPage'
 import { Service } from '@/store/useServiceStore'
@@ -30,13 +31,18 @@ const Actions: React.FC<ActionsProps> = ({ rowData, onEdit, onDelete }) => {
     }
 
     return (
-        <div>
+        <div className="flex items-center space-x-2">
+            {/* Dialog for Edit action with Pen icon */}
             <DialogComponent
                 title={'duration' in rowData ? 'Edit service' : 'Edit user'}
                 description={
                     'duration' in rowData ? 'Update service details' : 'Update user details'
                 }
-                triggerText="Edit"
+                triggerText={
+                    <button className="text-blue-500 hover:text-blue-700">
+                        <Pen size={20} /> {/* Use Pen icon here */}
+                    </button>
+                }
                 onConfirm={handleSave}
             >
                 <input
@@ -78,10 +84,15 @@ const Actions: React.FC<ActionsProps> = ({ rowData, onEdit, onDelete }) => {
                 )}
             </DialogComponent>
 
+            {/* Dialog for Delete action with Trash2 icon */}
             <DialogComponent
                 title={'duration' in rowData ? 'Delete service' : 'Delete user'}
                 description={`Are you sure you want to delete ${rowData.name}?`}
-                triggerText="Delete"
+                triggerText={
+                    <button className="text-red-500 hover:text-red-700">
+                        <Trash2 size={20} /> {/* Use Trash2 icon here */}
+                    </button>
+                }
                 onConfirm={handleDelete}
                 isDeleteConfirmation={true}
             />
