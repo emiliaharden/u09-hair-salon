@@ -102,9 +102,11 @@ const UserBookingsList = () => {
                         </p>
                         <p className="text-gray-600">
                             <strong>Time:</strong>{' '}
-                            {new Date(booking.date).toLocaleTimeString([], {
+                            {new Date(booking.startTime).toLocaleTimeString([], {
                                 hour: '2-digit',
                                 minute: '2-digit',
+                                hour12: false,
+                                timeZone: 'UTC' // Lägg till denna rad för att visa tiden i UTC
                             })}
                         </p>
                         <p className="text-gray-600">
