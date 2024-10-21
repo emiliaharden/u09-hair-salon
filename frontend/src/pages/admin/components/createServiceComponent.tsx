@@ -3,12 +3,21 @@ import { Service, useServiceStore } from '@/store/useServiceStore'
 import { API_URL } from '@/config'
 import TableComponent from '@/components/table/TableComponent'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input' // Shadcn Input
+import { Label } from '@/components/ui/label' // Shadcn Label
+import {
+    Select,
+    SelectTrigger,
+    SelectContent,
+    SelectItem,
+    SelectValue,
+} from '@/components/ui/select' // Shadcn Select
 import {
     Accordion,
     AccordionItem,
     AccordionTrigger,
     AccordionContent,
-} from '@/components/ui/accordion' // Import the accordion components
+} from '@/components/ui/accordion'
 
 const CreateServiceComponent = () => {
     const { services, setServices } = useServiceStore()
@@ -153,42 +162,55 @@ const CreateServiceComponent = () => {
                     <AccordionContent>
                         <div className="bg-white shadow-md rounded-lg p-6">
                             <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2">
-                                    Service Name
-                                </label>
-                                <input
+                                <Label>Service Name</Label>
+                                <Input
                                     type="text"
                                     value={serviceName}
                                     onChange={(e) => setServiceName(e.target.value)}
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     placeholder="Enter service name"
                                 />
                             </div>
                             <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2">
-                                    Duration (in minutes)
-                                </label>
-                                <input
-                                    type="number"
-                                    value={serviceDuration}
-                                    onChange={(e) =>
-                                        setServiceDuration(Math.ceil(Number(e.target.value) / 30) * 30)
-                                    }
-                                    min={30}
-                                    step={30}
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    placeholder="Enter duration (must be a multiple of 30)"
-                                />
+                                <Label>Duration (in minutes)</Label>
+                                <Select
+                                    onValueChange={(value) => setServiceDuration(Number(value))}
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select duration" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="30">30 minutes</SelectItem>
+                                        <SelectItem value="60">1 hour</SelectItem>
+                                        <SelectItem value="90">1.5 hours</SelectItem>
+                                        <SelectItem value="120">2 hours</SelectItem>
+                                        <SelectItem value="180">3 hours</SelectItem>
+                                        <SelectItem value="240">4 hours</SelectItem>
+                                    </SelectContent>
+                                </Select>
                             </div>
                             <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2">Price</label>
-                                <input
-                                    type="number"
-                                    value={servicePrice}
-                                    onChange={(e) => setServicePrice(Number(e.target.value))}
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    placeholder="Enter price"
-                                />
+                                <Label>Price</Label>
+                                <Select onValueChange={(value) => setServicePrice(Number(value))}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select price" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="100">100 SEK</SelectItem>
+                                        <SelectItem value="200">200 SEK</SelectItem>
+                                        <SelectItem value="300">300 SEK</SelectItem>
+                                        <SelectItem value="400">400 SEK</SelectItem>
+                                        <SelectItem value="500">500 SEK</SelectItem>
+                                        <SelectItem value="1000">1000 SEK</SelectItem>
+                                        <SelectItem value="2000">2000 SEK</SelectItem>
+                                        <SelectItem value="2500">2500 SEK</SelectItem>
+                                        <SelectItem value="3000">3000 SEK</SelectItem>
+                                        <SelectItem value="3500">3500 SEK</SelectItem>
+                                        <SelectItem value="4000">4000 SEK</SelectItem>
+                                        <SelectItem value="4500">4500 SEK</SelectItem>
+                                        <SelectItem value="5000">5000 SEK</SelectItem>
+                                        <SelectItem value="6000">6000 SEK</SelectItem>
+                                    </SelectContent>
+                                </Select>
                             </div>
                             <Button variant="default" onClick={handleCreateService}>
                                 Create Service

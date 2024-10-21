@@ -109,9 +109,9 @@ const UserBookingsList = () => {
                                 timeZone: 'UTC' // Lägg till denna rad för att visa tiden i UTC
                             })}
                         </p>
-                        <p className="text-gray-600">
+                        {/* <p className="text-gray-600">
                             <strong>Status:</strong> {booking.status}
-                        </p>
+                        </p> */}
                         <p className="text-gray-600">
                             <strong>Employee:</strong> {booking.employee.name}
                         </p>
@@ -121,18 +121,14 @@ const UserBookingsList = () => {
 
                         <div className="mt-4">
                             <DialogComponent
-                                title="Cancel Booking"
-                                description="Are you sure you want to cancel this booking?"
-                                triggerText={
-                                    <button className="bg-gray-200 text-black border border-black py-2 px-4 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50">
-                                        Cancel appointment
-                                    </button>
-                                }
-                                onConfirm={() => handleCancelBooking(booking._id)}
-                                confirmText="Yes, cancel"
-                                cancelText="No, keep it"
-                                isDeleteConfirmation={true}
-                            />
+                             title="Cancel Booking"
+                             description="Are you sure you want to cancel this booking?"
+                             triggerText="Cancel appointment" // Du skickar endast en sträng här, ingen extra knapp
+                             onConfirm={() => handleCancelBooking(booking._id)}
+                             confirmText="Yes, cancel"
+                             cancelText="No, keep it"
+                             isDeleteConfirmation={true}
+                           />
                         </div>
                     </div>
                 ))

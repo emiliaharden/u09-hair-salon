@@ -2,10 +2,15 @@ import { useEffect, useState } from 'react'
 import ServiceSelectionComponent from '@/components/ServiceSelectionComponent'
 import { API_URL } from '@/config'
 import { Button } from '@/components/ui/button'
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select'
+import { Textarea } from '@/components/ui/textarea'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { Schedule, Slot } from '@/interfaces/Schedule'
 import { useServiceStore } from '@/store/useServiceStore'
-import { User } from '@/interfaces/User'
 import { Service } from '@/interfaces/Service'
+import { User } from '@/pages/admin/components/adminUsersPage'
+import { toast } from 'sonner'
 
 const BookingForm = () => {
     const [date, setDate] = useState('')
@@ -17,7 +22,7 @@ const BookingForm = () => {
     const [availableSlots, setAvailableSlots] = useState<Slot[]>([])
     const [error, setError] = useState<string | null>(null)
 
-    const availableServices = useServiceStore((state) => state.services) // Hämta tjänster från Zustand
+    const availableServices = useServiceStore((state) => state.services)
 
     // Hämta admins (frisörer)
     useEffect(() => {
@@ -106,24 +111,24 @@ const BookingForm = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-
+    
         if (!selectedServices.length) {
             console.error('No services selected')
             return
         }
-
+    
         const selectedServiceObjects = availableServices.filter(service => selectedServices.includes(service._id))
         const endDateTimeUTC = calculateEndTime(startTime, selectedServiceObjects)
-
+    
         console.log('Start DateTime (UTC):', startTime)
         console.log('End DateTime (UTC):', endDateTimeUTC)
-
+    
         const token = localStorage.getItem('token')
         if (!token) {
             console.error('No token found')
             return
         }
-
+    
         const bookingData = {
             service: selectedServices,
             date,
@@ -132,9 +137,9 @@ const BookingForm = () => {
             notes,
             employee,
         }
-
+    
         console.log('Booking data:', bookingData)
-
+    
         try {
             const response = await fetch(`${API_URL}/bookings`, {
                 method: 'POST',
@@ -144,18 +149,22 @@ const BookingForm = () => {
                 },
                 body: JSON.stringify(bookingData),
             })
-
+    
             if (!response.ok) {
                 throw new Error('Failed to create booking')
             }
-
+    
             const data = await response.json()
             console.log('Booking created successfully:', data)
+    
+            // Visa en bekräftelse-toast när bokningen är framgångsrik
+            toast.success('Booking created successfully!')
+    
         } catch (error) {
             console.error('Error creating booking:', error)
+            toast.error('Failed to create booking')
         }
     }
-
     return (
         <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-2xl font-semibold text-center">Create a Booking</h2>
@@ -167,63 +176,60 @@ const BookingForm = () => {
                 />
 
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium">Date:</label>
-                    <input
+                    <Label>Date:</Label>
+                    <Input
                         type="date"
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
-                        className="p-2 border rounded"
                         required
                     />
                 </div>
 
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium">Employee (Optional):</label>
-                    <select
-                        value={employee}
-                        onChange={(e) => setEmployee(e.target.value)}
-                        className="p-2 border rounded"
-                    >
-                        <option value="">Select Employee</option>
-                        {employees.map((emp) => (
-                            <option key={emp._id} value={emp._id}>
-                                {emp.name}
-                            </option>
-                        ))}
-                    </select>
+                    <Label>Employee (Optional):</Label>
+                    <Select onValueChange={setEmployee}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select Employee" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {employees.map((emp) => (
+                                <SelectItem key={emp._id} value={emp._id}>
+                                    {emp.name}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </div>
 
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium">Available Time Slots:</label>
+                    <Label>Available Time Slots:</Label>
                     {error && <p className="text-red-500">{error}</p>}
-                    <select
-                        value={startTime}
-                        onChange={(e) => setStartTime(e.target.value)}
-                        className="p-2 border rounded"
-                        required
-                    >
-                        <option value="">Select a time slot</option>
-                        {availableSlots.map((slot, index) => (
-                            <option key={index} value={slot.startTime}>
-                                {new Date(slot.startTime).toLocaleDateString([], {
-                                    year: 'numeric',
-                                    month: '2-digit',
-                                    day: '2-digit',
-                                })} - {new Date(slot.startTime).toLocaleTimeString([], {
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                })}
-                            </option>
-                        ))}
-                    </select>
+                    <Select onValueChange={setStartTime}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select a time slot" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {availableSlots.map((slot, index) => (
+                                <SelectItem key={index} value={slot.startTime}>
+                                    {new Date(slot.startTime).toLocaleDateString([], {
+                                        year: 'numeric',
+                                        month: '2-digit',
+                                        day: '2-digit',
+                                    })} - {new Date(slot.startTime).toLocaleTimeString([], {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                    })}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </div>
 
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium">Notes:</label>
-                    <textarea
+                    <Label>Notes:</Label>
+                    <Textarea
                         value={notes}
                         onChange={(e) => setNotes(e.target.value)}
-                        className="p-2 border rounded"
                         placeholder="Any special notes?"
                     />
                 </div>

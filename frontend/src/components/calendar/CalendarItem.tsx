@@ -1,128 +1,64 @@
-import { CalendarItemProps, Schedule } from '@/interfaces/Schedule'
+import { CalendarItemProps, Schedule } from '@/interfaces/Schedule';
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 
 const CalendarItem: React.FC<CalendarItemProps> = ({ day, schedules }: CalendarItemProps) => {
     const daySchedules = (Array.isArray(schedules) ? schedules : []).filter(
         (schedule: Schedule) => {
-            const scheduleDate = new Date(schedule.date).toDateString()
-            const currentDate = new Date(day).toDateString()
-            return scheduleDate === currentDate
+            const scheduleDate = new Date(schedule.date).toDateString();
+            const currentDate = new Date(day).toDateString();
+            return scheduleDate === currentDate;
         }
-    )
+    );
 
     return (
-        <div className="p-4">
-            <div>{new Date(day).toLocaleString('sv-SE')}</div>
+        <div className="p-4 border rounded-lg shadow-md bg-white flex flex-col w-full max-w-md mx-auto">
+            <div className="text-lg font-semibold mb-2 text-center">
+                {new Date(day).toLocaleDateString('sv-SE', { weekday: 'long', day: 'numeric', month: 'short' })}
+            </div>
 
             {daySchedules.length > 0 ? (
                 daySchedules.map((schedule: Schedule, index) => (
-                    <div key={index}>
+                    <div key={index} className="space-y-2">
                         {schedule.slots.length > 0 ? (
-                            schedule.slots.reduce((acc: JSX.Element[], slot, slotIndex, slots) => {
-                                if (!slot.isBooked) {
-                                    acc.push(
+                            schedule.slots.map((slot, slotIndex) => (
+                                <Popover key={slotIndex}>
+                                    <PopoverTrigger asChild>
                                         <div
-                                            key={slotIndex}
-                                            className="border p-2 bg-green-200 text-center rounded-lg"
+                                            className={`cursor-pointer p-2 text-center rounded-lg ${
+                                                slot.isBooked ? 'bg-red-500 text-white' : 'bg-green-200'
+                                            }`}
                                         >
-                                            <div>
-                                                {new Date(slot.startTime).toLocaleTimeString(
-                                                    'sv-SE',
-                                                    {
-                                                        hour: '2-digit',
-                                                        minute: '2-digit',
-                                                        hour12: false,
-                                                        timeZone: 'Europe/Stockholm',
-                                                    }
-                                                )}{' '}
-                                                -{' '}
-                                                {new Date(slot.endTime).toLocaleTimeString(
-                                                    'sv-SE',
-                                                    {
-                                                        hour: '2-digit',
-                                                        minute: '2-digit',
-                                                        hour12: false,
-                                                        timeZone: 'Europe/Stockholm',
-                                                    }
-                                                )}
-                                            </div>
-                                            <div>Available</div>
+                                            {new Date(slot.startTime).toLocaleTimeString('sv-SE', {
+                                                hour: '2-digit',
+                                                minute: '2-digit',
+                                                hour12: false,
+                                            })}
                                         </div>
-                                    )
-                                } else {
-                                    if (
-                                        slotIndex === 0 ||
-                                        new Date(slots[slotIndex - 1].endTime).getTime() !==
-                                            new Date(slot.startTime).getTime() ||
-                                        !slots[slotIndex - 1].isBooked
-                                    ) {
-                                        const mergedSlotStart = new Date(slot.startTime)
-                                        let mergedSlotEnd = new Date(slot.endTime)
-                                        let i = slotIndex
-
-                                        while (
-                                            i + 1 < slots.length &&
-                                            slots[i + 1].isBooked &&
-                                            new Date(slots[i + 1].startTime).getTime() ===
-                                                mergedSlotEnd.getTime()
-                                        ) {
-                                            mergedSlotEnd = new Date(slots[i + 1].endTime)
-                                            i++
-                                        }
-
-                                        const mergedSlotsCount = i - slotIndex + 1
-
-                                        acc.push(
-                                            <div
-                                                key={slotIndex}
-                                                className="border p-2 bg-red-500 text-center rounded-lg"
-                                                style={{ gridRowEnd: `span ${mergedSlotsCount}` }}
-                                            >
-                                                <div>
-                                                    {mergedSlotStart.toLocaleTimeString('sv-SE', {
-                                                        hour: '2-digit',
-                                                        minute: '2-digit',
-                                                        hour12: false,
-                                                        timeZone: 'Europe/Stockholm',
-                                                    })}{' '}
-                                                    -{' '}
-                                                    {mergedSlotEnd.toLocaleTimeString('sv-SE', {
-                                                        hour: '2-digit',
-                                                        minute: '2-digit',
-                                                        hour12: false,
-                                                        timeZone: 'Europe/Stockholm',
-                                                    })}
-                                                </div>
-                                                <div>
-                                                    <p>
-                                                        <strong>Kund:</strong>{' '}
-                                                        {slot.booking?.user?.name || 'Okänd kund'}
-                                                    </p>
-                                                    <p>
-                                                        <strong>Tjänst(er):</strong>{' '}
-                                                        {slot.booking?.service
-                                                            ?.map((s) => s.name)
-                                                            .join(', ') || 'Okänd tjänst'}
-                                                    </p>
-                                                </div>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-72">
+                                        {slot.isBooked ? (
+                                            <div>
+                                                <strong>Customer:</strong> {slot.booking?.user?.name || 'Unknown customer'}
+                                                <br />
+                                                <strong>Service(s):</strong>{' '}
+                                                {slot.booking?.service?.map((s) => s.name).join(', ') || 'Unknown service'}
                                             </div>
-                                        )
-
-                                        slotIndex = i
-                                    }
-                                }
-
-                                return acc
-                            }, [])
+                                        ) : (
+                                            <div>Available</div>
+                                        )}
+                                    </PopoverContent>
+                                </Popover>
+                            ))
                         ) : (
                             <div>No available slots</div>
                         )}
                     </div>
                 ))
             ) : (
-                <div>No available slots</div>
+                <div className="text-center">No available slots</div>
             )}
         </div>
-    )
-}
+    );
+};
 
-export default CalendarItem
+export default CalendarItem;
