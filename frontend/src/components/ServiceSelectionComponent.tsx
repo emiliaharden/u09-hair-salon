@@ -7,7 +7,6 @@ interface ServiceSelectionProps {
     setSelectedServices: (services: string[]) => void;
 }
 
-
 const ServiceSelectionComponent: React.FC<ServiceSelectionProps> = ({
     selectedServices,
     setSelectedServices,
@@ -32,7 +31,7 @@ const ServiceSelectionComponent: React.FC<ServiceSelectionProps> = ({
                 const data = await response.json();
 
                 const mappedServices = data.map((service: any) => ({
-                    id: service._id,
+                    _id: service._id, // Använd _id här
                     name: service.name,
                     duration: service.duration,
                     price: service.price,
@@ -48,10 +47,14 @@ const ServiceSelectionComponent: React.FC<ServiceSelectionProps> = ({
     }, [setServices]);
 
     const handleServiceChange = (serviceId: string) => {
-        // Uppdatera tillståndet direkt med ny array
-        setSelectedServices(selectedServices.includes(serviceId)
-            ? selectedServices.filter(id => id !== serviceId) // Ta bort om redan valt
-            : [...selectedServices, serviceId]); // Lägg till om ej valt
+        // Kontrollera om den valda tjänsten redan finns i selectedServices
+        if (selectedServices.includes(serviceId)) {
+            // Om den finns, ta bort den från listan
+            setSelectedServices(selectedServices.filter(id => id !== serviceId));
+        } else {
+            // Om den inte finns, lägg till den
+            setSelectedServices([...selectedServices, serviceId]);
+        }
     };
 
     return (
@@ -59,13 +62,13 @@ const ServiceSelectionComponent: React.FC<ServiceSelectionProps> = ({
             <h2>Select Services</h2>
             <ul>
                 {services.map((service) => (
-                    <li key={service.id}>
+                    <li key={service._id}>
                         <label>
                             <input
                                 type="checkbox"
-                                value={service.id}
-                                onChange={() => handleServiceChange(service.id)}
-                                checked={selectedServices.includes(service.id)}
+                                value={service._id} // Använd _id som value
+                                onChange={() => handleServiceChange(service._id)} // Justera för _id
+                                checked={selectedServices.includes(service._id)} // Kontrollera med _id
                             />
                             {service.name} - {service.duration} mins - {service.price} SEK
                         </label>
