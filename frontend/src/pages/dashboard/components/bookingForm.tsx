@@ -1,25 +1,25 @@
 import { useEffect, useState } from 'react'
 import ServiceSelectionComponent from '@/components/ServiceSelectionComponent'
 import { API_URL } from '@/config'
-import { Service } from '@/store/useServiceStore'
 import { Button } from '@/components/ui/button'
-
-interface User {
-    _id: string
-    name: string
-    roles: string[]
-}
+import { Schedule, Slot } from '@/interfaces/Schedule'
+import { useServiceStore } from '@/store/useServiceStore'
+import { User } from '@/interfaces/User'
+import { Service } from '@/interfaces/Service'
 
 const BookingForm = () => {
     const [date, setDate] = useState('')
     const [startTime, setStartTime] = useState('')
-    const [endTime, setEndTime] = useState('')
     const [notes, setNotes] = useState('')
     const [employee, setEmployee] = useState('')
     const [employees, setEmployees] = useState<User[]>([])
     const [selectedServices, setSelectedServices] = useState<string[]>([])
-    const [availableServices, setAvailableServices] = useState<Service[]>([])
+    const [availableSlots, setAvailableSlots] = useState<Slot[]>([])
+    const [error, setError] = useState<string | null>(null)
 
+    const availableServices = useServiceStore((state) => state.services) // Hämta tjänster från Zustand
+
+    // Hämta admins (frisörer)
     useEffect(() => {
         const fetchEmployees = async () => {
             const token = localStorage.getItem('token')
@@ -51,73 +51,71 @@ const BookingForm = () => {
         fetchEmployees()
     }, [])
 
+    // Hämta lediga tider (slots) baserat på vald admin och datum
     useEffect(() => {
-        const fetchServices = async () => {
-            try {
-                const response = await fetch('http://localhost:3000/api/services', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
-                    },
-                })
-
-                if (!response.ok) {
-                    throw new Error('Failed to fetch services')
+        if (date && employee) {
+            const fetchAvailableSlots = async () => {
+                const token = localStorage.getItem('token')
+                if (!token) {
+                    console.error('No token found')
+                    return
                 }
 
-                const data = await response.json()
-                setAvailableServices(data)
-            } catch (error) {
-                console.error('Error fetching services:', error)
+                try {
+                    const response = await fetch(`${API_URL}/schedules/available?employee=${employee}&date=${date}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${token}`,
+                        },
+                    })
+
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch available slots: ${response.status}`)
+                    }
+
+                    const data = await response.json()
+                    console.log("API response:", data)
+
+                    if (data.length > 0) {
+                        const slots = data.flatMap((schedule: Schedule) =>
+                            schedule.slots.filter((slot: Slot) => !slot.isBooked)
+                        )
+                        setAvailableSlots(slots)
+                    } else {
+                        setError('No available slots for the selected date and employee.')
+                        setAvailableSlots([])
+                    }
+                } catch (error) {
+                    console.error('Error fetching available slots:', error)
+                    setError('Failed to fetch available slots.')
+                }
             }
+
+            fetchAvailableSlots()
         }
+    }, [date, employee])
 
-        fetchServices()
-    }, [])
-
-    useEffect(() => {
-        if (startTime && selectedServices.length > 0) {
-            const totalDuration = selectedServices.reduce((total, serviceId) => {
-                const service = availableServices.find((s) => s._id === serviceId)
-                return service ? total + service.duration : total
-            }, 0)
-
-            if (totalDuration > 0) {
-                const calculatedEndTime = calculateEndTime(startTime, totalDuration)
-                setEndTime(calculatedEndTime)
-
-                console.log('Start Time:', startTime)
-                console.log('Total Duration (mins):', totalDuration)
-                console.log('Calculated End Time:', calculatedEndTime)
-            }
-        }
-    }, [startTime, selectedServices, availableServices])
-
-    const calculateEndTime = (start: string, duration: number) => {
-        const [hours, minutes] = start.split(':').map(Number)
-        const startDateTime = new Date()
-        startDateTime.setHours(hours)
-        startDateTime.setMinutes(minutes)
-
-        const endDateTime = new Date(startDateTime.getTime() + duration * 60000)
-        const endHours = String(endDateTime.getHours()).padStart(2, '0')
-        const endMinutes = String(endDateTime.getMinutes()).padStart(2, '0')
-        return `${endHours}:${endMinutes}`
-    }
-
-    const convertToUTC = (date: string, time: string) => {
-        const localDateTime = new Date(`${date}T${time}:00`)
-        return new Date(localDateTime.getTime() - localDateTime.getTimezoneOffset() * 60000).toISOString()
+    // Funktion för att kalkylera sluttiden baserat på starttid och valda tjänster
+    const calculateEndTime = (startTime: string, services: Service[]): string => {
+        const startDateTime = new Date(startTime)
+        const totalDuration = services.reduce((sum, service) => sum + service.duration, 0)
+        const endDateTime = new Date(startDateTime.getTime() + totalDuration * 60000)
+        return endDateTime.toISOString()
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
 
-        const startDateTimeUTC = convertToUTC(date, startTime)
-        const endDateTimeUTC = convertToUTC(date, endTime)
+        if (!selectedServices.length) {
+            console.error('No services selected')
+            return
+        }
 
-        console.log('Start DateTime (UTC):', startDateTimeUTC)
+        const selectedServiceObjects = availableServices.filter(service => selectedServices.includes(service._id))
+        const endDateTimeUTC = calculateEndTime(startTime, selectedServiceObjects)
+
+        console.log('Start DateTime (UTC):', startTime)
         console.log('End DateTime (UTC):', endDateTimeUTC)
 
         const token = localStorage.getItem('token')
@@ -129,7 +127,7 @@ const BookingForm = () => {
         const bookingData = {
             service: selectedServices,
             date,
-            startTime: startDateTimeUTC,
+            startTime,
             endTime: endDateTimeUTC,
             notes,
             employee,
@@ -165,7 +163,7 @@ const BookingForm = () => {
             <div className="space-y-4">
                 <ServiceSelectionComponent
                     selectedServices={selectedServices}
-                    setSelectedServices={(services) => setSelectedServices(services)}
+                    setSelectedServices={setSelectedServices}
                 />
 
                 <div className="flex flex-col">
@@ -180,28 +178,7 @@ const BookingForm = () => {
                 </div>
 
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium">Start Time:</label>
-                    <input
-                        type="time"
-                        value={startTime}
-                        onChange={(e) => setStartTime(e.target.value)}
-                        className="p-2 border rounded"
-                        required
-                    />
-                </div>
-
-                <div className="flex flex-col">
-                    <label className="text-sm font-medium">End Time (Calculated):</label>
-                    <input
-                        type="time"
-                        value={endTime}
-                        readOnly
-                        className="p-2 border rounded bg-gray-100"
-                    />
-                </div>
-
-                <div className="flex flex-col">
-                    <label className="text-sm font-medium">Employee:</label>
+                    <label className="text-sm font-medium">Employee (Optional):</label>
                     <select
                         value={employee}
                         onChange={(e) => setEmployee(e.target.value)}
@@ -211,6 +188,31 @@ const BookingForm = () => {
                         {employees.map((emp) => (
                             <option key={emp._id} value={emp._id}>
                                 {emp.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="flex flex-col">
+                    <label className="text-sm font-medium">Available Time Slots:</label>
+                    {error && <p className="text-red-500">{error}</p>}
+                    <select
+                        value={startTime}
+                        onChange={(e) => setStartTime(e.target.value)}
+                        className="p-2 border rounded"
+                        required
+                    >
+                        <option value="">Select a time slot</option>
+                        {availableSlots.map((slot, index) => (
+                            <option key={index} value={slot.startTime}>
+                                {new Date(slot.startTime).toLocaleDateString([], {
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit',
+                                })} - {new Date(slot.startTime).toLocaleTimeString([], {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                })}
                             </option>
                         ))}
                     </select>
