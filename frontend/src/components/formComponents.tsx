@@ -1,25 +1,38 @@
 import { useState } from 'react'
+import { Input } from '@/components/ui/input' // Shadcn Input
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select' // Shadcn Select
+import { Checkbox } from '@/components/ui/checkbox' // Shadcn Checkbox
+import { Button } from '@/components/ui/button' // Shadcn Button
+import { Label } from '@/components/ui/label' // Shadcn Label
 
 interface FormField {
     label: string
     type: string
-    placeholder: string
+    placeholder?: string
     name: string
+    options?: { value: string; label: string }[] // För select-fält
 }
 
 interface FormComponentProps {
     fields: FormField[]
     buttonText: string
-    onSubmit: (formData: { [key: string]: string }) => void
+    onSubmit: (formData: { [key: string]: string | boolean }) => void
 }
 
 const FormComponent: React.FC<FormComponentProps> = ({ fields, buttonText, onSubmit }) => {
-    const [formData, setFormData] = useState<{ [key: string]: string }>({})
+    const [formData, setFormData] = useState<{ [key: string]: string | boolean }>({})
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value,
+            [e.target.name]: e.target.type === 'checkbox' ? e.target.checked : e.target.value,
+        })
+    }
+
+    const handleSelectChange = (name: string, value: string) => {
+        setFormData({
+            ...formData,
+            [name]: value,
         })
     }
 
@@ -29,26 +42,62 @@ const FormComponent: React.FC<FormComponentProps> = ({ fields, buttonText, onSub
     }
 
     return (
-        <>
-            <div className='flex space-evenly'>
-                <form className="flex flex-col space-y-2" onSubmit={handleSubmit}>
-                    {fields.map((field, index) => (
-                        <label key={index} className='flex flex-col'>
-                            {field.label}
-                            <input
-                                type={field.type}
+        <div className='flex space-evenly'>
+            <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
+                {fields.map((field, index) => (
+                    <div key={index} className='flex flex-col space-y-1'>
+                        <Label>{field.label}</Label> {/* Använd Shadcn Label */}
+                        {field.type === 'text' && (
+                            <Input
+                                type="text"
                                 placeholder={field.placeholder}
                                 name={field.name}
                                 onChange={handleChange}
                             />
-                        </label>
-                    ))}
-                    <button type="submit" className="border rounded">
-                        {buttonText}
-                    </button>
-                </form>
-            </div>
-        </>
+                        )}
+                        {field.type === 'email' && (
+                            <Input
+                                type="email"
+                                placeholder={field.placeholder}
+                                name={field.name}
+                                onChange={handleChange}
+                            />
+                        )}
+                        {field.type === 'password' && (
+                            <Input
+                                type="password"
+                                placeholder={field.placeholder}
+                                name={field.name}
+                                onChange={handleChange}
+                            />
+                        )}
+                        {field.type === 'select' && field.options && (
+                            <Select onValueChange={(value) => handleSelectChange(field.name, value)}>
+                                <SelectTrigger>
+                                    <SelectValue placeholder={field.placeholder || "Select an option"} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {field.options.map(option => (
+                                        <SelectItem key={option.value} value={option.value}>
+                                            {option.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        )}
+                        {field.type === 'checkbox' && (
+                            <Checkbox
+                                checked={Boolean(formData[field.name])}
+                                onCheckedChange={(checked) => setFormData({ ...formData, [field.name]: checked })}
+                            />
+                        )}
+                    </div>
+                ))}
+                <Button type="submit" variant="default"> {/* Använd Shadcn Button */}
+                    {buttonText}
+                </Button>
+            </form>
+        </div>
     )
 }
 
