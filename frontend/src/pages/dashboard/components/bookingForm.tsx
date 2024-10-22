@@ -7,8 +7,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Schedule, Slot } from '@/interfaces/Schedule'
-import { useServiceStore } from '@/store/useServiceStore'
-import { Service } from '@/interfaces/Service'
+import { Service, useServiceStore } from '@/store/useServiceStore'
 import { User } from '@/pages/admin/components/adminUsersPage'
 import { toast } from 'sonner'
 
@@ -165,8 +164,10 @@ const BookingForm = () => {
             toast.error('Failed to create booking')
         }
     }
+
+
     return (
-        <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow-md">
+        <form onSubmit={handleSubmit} className="space-y-6 bg-white p-8 rounded-lg shadow-lg max-w-lg w-full">
             <h2 className="text-2xl font-semibold text-center">Create a Booking</h2>
 
             <div className="space-y-4">
@@ -182,13 +183,14 @@ const BookingForm = () => {
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
                         required
+                        className="border-gray-300 rounded-md"
                     />
                 </div>
 
                 <div className="flex flex-col">
                     <Label>Employee (Optional):</Label>
                     <Select onValueChange={setEmployee}>
-                        <SelectTrigger>
+                        <SelectTrigger className="border-gray-300 rounded-md">
                             <SelectValue placeholder="Select Employee" />
                         </SelectTrigger>
                         <SelectContent>
@@ -205,7 +207,7 @@ const BookingForm = () => {
                     <Label>Available Time Slots:</Label>
                     {error && <p className="text-red-500">{error}</p>}
                     <Select onValueChange={setStartTime}>
-                        <SelectTrigger>
+                        <SelectTrigger className="border-gray-300 rounded-md">
                             <SelectValue placeholder="Select a time slot" />
                         </SelectTrigger>
                         <SelectContent>
@@ -231,11 +233,12 @@ const BookingForm = () => {
                         value={notes}
                         onChange={(e) => setNotes(e.target.value)}
                         placeholder="Any special notes?"
+                        className="border-gray-300 rounded-md"
                     />
                 </div>
             </div>
 
-            <Button variant="default" size="lg" className="w-full" type="submit">
+            <Button variant="default" size="lg" className="w-full bg-black text-white hover:bg-gray-700" type="submit">
                 Create Booking
             </Button>
         </form>
