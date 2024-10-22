@@ -23,6 +23,7 @@ import CreateServiceComponent from './pages/admin/components/createServiceCompon
 import UserBookingsList from './pages/dashboard/components/bookingList.tsx'
 import CalendarComponent from './components/calendar/CalendarComponent.tsx'
 import UserSettingsPage from './pages/dashboard/components/UserSettingsPage';
+import CreateScheduleComponent from './pages/admin/components/CreateScheduleComponent.tsx'
 
 const router = createBrowserRouter([
     {
@@ -88,7 +89,12 @@ const router = createBrowserRouter([
                     { path: 'settings', element: <AdminSettingsPage /> },
                     {
                         path: 'schedules', element: <CalendarComponent />
+                    },
+                    
+                    {
+                        path: 'schedules/create', element: <CreateScheduleComponent />
                     }
+
                 ],
             },
         ],

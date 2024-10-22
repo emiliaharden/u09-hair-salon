@@ -51,7 +51,7 @@ const UserBookingsList = () => {
     }, [user])
 
     const handleCancelBooking = async (bookingId: string) => {
-        console.log('Canceling booking with ID:', bookingId); // Lägg till loggning
+        console.log('Canceling booking with ID:', bookingId)
         const token = localStorage.getItem('token')
         if (!token) {
             console.error('No token found')
@@ -98,20 +98,22 @@ const UserBookingsList = () => {
                         <h3 className="text-lg font-semibold">
                             {booking.service && booking.service.length > 0 ? booking.service.map((s) => s.name).join(', ') : 'No services available'}</h3>
                         <p className="text-gray-600">
-                            <strong>Date:</strong> {new Date(booking.date).toLocaleDateString()}
+                            <strong>Date:</strong> {new Date(booking.date).toLocaleDateString('sv-SE', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                timeZone: 'Europe/Stockholm'
+                            })}
                         </p>
                         <p className="text-gray-600">
                             <strong>Time:</strong>{' '}
-                            {new Date(booking.startTime).toLocaleTimeString([], {
+                            {new Date(booking.startTime).toLocaleTimeString('sv-SE', {
                                 hour: '2-digit',
                                 minute: '2-digit',
                                 hour12: false,
-                                timeZone: 'UTC' // Lägg till denna rad för att visa tiden i UTC
+                                timeZone: 'Europe/Stockholm' // Använd svensk tidzon
                             })}
                         </p>
-                        {/* <p className="text-gray-600">
-                            <strong>Status:</strong> {booking.status}
-                        </p> */}
                         <p className="text-gray-600">
                             <strong>Employee:</strong> {booking.employee.name}
                         </p>
@@ -123,7 +125,7 @@ const UserBookingsList = () => {
                             <DialogComponent
                              title="Cancel Booking"
                              description="Are you sure you want to cancel this booking?"
-                             triggerText="Cancel appointment" // Du skickar endast en sträng här, ingen extra knapp
+                             triggerText="Cancel appointment"
                              onConfirm={() => handleCancelBooking(booking._id)}
                              confirmText="Yes, cancel"
                              cancelText="No, keep it"
