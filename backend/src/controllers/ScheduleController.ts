@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { getSchedulesByAdmin } from "../services/ScheduleService";
 import {
   createSchedule,
   getAllSchedules,
@@ -9,8 +10,8 @@ import {
 
 export const createScheduleController = async (req: Request, res: Response) => {
   try {
-    const { adminId, slots, date } = req.body;
-    const newSchedule = await createSchedule(adminId, slots, date);
+    const { adminId, startTime, endTime, date } = req.body;
+    const newSchedule = await createSchedule(adminId, startTime, endTime, date);
     res.status(201).json(newSchedule);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
@@ -40,6 +41,25 @@ export const getAvailableSlotsController = async (
       new Date(date as string)
     );
     res.status(200).json(availableSlots);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getScheduleByAdminController = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const { adminId } = req.params;
+
+    if (!adminId) {
+      return res.status(400).json({ message: "Admin ID is required" });
+    }
+
+    const schedules = await getSchedulesByAdmin(adminId as string);
+
+    res.status(200).json(schedules);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }

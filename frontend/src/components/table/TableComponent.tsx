@@ -1,19 +1,24 @@
-
-import columns from './Columns'
 import { TableBody, Table } from '../ui/table'
 import TableRowComponent from './TableRowComponent'
 import TableHeaderComponent from './TableHeaderComponent'
 import { User } from '@/pages/admin/components/adminUsersPage'
+import { Service } from '@/store/useServiceStore'
 
-interface TableComponentProps {
-    data: User[]
-    onEdit: (user: User) => void
-    onDelete: (userId: string) => void
+interface TableComponentProps<T extends User | Service> {
+    data: T[]
+    columns: string[]
+    onEdit: (item: T) => void
+    onDelete: (itemId: string) => void
 }
 
-const TableComponent: React.FC<TableComponentProps> = ({ data, onEdit, onDelete }) => {
+const TableComponent = <T extends User | Service>({
+    data,
+    columns,
+    onEdit,
+    onDelete,
+}: TableComponentProps<T>) => {
     return (
-        <Table>
+        <Table className='mt-8'>
             <TableHeaderComponent columns={columns} />
             <TableBody>
                 {data.map((rowData, index) => (

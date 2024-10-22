@@ -14,7 +14,6 @@ import AdminSettingsPage from './pages/admin/components/adminSettingsPage.tsx'
 import BookingForm from './pages/dashboard/components/bookingForm.tsx'
 import UserOverview from './pages/dashboard/components/UserOverview.tsx'
 import BookingHistory from './pages/dashboard/components/BookingHistory.tsx'
-import UserProfile from './pages/dashboard/components/UserProfile.tsx'
 import TreatmentsPage from './pages/treatments/treatmentsPage.tsx'
 import AboutPage from './pages/about/aboutPage.tsx'
 import ContactPage from './pages/contact/contactPage.tsx'
@@ -22,6 +21,9 @@ import HomePage from './pages/home/homePage.tsx'
 import BookingPage from './pages/booking/bookingPage.tsx'
 import CreateServiceComponent from './pages/admin/components/createServiceComponent.tsx'
 import UserBookingsList from './pages/dashboard/components/bookingList.tsx'
+import CalendarComponent from './components/calendar/CalendarComponent.tsx'
+import UserSettingsPage from './pages/dashboard/components/UserSettingsPage';
+import CreateScheduleComponent from './pages/admin/components/CreateScheduleComponent.tsx'
 
 const router = createBrowserRouter([
     {
@@ -68,7 +70,7 @@ const router = createBrowserRouter([
                     },
                     {
                         path: 'profile',
-                        element: <UserProfile />,
+                        element: <UserSettingsPage />,
                     },
                    
                 ],
@@ -85,6 +87,14 @@ const router = createBrowserRouter([
                     { path: 'users', element: <AdminUsersPage /> },
                     { path: 'services', element: <CreateServiceComponent /> },
                     { path: 'settings', element: <AdminSettingsPage /> },
+                    {
+                        path: 'schedules', element: <CalendarComponent />
+                    },
+                    
+                    {
+                        path: 'schedules/create', element: <CreateScheduleComponent />
+                    }
+
                 ],
             },
         ],
