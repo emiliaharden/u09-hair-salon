@@ -1,6 +1,6 @@
 import { useUserStore } from '@/store/useUserStore'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { Home, Calendar, History, User, LogOut, Scissors } from 'lucide-react'
+import { Home, Calendar, User, LogOut, Scissors } from 'lucide-react'
 
 const UserNavbar = () => {
     const navigate = useNavigate()

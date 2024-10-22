@@ -33,14 +33,20 @@ const SettingsComponent: React.FC<SettingsComponentProps> = ({ userId, userRole 
         },
     ]
 
-    const handleSubmit = async (formData: { [key: string]: string }) => {
-        const { currentPassword, newPassword, confirmPassword } = formData
-
+    const handleSubmit = async (formData: { [key: string]: string | boolean }) => {
+        // Converts boolean to string because of password change
+        const preparedData = Object.keys(formData).reduce((acc, key) => {
+            acc[key] = typeof formData[key] === 'boolean' ? String(formData[key]) : formData[key];
+            return acc;
+        }, {} as { [key: string]: string });
+    
+        const { currentPassword, newPassword, confirmPassword } = preparedData;
+    
         if (newPassword !== confirmPassword) {
-            setMessage('New password and confirmation do not match.')
-            return
+            setMessage('New password and confirmation do not match.');
+            return;
         }
-
+    
         try {
             const response = await fetch(`${API_URL}/user/${userId}/update-password`, {
                 method: 'PUT',
@@ -52,20 +58,21 @@ const SettingsComponent: React.FC<SettingsComponentProps> = ({ userId, userRole 
                     currentPassword,
                     newPassword,
                 }),
-            })
-
+            });
+    
             if (response.ok) {
-                setMessage('Password successfully changed!')
+                setMessage('Password successfully changed!');
             } else {
-                const data = await response.json()
-                setMessage(`Error: ${data.message}`)
+                const data = await response.json();
+                setMessage(`Error: ${data.message}`);
             }
         } catch (error) {
             setMessage(
                 error instanceof Error ? `Error: ${error.message}` : 'An unknown error occurred'
-            )
+            );
         }
-    }
+    };
+    
 
     return (
         <div className="container mx-auto p-6 max-w-lg">
