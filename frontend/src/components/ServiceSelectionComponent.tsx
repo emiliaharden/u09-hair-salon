@@ -1,12 +1,12 @@
 import { API_URL } from '@/config';
-import { useServiceStore } from '@/store/useServiceStore'
-import { useEffect } from 'react'
+import { useServiceStore } from '@/store/useServiceStore';
+import { useEffect } from 'react';
+import { Checkbox } from './ui/checkbox';
 
 interface ServiceSelectionProps {
     selectedServices: string[];
     setSelectedServices: (services: string[]) => void;
 }
-
 
 const ServiceSelectionComponent: React.FC<ServiceSelectionProps> = ({
     selectedServices,
@@ -32,7 +32,7 @@ const ServiceSelectionComponent: React.FC<ServiceSelectionProps> = ({
                 const data = await response.json();
 
                 const mappedServices = data.map((service: any) => ({
-                    id: service._id,
+                    _id: service._id,
                     name: service.name,
                     duration: service.duration,
                     price: service.price,
@@ -48,10 +48,11 @@ const ServiceSelectionComponent: React.FC<ServiceSelectionProps> = ({
     }, [setServices]);
 
     const handleServiceChange = (serviceId: string) => {
-        // Uppdatera tillståndet direkt med ny array
-        setSelectedServices(selectedServices.includes(serviceId)
-            ? selectedServices.filter(id => id !== serviceId) // Ta bort om redan valt
-            : [...selectedServices, serviceId]); // Lägg till om ej valt
+        if (selectedServices.includes(serviceId)) {
+            setSelectedServices(selectedServices.filter(id => id !== serviceId));
+        } else {
+            setSelectedServices([...selectedServices, serviceId]);
+        }
     };
 
     return (
@@ -59,14 +60,13 @@ const ServiceSelectionComponent: React.FC<ServiceSelectionProps> = ({
             <h2>Select Services</h2>
             <ul>
                 {services.map((service) => (
-                    <li key={service.id}>
-                        <label>
-                            <input
-                                type="checkbox"
-                                value={service.id}
-                                onChange={() => handleServiceChange(service.id)}
-                                checked={selectedServices.includes(service.id)}
-                            />
+                    <li key={service._id} className="flex items-center space-x-3">
+                        <Checkbox
+                            checked={selectedServices.includes(service._id)}
+                            onCheckedChange={() => handleServiceChange(service._id)}
+                            id={`service-${service._id}`}
+                        />
+                        <label htmlFor={`service-${service._id}`} className="cursor-pointer">
                             {service.name} - {service.duration} mins - {service.price} SEK
                         </label>
                     </li>

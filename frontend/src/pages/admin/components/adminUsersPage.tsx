@@ -108,18 +108,24 @@ const AdminUsersPage = () => {
     const userColumns = ['name', 'email', 'roles']
 
     return (
-        <div className="p-4">
-            <h2 className="text-2xl font-semibold text-center mb-6" >Manage Users</h2>
-            <SearchComponent onSearch={handleSearch} placeholder="Search users..." />
-            <DialogComponent title="Create new user" triggerText="Create" onConfirm={() => {}}>
-                <CreateUserComponent buttonText="Create user" />
-            </DialogComponent>
-            <TableComponent<User>
-                data={filteredUsers}
-                columns={userColumns}
-                onEdit={handleEditUser}
-                onDelete={handleDeleteUser}
-            />
+        <div className="p-4 max-w-full md:max-w-4xl mx-auto">
+            <h2 className="text-2xl font-semibold text-center mb-6">Manage Users</h2>
+            <div className="mb-4">
+                <SearchComponent onSearch={handleSearch} placeholder="Search users..." />
+            </div>
+            <div className="flex justify-center mb-4">
+                <DialogComponent title="Create new user" triggerText="Create" onConfirm={() => {}}>
+                    <CreateUserComponent buttonText="Create user" />
+                </DialogComponent>
+            </div>
+            <div className="overflow-x-auto">
+                <TableComponent<User>
+                    data={filteredUsers}
+                    columns={userColumns}
+                    onEdit={handleEditUser}
+                    onDelete={handleDeleteUser}
+                />
+            </div>
         </div>
     )
 }
