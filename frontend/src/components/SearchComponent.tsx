@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
 interface SearchComponentProps {
     onSearch: (searchTerm: string) => void
@@ -13,7 +15,6 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value)
-        console.log(searchTerm)
         onSearch(e.target.value)
     }
 
@@ -23,16 +24,17 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
     }
 
     return (
-        <>
-            <input
+        <div className="flex items-center space-x-2">
+            <Input
                 type="text"
                 value={searchTerm}
                 onChange={handleInputChange}
                 placeholder={placeholder}
-                className="border p-2 rounded"
             />
-            <button onClick={handleClearSearch} >Clear</button>
-        </>
+            <Button onClick={handleClearSearch} variant="outline">
+                Clear
+            </Button>
+        </div>
     )
 }
 
