@@ -42,62 +42,64 @@ const FormComponent: React.FC<FormComponentProps> = ({ fields, buttonText, onSub
     }
 
     return (
-        <div className='flex space-evenly'>
-            <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
-                {fields.map((field, index) => (
-                    <div key={index} className='flex flex-col space-y-1'>
-                        <Label>{field.label}</Label> {/* Använd Shadcn Label */}
-                        {field.type === 'text' && (
-                            <Input
-                                type="text"
-                                placeholder={field.placeholder}
-                                name={field.name}
-                                onChange={handleChange}
-                            />
-                        )}
-                        {field.type === 'email' && (
-                            <Input
-                                type="email"
-                                placeholder={field.placeholder}
-                                name={field.name}
-                                onChange={handleChange}
-                            />
-                        )}
-                        {field.type === 'password' && (
-                            <Input
-                                type="password"
-                                placeholder={field.placeholder}
-                                name={field.name}
-                                onChange={handleChange}
-                            />
-                        )}
-                        {field.type === 'select' && field.options && (
-                            <Select onValueChange={(value) => handleSelectChange(field.name, value)}>
-                                <SelectTrigger>
-                                    <SelectValue placeholder={field.placeholder || "Select an option"} />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {field.options.map(option => (
-                                        <SelectItem key={option.value} value={option.value}>
-                                            {option.label}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        )}
-                        {field.type === 'checkbox' && (
-                            <Checkbox
-                                checked={Boolean(formData[field.name])}
-                                onCheckedChange={(checked) => setFormData({ ...formData, [field.name]: checked })}
-                            />
-                        )}
-                    </div>
-                ))}
-                <Button type="submit" variant="default"> {/* Använd Shadcn Button */}
-                    {buttonText}
-                </Button>
-            </form>
-        </div>
+        <form className="flex flex-col space-y-4 bg-white p-8 shadow-lg rounded-md max-w-sm w-full" onSubmit={handleSubmit}>
+            {fields.map((field, index) => (
+                <div key={index} className='flex flex-col space-y-1'>
+                    <Label className="text-left text-sm font-medium text-gray-700">{field.label}</Label> {/* Behåller din Label */}
+                    {field.type === 'text' && (
+                        <Input
+                            type="text"
+                            placeholder={field.placeholder}
+                            name={field.name}
+                            onChange={handleChange}
+                            className="border-gray-300 rounded-md"
+                        />
+                    )}
+                    {field.type === 'email' && (
+                        <Input
+                            type="email"
+                            placeholder={field.placeholder}
+                            name={field.name}
+                            onChange={handleChange}
+                            className="border-gray-300 rounded-md"
+                        />
+                    )}
+                    {field.type === 'password' && (
+                        <Input
+                            type="password"
+                            placeholder={field.placeholder}
+                            name={field.name}
+                            onChange={handleChange}
+                            className="border-gray-300 rounded-md"
+                        />
+                    )}
+                    {field.type === 'select' && field.options && (
+                        <Select onValueChange={(value) => handleSelectChange(field.name, value)}>
+                            <SelectTrigger className="border-gray-300 rounded-md">
+                                <SelectValue placeholder={field.placeholder || "Select an option"} />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {field.options.map(option => (
+                                    <SelectItem key={option.value} value={option.value}>
+                                        {option.label}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    )}
+                    {field.type === 'checkbox' && (
+                        <Checkbox
+                            checked={Boolean(formData[field.name])}
+                            onCheckedChange={(checked) => setFormData({ ...formData, [field.name]: checked })}
+                            className="mt-1"
+                        />
+                    )}
+                </div>
+            ))}
+            <Button type="submit" variant="default" className="w-full bg-black text-white hover:bg-gray-700">
+                {buttonText}
+            </Button>
+        </form>
     )
 }
 
