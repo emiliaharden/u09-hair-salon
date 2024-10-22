@@ -14,21 +14,38 @@ import { Booking } from "../models/BookingModel";
 export const createBookingController = async (req: Request, res: Response) => {
   try {
     const userId = (req as any).user.id;
-    const { service, employee, date, notes } = req.body;
+    const { service, employee, date, startTime, notes } = req.body;
+
+    if (!service || service.length === 0) {
+      return res
+        .status(400)
+        .json({ message: "At least one service is required" });
+    }
+
+    console.log("Selected services:", service);
 
     if (!employee) {
       return res.status(400).json({ message: "Employee ID is required" });
     }
 
+    if (!date || !startTime) {
+      return res
+        .status(400)
+        .json({ message: "Date and start time are required" });
+    }
+
     console.log("Create booking request received:", req.body);
 
+    // Kalla createBooking-funktionen med rätt parametrar
     const newBooking = await createBooking({
       ...req.body,
       user: userId,
     });
 
+    // Om bokningen skapas framgångsrikt, returnera bokningen
     return res.status(201).json(newBooking);
   } catch (error: any) {
+    console.error("Error creating booking:", error.message);
     return res.status(400).json({ message: error.message });
   }
 };
@@ -119,24 +136,17 @@ export const updateBookingController = async (req: Request, res: Response) => {
     }
 
     const userId = (req as any).user.id;
-    console.log("User from token:", userId);
-    console.log("Booking owner (user ObjectId:", booking.user);
+    const userRoles = (req as any).user.roles;
 
-    if (
-      !(req as any).user.roles.includes("admin") &&
-      booking.user.toString() !== userId
-    ) {
-      console.log("Access denied: User does not own the booking");
+    // Kontrollera om användaren är ägare av bokningen eller admin
+    if (!userRoles.includes("admin") && booking.user.toString() !== userId) {
       return res.status(403).json({ message: "Access denied" });
     }
 
-    const updatedBooking = await Booking.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
+    // Använd updateBooking från tjänsten för att uppdatera bokningen
+    const updatedBooking = await updateBooking(req.params.id, req.body);
 
-    res.status(200).json(updatedBooking);
+    return res.status(200).json(updatedBooking);
   } catch (error: any) {
     res.status(400).json({ message: error.message });
   }
@@ -145,26 +155,25 @@ export const updateBookingController = async (req: Request, res: Response) => {
 export const deleteBookingController = async (req: Request, res: Response) => {
   try {
     const booking = await Booking.findById(req.params.id);
-
     if (!booking) {
       return res.status(404).json({ message: "Booking not found" });
     }
 
     const userId = (req as any).user.id;
-    console.log("User from token:", userId);
-    console.log("Booking owner (user ObjectId:", booking.user);
+    const userRoles = (req as any).user.roles;
 
-    if (
-      !(req as any).user.roles.includes("admin") &&
-      booking.user.toString() !== userId
-    ) {
-      console.log("Access denied: User does not own the booking");
+    console.log("Deleting booking for user ID:", userId); // Logga användar-ID
+    console.log("Booking owner ID:", booking.user); // Logga bokningsägaren
+
+    if (!userRoles.includes("admin") && booking.user.toString() !== userId) {
       return res.status(403).json({ message: "Access denied" });
     }
 
-    await Booking.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: "Booking deleted successfully" });
+    await deleteBooking(req.params.id);
+
+    return res.status(200).json({ message: "Booking deleted successfully" });
   } catch (error: any) {
+    console.error("Error in deleteBookingController:", error.message);
     res.status(400).json({ message: error.message });
   }
 };

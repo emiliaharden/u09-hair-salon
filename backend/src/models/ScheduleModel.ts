@@ -1,10 +1,12 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
+import { IBooking } from "./BookingModel";
 
 export interface ISlot {
   startTime: string;
   endTime: string;
   isBooked: boolean;
-  booking?: mongoose.Types.ObjectId;
+  booking?: IBooking | mongoose.Types.ObjectId; // Kan vara ett bokningsobjekt eller en ObjectId
+  _id?: mongoose.Types.ObjectId;
 }
 
 export interface ISchedule extends Document {
@@ -14,11 +16,12 @@ export interface ISchedule extends Document {
 }
 
 // mongoose schema för slot
+// mongoose schema för slot
 const SlotSchema = new Schema<ISlot>({
   startTime: { type: String, required: true },
   endTime: { type: String, required: true },
   isBooked: { type: Boolean, default: false },
-  booking: { type: Schema.Types.ObjectId, ref: "Booking", required: false },
+  booking: { type: Schema.Types.ObjectId, ref: "Booking", required: false }, // Koppling till bokning
 });
 
 // Mongoose Schema för schedule

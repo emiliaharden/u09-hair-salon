@@ -1,3 +1,4 @@
+import { Button } from './ui/button'
 import { Dialog, DialogContent, DialogTitle, DialogTrigger, DialogDescription } from './ui/dialog'
 import { useState } from 'react'
 
@@ -33,15 +34,21 @@ const DialogComponent: React.FC<DialogComponentProps> = ({
         <>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogTrigger asChild>
-                    <button onClick={() => setIsDialogOpen(true)}>{triggerText}</button>
+                    <Button onClick={() => setIsDialogOpen(true)} variant="default">
+                        {triggerText}
+                    </Button>
                 </DialogTrigger>
                 <DialogContent>
                     <DialogTitle>{title}</DialogTitle>
                     <DialogDescription>{description}</DialogDescription>
                     <>{isDeleteConfirmation ? null : children}</>
-                    <div>
-                        <button onClick={handleConfirm}>{confirmText}</button>
-                        <button onClick={() => setIsDialogOpen(false)}>{cancelText}</button>
+                    <div className="mt-4 flex justify-end space-x-2">
+                        <Button variant={isDeleteConfirmation ? 'destructive' : 'default'} onClick={handleConfirm}>
+                            {confirmText}
+                        </Button>
+                        <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+                            {cancelText}
+                        </Button>
                     </div>
                 </DialogContent>
             </Dialog>

@@ -51,6 +51,7 @@ const UserBookingsList = () => {
     }, [user])
 
     const handleCancelBooking = async (bookingId: string) => {
+        console.log('Canceling booking with ID:', bookingId)
         const token = localStorage.getItem('token')
         if (!token) {
             console.error('No token found')
@@ -97,17 +98,21 @@ const UserBookingsList = () => {
                         <h3 className="text-lg font-semibold">
                             {booking.service && booking.service.length > 0 ? booking.service.map((s) => s.name).join(', ') : 'No services available'}</h3>
                         <p className="text-gray-600">
-                            <strong>Date:</strong> {new Date(booking.date).toLocaleDateString()}
-                        </p>
-                        <p className="text-gray-600">
-                            <strong>Time:</strong>{' '}
-                            {new Date(booking.date).toLocaleTimeString([], {
-                                hour: '2-digit',
-                                minute: '2-digit',
+                            <strong>Date:</strong> {new Date(booking.date).toLocaleDateString('sv-SE', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                timeZone: 'Europe/Stockholm'
                             })}
                         </p>
                         <p className="text-gray-600">
-                            <strong>Status:</strong> {booking.status}
+                            <strong>Time:</strong>{' '}
+                            {new Date(booking.startTime).toLocaleTimeString('sv-SE', {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                hour12: false,
+                                timeZone: 'Europe/Stockholm' // Använd svensk tidzon
+                            })}
                         </p>
                         <p className="text-gray-600">
                             <strong>Employee:</strong> {booking.employee.name}
@@ -118,23 +123,19 @@ const UserBookingsList = () => {
 
                         <div className="mt-4">
                             <DialogComponent
-                                title="Cancel Booking"
-                                description="Are you sure you want to cancel this booking?"
-                                triggerText={
-                                    <button className="bg-gray-200 text-black border border-black py-2 px-4 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50">
-                                        Cancel appointment
-                                    </button>
-                                }
-                                onConfirm={() => handleCancelBooking(booking._id)}
-                                confirmText="Yes, cancel"
-                                cancelText="No, keep it"
-                                isDeleteConfirmation={true}
-                            />
+                             title="Cancel Booking"
+                             description="Are you sure you want to cancel this booking?"
+                             triggerText="Cancel appointment"
+                             onConfirm={() => handleCancelBooking(booking._id)}
+                             confirmText="Yes, cancel"
+                             cancelText="No, keep it"
+                             isDeleteConfirmation={true}
+                           />
                         </div>
                     </div>
                 ))
             ) : (
-                <p>No bookings found</p>
+                <p>Du har inga kommande bokningar</p>
             )}
         </div>
     )

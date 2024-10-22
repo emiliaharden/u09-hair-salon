@@ -1,7 +1,7 @@
-import { NavLink, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useUserStore } from '@/store/useUserStore'
 
-const BookingLink: React.FC = () => {
+const BookingLink: React.FC<React.PropsWithChildren> = ({ children }) => {
     const user = useUserStore((state) => state.user)
     const navigate = useNavigate()
 
@@ -13,18 +13,7 @@ const BookingLink: React.FC = () => {
         }
     }
 
-    return (
-        <NavLink
-            to="/dashboard/bookings"
-            className={({ isActive }) => (isActive ? 'text-blue-600' : 'text-black')}
-            onClick={(e) => {
-                e.preventDefault()
-                handleClick()
-            }}
-        >
-            Bokning
-        </NavLink>
-    )
+    return <div onClick={handleClick}>{children}</div>
 }
 
 export default BookingLink
