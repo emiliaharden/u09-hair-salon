@@ -34,6 +34,7 @@ The project is designed with ease of use, responsive design for mobile users, an
 - Edit and remove slots from the schedule _(in development)_
 - View and manage users' bookings in a calendar interface _(in development)_
 - Manage user accounts (create, update, delete)
+- Search for users
 
 ### **Other**:
 
@@ -116,6 +117,14 @@ npm run dev
 ```
 Navigate to http://localhost:5173 in your browser to start using the system.
 ```
-## **API Documentation**
+## API Collections
 
-Added in json file
+To test the APIs, you can import Postman/Bruno API collections located in the `/resources/api-collections` folder.
+
+### How to Import into Postman/Bruno
+1. Download the relevant JSON file from `/resources/api-collections`.
+2. Open Postman or Bruno.
+3. Go to `File -> Import` and select the downloaded JSON file.
+4. You will now be able to test all APIs directly from the tool.
+
+
