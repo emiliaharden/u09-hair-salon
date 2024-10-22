@@ -1,0 +1,104 @@
+{
+  "info": {
+    "name": "u09_hair_salon_services",
+    "description": "### **Service Routes**\n\n| Method | Endpoint            | Description                                   | Protected |\n| ------ | ------------------- | --------------------------------------------- | --------- |\n| POST   | /api/services     | Create a new service (admin only).            | Yes       |\n| GET    | /api/services/:id | Get a specific service by ID.                 | Yes       |\n| GET    | /api/services     | Get all available services.                   | No        |\n| PUT    | /api/services/:id | Update a specific service by ID (admin only). | Yes       |\n| DELETE | /api/services/:id | Delete a specific service by ID (admin only). | Yes       |",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "All services",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "description": "Use Bearer Token in Auth.",
+        "url": {
+          "raw": "http://localhost:3000/api/services",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "bruno",
+      "event": []
+    },
+    {
+      "name": "Create a service",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "description": "```\n{\n  \"name\": \"Haircolor\",\n  \"duration\": 120,\n  \"price\": 400\n}",
+        "url": {
+          "raw": "http://localhost:3000/api/services",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Haircolor\",\n  \"duration\": 120,\n  \"price\": 400\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Delete a service",
+      "event": [],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "description": "Use Bearer Token in Auth. ",
+        "url": {
+          "raw": "http://localhost:3000/api/services/:id",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "Update a service",
+      "event": [],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "description": "```\n{\n  \"name\": \"Haircolor Balayage\",\n  \"duration\": 120,\n  \"price\": 400\n}",
+        "url": {
+          "raw": "http://localhost:3000/api/services/:id",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Haircolor Balayage\",\n  \"duration\": 120,\n  \"price\": 400\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "variable": []
+}

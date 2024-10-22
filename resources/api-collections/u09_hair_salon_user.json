@@ -1,0 +1,178 @@
+{
+  "info": {
+    "name": "u09_hair_salon",
+    "description": "### **User Routes**\n\n| Method | Endpoint                           | Description                                         | Protected |\n| ------ | ---------------------------------- | --------------------------------------------------- | --------- |\n| GET    | /api/users                       | Get all users (admin only).                         | Yes       |\n| GET    | /api/admins                      | Get all admins.                                     | Yes       |\n| PUT    | /api/user/:id                    | Update a user (admin only).                         | Yes       |\n| DELETE | /api/user/:id                    | Delete a user (admin only).                         | Yes       |\n| PUT    | /api/user/:id/update-password    | Update the user's password.                         | Yes       |\n| PUT    | /api/user/:id/reset-password     | Reset a user's password (requires token and email). | Yes       |\n| POST   | /api/user/request-reset-password | Request a password reset link via email.            | No        |\n| PUT    | /api/user/reset-password/:token  | Reset password using token.                         | No        |",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "bruno",
+      "event": []
+    },
+    {
+      "name": "Create user",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "description": "```json\n{\n  \"name\": \"name\",\n  \"email\": \"email@email.se\",\n  \"password\": \"123456\",\n  \"roles\": \"user\"\n}",
+        "url": {
+          "raw": "http://localhost:3000/api/user",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Delete user",
+      "event": [],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "description": "```json \n{\n  \"id\": \"userId\"\n}",
+        "url": {
+          "raw": "http://localhost:3000/api/user/:id",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": \"userId\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Get users",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "description": "Use admin Bearer token in Auth.",
+        "url": {
+          "raw": "http://localhost:3000/api/users",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Reset password email",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "description": "",
+        "url": {
+          "raw": "",
+          "host": [],
+          "path": [],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "Reset password token url",
+      "event": [],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "description": "",
+        "url": {
+          "raw": "",
+          "host": [],
+          "path": [],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "Update password",
+      "event": [],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "description": "```\n{\n  \"currentPassword\": \"123456\",\n  \"newPassword\": \"7891011\"\n}",
+        "url": {
+          "raw": "http://localhost:3000/api/user/:id/update-password",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"currentPassword\": \"123456\",\n  \"newPassword\": \"7891011\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Update user",
+      "event": [],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "description": "```json\n\n{\n  \"id\": \"userId\",\n  \"name\": \"name\",\n  \"email\": \"email@email.se\",\n  \"password\": \"123456\"\n}",
+        "url": {
+          "raw": "http://localhost:3000/api/user/:id",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "variable": []
+}
