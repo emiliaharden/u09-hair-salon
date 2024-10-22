@@ -2,7 +2,13 @@ import { useEffect, useState } from 'react'
 import ServiceSelectionComponent from '@/components/ServiceSelectionComponent'
 import { API_URL } from '@/config'
 import { Button } from '@/components/ui/button'
-import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select'
+import {
+    Select,
+    SelectTrigger,
+    SelectContent,
+    SelectItem,
+    SelectValue,
+} from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -55,16 +61,15 @@ const BookingForm = () => {
         fetchEmployees()
     }, [])
 
-    // Hämta lediga tider (slots) baserat på vald admin och datum
     useEffect(() => {
         if (date && employee) {
             const fetchAvailableSlots = async () => {
-                const token = localStorage.getItem('token')
+                const token = localStorage.getItem('token');
                 if (!token) {
-                    console.error('No token found')
-                    return
+                    console.error('No token found');
+                    return;
                 }
-
+    
                 try {
                     const response = await fetch(`${API_URL}/schedules/available?employee=${employee}&date=${date}`, {
                         method: 'GET',
@@ -72,33 +77,33 @@ const BookingForm = () => {
                             'Content-Type': 'application/json',
                             Authorization: `Bearer ${token}`,
                         },
-                    })
-
+                    });
+    
                     if (!response.ok) {
-                        throw new Error(`Failed to fetch available slots: ${response.status}`)
+                        throw new Error(`Failed to fetch available slots: ${response.status}`);
                     }
-
-                    const data = await response.json()
-                    console.log("API response:", data)
-
-                    if (data.length > 0) {
-                        const slots = data.flatMap((schedule: Schedule) =>
-                            schedule.slots.filter((slot: Slot) => !slot.isBooked)
-                        )
-                        setAvailableSlots(slots)
-                    } else {
-                        setError('No available slots for the selected date and employee.')
-                        setAvailableSlots([])
-                    }
+    
+                    const data = await response.json();
+                    console.log("API response:", data);  // Logga hela API-responsen
+    
+                    // Kontrollera om det finns dubbletter genom att skapa en uppsättning med startTime
+                    const uniqueSlots = data.flatMap((schedule: Schedule) =>
+                        schedule.slots.filter((slot: Slot) => !slot.isBooked)
+                    );
+    
+                    console.log("Unique Slots:", uniqueSlots);  // Logga de unika slotsen
+    
+                    setAvailableSlots(uniqueSlots);
                 } catch (error) {
-                    console.error('Error fetching available slots:', error)
-                    setError('Failed to fetch available slots.')
+                    console.error('Error fetching available slots:', error);
+                    setError('Failed to fetch available slots.');
                 }
-            }
-
-            fetchAvailableSlots()
+            };
+    
+            fetchAvailableSlots();
         }
-    }, [date, employee])
+    }, [date, employee]);
+    
 
     // Funktion för att kalkylera sluttiden baserat på starttid och valda tjänster
     const calculateEndTime = (startTime: string, services: Service[]): string => {
@@ -110,24 +115,26 @@ const BookingForm = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-    
+
         if (!selectedServices.length) {
             console.error('No services selected')
             return
         }
-    
-        const selectedServiceObjects = availableServices.filter(service => selectedServices.includes(service._id))
+
+        const selectedServiceObjects = availableServices.filter((service) =>
+            selectedServices.includes(service._id)
+        )
         const endDateTimeUTC = calculateEndTime(startTime, selectedServiceObjects)
-    
+
         console.log('Start DateTime (UTC):', startTime)
         console.log('End DateTime (UTC):', endDateTimeUTC)
-    
+
         const token = localStorage.getItem('token')
         if (!token) {
             console.error('No token found')
             return
         }
-    
+
         const bookingData = {
             service: selectedServices,
             date,
@@ -136,9 +143,9 @@ const BookingForm = () => {
             notes,
             employee,
         }
-    
+
         console.log('Booking data:', bookingData)
-    
+
         try {
             const response = await fetch(`${API_URL}/bookings`, {
                 method: 'POST',
@@ -148,26 +155,27 @@ const BookingForm = () => {
                 },
                 body: JSON.stringify(bookingData),
             })
-    
+
             if (!response.ok) {
                 throw new Error('Failed to create booking')
             }
-    
+
             const data = await response.json()
             console.log('Booking created successfully:', data)
-    
+
             // Visa en bekräftelse-toast när bokningen är framgångsrik
             toast.success('Booking created successfully!')
-    
         } catch (error) {
             console.error('Error creating booking:', error)
             toast.error('Failed to create booking')
         }
     }
 
-
     return (
-        <form onSubmit={handleSubmit} className="space-y-6 bg-white p-8 rounded-lg shadow-lg max-w-lg w-full">
+        <form
+            onSubmit={handleSubmit}
+            className="space-y-6 bg-white p-8 rounded-lg shadow-lg max-w-lg w-full"
+        >
             <h2 className="text-2xl font-semibold text-center">Create a Booking</h2>
 
             <div className="space-y-4">
@@ -212,12 +220,17 @@ const BookingForm = () => {
                         </SelectTrigger>
                         <SelectContent>
                             {availableSlots.map((slot, index) => (
-                                <SelectItem key={index} value={slot.startTime}>
+                                <SelectItem
+                                    key={`${slot.startTime}-${index}`}
+                                    value={slot.startTime}
+                                >
                                     {new Date(slot.startTime).toLocaleDateString([], {
                                         year: 'numeric',
                                         month: '2-digit',
                                         day: '2-digit',
-                                    })} - {new Date(slot.startTime).toLocaleTimeString([], {
+                                    })}{' '}
+                                    -{' '}
+                                    {new Date(slot.startTime).toLocaleTimeString([], {
                                         hour: '2-digit',
                                         minute: '2-digit',
                                     })}
@@ -238,7 +251,12 @@ const BookingForm = () => {
                 </div>
             </div>
 
-            <Button variant="default" size="lg" className="w-full bg-black text-white hover:bg-gray-700" type="submit">
+            <Button
+                variant="default"
+                size="lg"
+                className="w-full bg-black text-white hover:bg-gray-700"
+                type="submit"
+            >
                 Create Booking
             </Button>
         </form>
