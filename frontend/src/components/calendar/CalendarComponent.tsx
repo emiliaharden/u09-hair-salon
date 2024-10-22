@@ -3,6 +3,7 @@ import CalendarItem from './CalendarItem';
 import { useUserStore } from '@/store/useUserStore';
 import { Schedule } from '@/interfaces/Schedule';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion'; // Import accordion components if you are using Shadcn
+import { API_URL } from '@/config';
 
 const CalendarComponent = () => {
     const user = useUserStore((state) => state.user);
@@ -11,7 +12,7 @@ const CalendarComponent = () => {
     useEffect(() => {
         const fetchSchedules = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/api/schedules/${user?.id}`, {
+                const response = await fetch(`${API_URL}/schedules/${user?.id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
