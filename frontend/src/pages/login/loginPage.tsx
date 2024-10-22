@@ -1,13 +1,13 @@
-import { useNavigate, Link } from 'react-router-dom'
-import FormComponent from '../../components/formComponents'
-import { useUserStore } from '../../store/useUserStore'
-import { useState } from 'react'
-import { API_URL } from '@/config'
+import { useNavigate, Link } from 'react-router-dom';
+import FormComponent from '../../components/formComponents';
+import { useUserStore } from '../../store/useUserStore';
+import { useState } from 'react';
+import { API_URL } from '@/config';
 
 const LoginPage = () => {
-    const [error, setError] = useState<string | null>(null)
-    const setUser = useUserStore((state) => state.setUser)
-    const navigate = useNavigate()
+    const [error, setError] = useState<string | null>(null);
+    const setUser = useUserStore((state) => state.setUser);
+    const navigate = useNavigate();
 
     const loginFields = [
         {
@@ -22,10 +22,17 @@ const LoginPage = () => {
             placeholder: 'Enter password',
             name: 'password',
         },
-    ]
+    ];
 
-    const handleLogin = async (formData: { [key: string]: string }) => {
-        const { email, password } = formData
+    const handleLogin = async (formData: { [key: string]: string | boolean }) => {
+        // Converts boolean to strings 
+        const preparedData = Object.keys(formData).reduce((acc, key) => {
+            acc[key] = typeof formData[key] === 'boolean' ? String(formData[key]) : formData[key];
+            return acc;
+        }, {} as { [key: string]: string });
+
+        const { email, password } = preparedData; 
+
         try {
             const response = await fetch(`${API_URL}/auth/login`, {
                 method: 'POST',
@@ -33,27 +40,27 @@ const LoginPage = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ email, password }),
-            })
+            });
 
-            const data = await response.json()
+            const data = await response.json();
 
             if (response.ok) {
-                localStorage.setItem('token', data.token)
-                setUser(data.user)
+                localStorage.setItem('token', data.token);
+                setUser(data.user);
 
                 if (data.user.roles.includes('admin')) {
-                    navigate('/admin/dashboard')
+                    navigate('/admin/dashboard');
                 } else {
-                    navigate('/dashboard')
+                    navigate('/dashboard');
                 }
             } else {
-                setError(data.message || 'Login failed')
+                setError(data.message || 'Login failed');
             }
         } catch (error) {
-            setError('Error login in')
-            console.error('Error logging in:', error)
+            setError('Error login in');
+            console.error('Error logging in:', error);
         }
-    }
+    };
 
     return (
         <div className="max-w-md mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-lg mt-20">
@@ -73,7 +80,7 @@ const LoginPage = () => {
                 </p>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default LoginPage
+export default LoginPage;
