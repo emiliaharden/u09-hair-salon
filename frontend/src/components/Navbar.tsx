@@ -17,6 +17,10 @@ const Navbar: React.FC = () => {
         setIsMenuOpen(!isMenuOpen)
     }
 
+    const closeMenu = () => {
+        setIsMenuOpen(false)
+    }
+
     return (
         <header className="relative">
             <div className="flex justify-center py-4">
@@ -46,6 +50,7 @@ const Navbar: React.FC = () => {
                             className={({ isActive }) =>
                                 isActive ? 'text-blue-600' : 'text-black'
                             }
+                            onClick={closeMenu} // Stänger menyn efter att länken klickas
                         >
                             Home
                         </NavLink>
@@ -56,6 +61,7 @@ const Navbar: React.FC = () => {
                             className={({ isActive }) =>
                                 isActive ? 'text-blue-600' : 'text-black'
                             }
+                            onClick={closeMenu} // Stänger menyn efter att länken klickas
                         >
                             Om Oss
                         </NavLink>
@@ -66,6 +72,7 @@ const Navbar: React.FC = () => {
                             className={({ isActive }) =>
                                 isActive ? 'text-blue-600' : 'text-black'
                             }
+                            onClick={closeMenu} // Stänger menyn efter att länken klickas
                         >
                             Behandlingar
                         </NavLink>
@@ -76,6 +83,7 @@ const Navbar: React.FC = () => {
                             className={({ isActive }) =>
                                 isActive ? 'text-blue-600' : 'text-black'
                             }
+                            onClick={closeMenu} // Stänger menyn efter att länken klickas
                         >
                             Hitta till oss
                         </NavLink>
@@ -86,22 +94,23 @@ const Navbar: React.FC = () => {
                             className={({ isActive }) =>
                                 isActive ? 'text-blue-600' : 'text-black'
                             }
+                            onClick={closeMenu} // Stänger menyn efter att länken klickas
                         >
                             Boka tid
                         </NavLink>
                     </li>
                     {!user ? (
                     <li className="block md:hidden">
-                    <NavLink
-                        to="/login"
-                        className={({ isActive }) =>
-                            isActive ? 'text-blue-600' : 'text-black'
-                        }
-                    >
-                        Sign in
-                    </NavLink>
-                </li>
-                
+                        <NavLink
+                            to="/login"
+                            className={({ isActive }) =>
+                                isActive ? 'text-blue-600' : 'text-black'
+                            }
+                            onClick={closeMenu} // Stänger menyn efter att länken klickas
+                        >
+                            Sign in
+                        </NavLink>
+                    </li>
                     ) : (
                         <li>
                             <NavLink
@@ -109,6 +118,7 @@ const Navbar: React.FC = () => {
                                 className={({ isActive }) =>
                                     isActive ? 'text-blue-600' : 'text-black'
                                 }
+                                onClick={closeMenu} // Stänger menyn efter att länken klickas
                             >
                                 {user.name}'s Dashboard
                             </NavLink>
