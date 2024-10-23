@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 const HomePage = () => {
     return (
         <Layout>
-            <div className="border-2 bg-card border-accent p-4 text-center mt-10">
+            <div className="border-2 bg-card rounded-lg p-4 text-center mt-10">
                 <h2 className="text-2xl md:text-3xl font-bold mb-4">Welcome to us!</h2>
                 <hr className="mt-2 mb-4 w-full md:w-3/4 mx-auto" />
 
@@ -25,7 +25,8 @@ const HomePage = () => {
                 <BookingLink>
                     <Button
                         size="lg"
-                        className="bg-button t-8 w-full md:w-auto h-12 md:h-14 text-base md:text-lg"
+                        variant="default"
+                        className="t-8 w-full md:w-auto h-12 md:h-14 text-base md:text-lg"
                     >
                         Want to book an appointment?
                     </Button>
