@@ -14,7 +14,7 @@ const UserNavbar = () => {
 
     return (
         <>
-            {/* Navbar för desktopversionen */}
+            {/* Navbar for desktop version */}
             <nav className="hidden sm:block w-64 p-6 bg-white border border-gray-300 rounded-lg shadow-md">
                 <ul className="space-y-4">
                     <li>
@@ -34,7 +34,7 @@ const UserNavbar = () => {
                                 isActive ? 'text-blue-600 font-semibold' : 'text-gray-700'
                             }
                         >
-                            Kommande Bokningar
+                            Upcoming Bookings
                         </NavLink>
                     </li>
                     <li>
@@ -44,7 +44,7 @@ const UserNavbar = () => {
                                 isActive ? 'text-blue-600 font-semibold' : 'text-gray-700'
                             }
                         >
-                            Boka Tid
+                            Book Appointment
                         </NavLink>
                     </li>
                     {/* <li>
@@ -54,7 +54,7 @@ const UserNavbar = () => {
                                 isActive ? 'text-blue-600 font-semibold' : 'text-gray-700'
                             }
                         >
-                            Bokningshistorik
+                            Booking History
                         </NavLink>
                     </li> */}
                     <li>
@@ -64,7 +64,7 @@ const UserNavbar = () => {
                                 isActive ? 'text-blue-600 font-semibold' : 'text-gray-700'
                             }
                         >
-                            Min Profil
+                            My Profile
                         </NavLink>
                     </li>
                     <li>
@@ -72,13 +72,13 @@ const UserNavbar = () => {
                             onClick={handleLogout}
                             className="text-gray-700 hover:text-red-600 font-semibold"
                         >
-                            Logga Ut
+                            Log Out
                         </button>
                     </li>
                 </ul>
             </nav>
 
-            {/* Navbar för mobilversionen med ikoner från lucide-react */}
+            {/* Navbar for mobile version with icons from lucide-react */}
             <nav className="sm:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-300 shadow-md flex justify-around p-2">
                 <NavLink
                     to="/dashboard"

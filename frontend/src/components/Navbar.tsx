@@ -24,7 +24,7 @@ const Navbar: React.FC = () => {
     return (
         <header className="relative">
             <div className="flex justify-center py-4">
-                <h1 className="text-3xl font-bold">Salong Saxen</h1>
+                <h1 className="text-3xl font-bold">Lumi Locks</h1>
             </div>
 
             {/* Mobilnav */}
@@ -63,7 +63,7 @@ const Navbar: React.FC = () => {
                             }
                             onClick={closeMenu} // Stänger menyn efter att länken klickas
                         >
-                            Om Oss
+                            About
                         </NavLink>
                     </li>
                     <li>
@@ -74,7 +74,7 @@ const Navbar: React.FC = () => {
                             }
                             onClick={closeMenu} // Stänger menyn efter att länken klickas
                         >
-                            Behandlingar
+                            Treatments
                         </NavLink>
                     </li>
                     <li>
@@ -85,7 +85,7 @@ const Navbar: React.FC = () => {
                             }
                             onClick={closeMenu} // Stänger menyn efter att länken klickas
                         >
-                            Hitta till oss
+                            Contact
                         </NavLink>
                     </li>
                     <li>
@@ -96,7 +96,7 @@ const Navbar: React.FC = () => {
                             }
                             onClick={closeMenu} // Stänger menyn efter att länken klickas
                         >
-                            Boka tid
+                            Book now
                         </NavLink>
                     </li>
                     {!user ? (
