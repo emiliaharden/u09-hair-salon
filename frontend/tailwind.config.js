@@ -5,7 +5,6 @@ module.exports = {
         './src/**/*.{js,jsx,ts,tsx}',
         './src/components/**/*.{js,jsx,ts,tsx}',
         './src/pages/**/*.{js,jsx,ts,tsx}',
-        './node_modules/@shadcn/ui/**/*.{js,ts,jsx,tsx}', // ShadCN content path
     ],
     theme: {
         extend: {
@@ -83,8 +82,5 @@ module.exports = {
             },
         },
     },
-    plugins: [
-        require('tailwindcss-animate'),
-        require('@tailwindcss/forms'), // ShadCN plugin for forms
-    ],
+    plugins: [require('tailwindcss-animate')],
 }
