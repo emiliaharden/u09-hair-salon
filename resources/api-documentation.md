@@ -51,5 +51,3 @@
 | DELETE | /api/user/:id                    | Delete a user (admin only).                         | Yes       |
 | PUT    | /api/user/:id/update-password    | Update the user's password.                         | Yes       |
 | PUT    | /api/user/:id/reset-password     | Reset a user's password (requires token and email). | Yes       |
-| POST   | /api/user/request-reset-password | Request a password reset link via email.            | No        |
-| PUT    | /api/user/reset-password/:token  | Reset password using token.                         | No        |
