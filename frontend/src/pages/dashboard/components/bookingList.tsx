@@ -98,7 +98,7 @@ const UserBookingsList = () => {
                         <h3 className="text-lg font-semibold">
                             {booking.service && booking.service.length > 0 ? booking.service.map((s) => s.name).join(', ') : 'No services available'}</h3>
                         <p className="text-gray-600">
-                            <strong>Date:</strong> {new Date(booking.date).toLocaleDateString('sv-SE', {
+                            <strong>Date:</strong> {new Date(booking.date).toLocaleDateString('en-GB', {
                                 year: 'numeric',
                                 month: 'long',
                                 day: 'numeric',
@@ -107,11 +107,11 @@ const UserBookingsList = () => {
                         </p>
                         <p className="text-gray-600">
                             <strong>Time:</strong>{' '}
-                            {new Date(booking.startTime).toLocaleTimeString('sv-SE', {
+                            {new Date(booking.startTime).toLocaleTimeString('en-GB', {
                                 hour: '2-digit',
                                 minute: '2-digit',
                                 hour12: false,
-                                timeZone: 'Europe/Stockholm' // Använd svensk tidzon
+                                timeZone: 'Europe/Stockholm' // Use Stockholm time zone
                             })}
                         </p>
                         <p className="text-gray-600">
@@ -135,7 +135,7 @@ const UserBookingsList = () => {
                     </div>
                 ))
             ) : (
-                <p>Du har inga kommande bokningar</p>
+                <p>You have no upcoming bookings</p>
             )}
         </div>
     )

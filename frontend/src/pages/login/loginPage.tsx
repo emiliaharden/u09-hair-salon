@@ -57,7 +57,7 @@ const LoginPage = () => {
                 setError(data.message || 'Login failed');
             }
         } catch (error) {
-            setError('Error login in');
+            setError('Error logging in');
             console.error('Error logging in:', error);
         }
     };
@@ -67,15 +67,15 @@ const LoginPage = () => {
             <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
             <FormComponent fields={loginFields} buttonText="Login" onSubmit={handleLogin} />
 
-            {/* Visa felmeddelande om det finns */}
+            {/* Show error message if any */}
             {error && <p className="text-red-500 text-center mt-4">{error}</p>}
 
-            {/* Länk till registreringssidan */}
+            {/* Link to registration page */}
             <div className="text-center mt-4">
                 <p>
-                    Inget konto?{' '}
+                    No account?{' '}
                     <Link to="/register" className="text-blue-600 hover:underline">
-                        Registrera här
+                        Register here
                     </Link>
                 </p>
             </div>
