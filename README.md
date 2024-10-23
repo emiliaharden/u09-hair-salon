@@ -1,6 +1,23 @@
 # **Salong Saxen - Booking System**
 
+## Table of Contents
+1. [Project Status](#project-status)
+2. [Overview](#overview)
+3. [Features](#features)
+    - [User Features](#user-features)
+    - [Admin Features](#admin-features)
+    - [Other](#other)
+4. [Technology](#technology)
+    - [Frontend](#frontend)
+    - [Backend](#backend)
+    - [Other](#other-1)
+5. [Installation](#installation)
+6. [API Collections](#api-collections)
+7. [VITE PWA Documentation](#vite-pwa-documentation)
+
 ## **Project Status**
+...
+
 
 This booking system is still under development, and several features are not fully implemented. The following features are planned but not yet available in the current version:
 
@@ -121,10 +138,29 @@ Navigate to http://localhost:5173 in your browser to start using the system.
 
 To test the APIs, you can import Postman/Bruno API collections located in the `/resources/api-collections` folder.
 
+APIs can be seen at `/resources/api-documentation` folder.
+
 ### How to Import into Postman/Bruno
 1. Download the relevant JSON file from `/resources/api-collections`.
 2. Open Postman or Bruno.
 3. Go to `File -> Import` and select the downloaded JSON file.
 4. You will now be able to test all APIs directly from the tool.
+
+## **Vite PWA Documentation**
+
+This project includes a simple implementation of Vite's Progressive Web App (PWA) integration. Currently, the PWA does not support automatic updates or service worker-based updates. Users need to uninstall and reinstall the app to get the latest version when a new deployment is made.
+
+### How Updates Work Right Now
+
+- The PWA does not automatically update when a new version is deployed.
+- Users must **uninstall** the app and **reinstall** it to access the latest version.
+- Future plans include implementing a service worker to manage automatic updates and cache invalidation.
+
+### Future Plans
+
+- **Automatic updates**: Implementing a service worker that will handle caching and notify users when a new version is available.
+- **Improved user experience**: Adding features like "New Version Available" prompts or automatic updates upon relaunch.
+
+
 
 
