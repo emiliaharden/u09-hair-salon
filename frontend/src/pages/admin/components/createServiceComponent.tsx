@@ -18,6 +18,7 @@ import {
     AccordionTrigger,
     AccordionContent,
 } from '@/components/ui/accordion'
+import Layout from '@/components/Layout'
 
 const CreateServiceComponent = () => {
     const { services, setServices } = useServiceStore()
@@ -153,81 +154,83 @@ const CreateServiceComponent = () => {
     const serviceColumns = ['name', 'duration', 'price']
 
     return (
-        <div className="container mx-auto mt-6">
-            <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
-                    <AccordionTrigger>
-                        <h2 className="text-2xl font-bold">Create New Service</h2>
-                    </AccordionTrigger>
-                    <AccordionContent>
-                        <div className="bg-white shadow-md rounded-lg p-6">
-                            <div className="mb-4">
-                                <Label>Service Name</Label>
-                                <Input
-                                    type="text"
-                                    value={serviceName}
-                                    onChange={(e) => setServiceName(e.target.value)}
-                                    placeholder="Enter service name"
-                                />
+        <Layout>
+            <div className="container mx-auto mt-6">
+                <Accordion type="single" collapsible>
+                    <AccordionItem value="item-1">
+                        <AccordionTrigger>
+                            <h2 className="text-2xl font-bold">Create New Treatment</h2>
+                        </AccordionTrigger>
+                        <AccordionContent>
+                            <div className="p-6 rounded-lg">
+                                <div className="mb-4">
+                                    <Label>Service Name</Label>
+                                    <Input
+                                        type="text"
+                                        value={serviceName}
+                                        onChange={(e) => setServiceName(e.target.value)}
+                                        placeholder="Enter service name"
+                                    />
+                                </div>
+                                <div className="mb-4">
+                                    <Label>Duration (in minutes)</Label>
+                                    <Select
+                                        onValueChange={(value) => setServiceDuration(Number(value))}
+                                    >
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select duration" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="30">30 minutes</SelectItem>
+                                            <SelectItem value="60">1 hour</SelectItem>
+                                            <SelectItem value="90">1.5 hours</SelectItem>
+                                            <SelectItem value="120">2 hours</SelectItem>
+                                            <SelectItem value="180">3 hours</SelectItem>
+                                            <SelectItem value="240">4 hours</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                <div className="mb-4">
+                                    <Label>Price</Label>
+                                    <Select
+                                        onValueChange={(value) => setServicePrice(Number(value))}
+                                    >
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select price" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="100">100 SEK</SelectItem>
+                                            <SelectItem value="200">200 SEK</SelectItem>
+                                            <SelectItem value="300">300 SEK</SelectItem>
+                                            <SelectItem value="400">400 SEK</SelectItem>
+                                            <SelectItem value="500">500 SEK</SelectItem>
+                                            <SelectItem value="1000">1000 SEK</SelectItem>
+                                            <SelectItem value="2000">2000 SEK</SelectItem>
+                                            <SelectItem value="2500">2500 SEK</SelectItem>
+                                            <SelectItem value="3000">3000 SEK</SelectItem>
+                                            <SelectItem value="3500">3500 SEK</SelectItem>
+                                            <SelectItem value="4000">4000 SEK</SelectItem>
+                                            <SelectItem value="4500">4500 SEK</SelectItem>
+                                            <SelectItem value="5000">5000 SEK</SelectItem>
+                                            <SelectItem value="6000">6000 SEK</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                <Button onClick={handleCreateService}>Create Service</Button>
                             </div>
-                            <div className="mb-4">
-                                <Label>Duration (in minutes)</Label>
-                                <Select
-                                    onValueChange={(value) => setServiceDuration(Number(value))}
-                                >
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select duration" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="30">30 minutes</SelectItem>
-                                        <SelectItem value="60">1 hour</SelectItem>
-                                        <SelectItem value="90">1.5 hours</SelectItem>
-                                        <SelectItem value="120">2 hours</SelectItem>
-                                        <SelectItem value="180">3 hours</SelectItem>
-                                        <SelectItem value="240">4 hours</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                            <div className="mb-4">
-                                <Label>Price</Label>
-                                <Select onValueChange={(value) => setServicePrice(Number(value))}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select price" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="100">100 SEK</SelectItem>
-                                        <SelectItem value="200">200 SEK</SelectItem>
-                                        <SelectItem value="300">300 SEK</SelectItem>
-                                        <SelectItem value="400">400 SEK</SelectItem>
-                                        <SelectItem value="500">500 SEK</SelectItem>
-                                        <SelectItem value="1000">1000 SEK</SelectItem>
-                                        <SelectItem value="2000">2000 SEK</SelectItem>
-                                        <SelectItem value="2500">2500 SEK</SelectItem>
-                                        <SelectItem value="3000">3000 SEK</SelectItem>
-                                        <SelectItem value="3500">3500 SEK</SelectItem>
-                                        <SelectItem value="4000">4000 SEK</SelectItem>
-                                        <SelectItem value="4500">4500 SEK</SelectItem>
-                                        <SelectItem value="5000">5000 SEK</SelectItem>
-                                        <SelectItem value="6000">6000 SEK</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                            <Button variant="default" onClick={handleCreateService}>
-                                Create Service
-                            </Button>
-                        </div>
-                    </AccordionContent>
-                </AccordionItem>
-            </Accordion>
+                        </AccordionContent>
+                    </AccordionItem>
+                </Accordion>
 
-            <h3 className="text-xl font-bold mt-6 mb-4">Available Services</h3>
-            <TableComponent<Service>
-                data={services}
-                columns={serviceColumns}
-                onEdit={handleEditService}
-                onDelete={handleDeleteService}
-            />
-        </div>
+                <h3 className="text-xl font-bold mt-6 mb-4">Available Treatments</h3>
+                <TableComponent<Service>
+                    data={services}
+                    columns={serviceColumns}
+                    onEdit={handleEditService}
+                    onDelete={handleDeleteService}
+                />
+            </div>
+        </Layout>
     )
 }
 
