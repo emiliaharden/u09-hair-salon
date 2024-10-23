@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import { useUserStore } from '@/store/useUserStore';
+import Layout from '@/components/Layout';
 
 const CreateScheduleComponent = () => {
     const [date, setDate] = useState('');
@@ -57,51 +58,57 @@ const CreateScheduleComponent = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6 bg-white p-8 rounded-lg shadow-lg max-w-lg w-full">
-            <h2 className="text-2xl font-semibold text-center">Create Schedule</h2>
+        <Layout>
+            <form
+                onSubmit={handleSubmit}
+                className="space-y-6 p-8 rounded-lg shadow-lg max-w-lg w-full"
+            >
+                <h2 className="text-2xl font-semibold text-center">Create Schedule</h2>
 
-            <div className="space-y-4">
-                <div className="flex flex-col">
-                    <label htmlFor="date">Date:</label>
-                    <Input
-                        type="date"
-                        id="date"
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
-                        required
-                        className="border-gray-300 rounded-md"
-                    />
+                <div className="space-y-4">
+                    <div className="flex flex-col">
+                        <label htmlFor="date">Date:</label>
+                        <Input
+                            type="date"
+                            id="date"
+                            value={date}
+                            onChange={(e) => setDate(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label htmlFor="startTime">Start Time:</label>
+                        <Input
+                            type="time"
+                            id="startTime"
+                            value={startTime}
+                            onChange={(e) => setStartTime(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label htmlFor="endTime">End Time:</label>
+                        <Input
+                            type="time"
+                            id="endTime"
+                            value={endTime}
+                            onChange={(e) => setEndTime(e.target.value)}
+                            required
+                        />
+                    </div>
                 </div>
 
-                <div className="flex flex-col">
-                    <label htmlFor="startTime">Start Time:</label>
-                    <Input
-                        type="time"
-                        id="startTime"
-                        value={startTime}
-                        onChange={(e) => setStartTime(e.target.value)}
-                        required
-                        className="border-gray-300 rounded-md"
-                    />
-                </div>
-
-                <div className="flex flex-col">
-                    <label htmlFor="endTime">End Time:</label>
-                    <Input
-                        type="time"
-                        id="endTime"
-                        value={endTime}
-                        onChange={(e) => setEndTime(e.target.value)}
-                        required
-                        className="border-gray-300 rounded-md"
-                    />
-                </div>
-            </div>
-
-            <Button variant="default" size="lg" className="w-full bg-black text-white hover:bg-gray-700" type="submit">
-                Create Schedule
-            </Button>
-        </form>
+                <Button
+                    variant="default"
+                    size="lg"
+                    type="submit"
+                >
+                    Create Schedule
+                </Button>
+            </form>
+        </Layout>
     );
 };
 

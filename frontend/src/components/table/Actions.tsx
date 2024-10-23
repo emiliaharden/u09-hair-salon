@@ -52,7 +52,7 @@ const Actions: React.FC<ActionsProps> = ({ rowData, onEdit, onDelete }) => {
                 title={isUser(rowData) ? 'Edit user' : 'Edit service'}
                 description={isUser(rowData) ? 'Update user details' : 'Update service details'}
                 triggerText={
-                    <span className="text-blue-500 hover:text-blue-700 cursor-pointer">
+                    <span className=" hover:text-blue-700 cursor-pointer">
                         <Pen size={20} />
                     </span>
                 }
@@ -113,7 +113,7 @@ const Actions: React.FC<ActionsProps> = ({ rowData, onEdit, onDelete }) => {
                 title={isUser(rowData) ? 'Delete user' : 'Delete service'}
                 description={`Are you sure you want to delete ${rowData.name}?`}
                 triggerText={
-                    <span className="text-red-500 hover:text-red-700 cursor-pointer">
+                    <span className=" hover:text-red-700 cursor-pointer">
                         <Trash2 size={20} />
                     </span>
                 }
