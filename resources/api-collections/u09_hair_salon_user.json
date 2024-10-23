@@ -89,38 +89,6 @@
       }
     },
     {
-      "name": "Reset password email",
-      "event": [],
-      "request": {
-        "method": "POST",
-        "header": [],
-        "description": "",
-        "url": {
-          "raw": "",
-          "host": [],
-          "path": [],
-          "query": [],
-          "variable": []
-        }
-      }
-    },
-    {
-      "name": "Reset password token url",
-      "event": [],
-      "request": {
-        "method": "PUT",
-        "header": [],
-        "description": "",
-        "url": {
-          "raw": "",
-          "host": [],
-          "path": [],
-          "query": [],
-          "variable": []
-        }
-      }
-    },
-    {
       "name": "Update password",
       "event": [],
       "request": {
