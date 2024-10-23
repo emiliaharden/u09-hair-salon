@@ -1,4 +1,4 @@
-# **Salong Saxen - Booking System**
+# **Salon Lumi Locks - Booking System**
 
 ## Table of Contents
 1. [Project Status](#project-status)
@@ -32,7 +32,7 @@ The system works in its basic form, and more features are planned for future upd
 
 ## **Overview**
 
-Salong Saxen is a school project focusing on a booking system for hair salons. It allows users to book appointments with hairdressers (admins), view their bookings, and reschedule or cancel appointments.
+Salong Lumi Locks is a school project focusing on a booking system for hair salons. It allows users to book appointments with hairdressers (admins), view their bookings, and reschedule or cancel appointments.
 
 The project is designed with ease of use, responsive design for mobile users, and clear interfaces for both users and administrators in mind.
 
