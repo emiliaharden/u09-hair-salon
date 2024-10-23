@@ -85,7 +85,7 @@ const CalendarComponent = () => {
                             .filter((schedule) => new Date(schedule.date).toDateString() === day.toDateString())
                             .map((schedule) => (
                                 <div key={schedule._id} className="mt-2">
-                                    <Button variant="destructive" onClick={() => deleteSchedule(schedule._id)}>
+                                    <Button onClick={() => deleteSchedule(schedule._id)}>
                                         Delete Schedule
                                     </Button>
                                 </div>
@@ -106,7 +106,7 @@ const CalendarComponent = () => {
                                     .filter((schedule) => new Date(schedule.date).toDateString() === day.toDateString())
                                     .map((schedule) => (
                                         <div key={schedule._id} className="mt-2">
-                                            <Button variant="destructive" onClick={() => deleteSchedule(schedule._id)}>
+                                            <Button onClick={() => deleteSchedule(schedule._id)}>
                                                 Delete Schedule
                                             </Button>
                                         </div>
