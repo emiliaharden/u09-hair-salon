@@ -4,47 +4,58 @@
 
 @layer base {
   :root {
-    --background: hsl(180, 100%, 97%); /* ShadCN lightmode bakgrundsfärg */
-    --foreground: hsl(210, 20%, 25%); /* ShadCN textfärg */
-    --card: hsl(0, 0%, 96%); /* ShadCN kortfärg */
-    --card-foreground: hsl(210, 20%, 25%); /* ShadCN text på kort */
+    --background: hsl(210, 60%, 98%); /* Ljusblå bakgrund */
+    --foreground: hsl(210, 20%, 25%); /* Mörkblå textfärg */
+    --card: hsl(0, 0%, 96%); /* Ljusgrå för kort och sektioner */
+    --card-foreground: hsl(210, 20%, 25%); /* Mörkblå text på kort */
     --popover: hsl(0, 0%, 100%); /* Vit bakgrund för popovers */
-    --popover-foreground: hsl(210, 20%, 25%); /* ShadCN textfärg */
-    --primary: hsl(180, 100%, 97%); /* Ljusblå bakgrundsfärg */
-    --primary-foreground: hsl(210, 20%, 25%); /* ShadCN text på primära element */
-    --secondary: hsl(0, 0%, 96%); /* Ljusgrå för sekundära element */
-    --secondary-foreground: hsl(210, 20%, 25%); /* ShadCN textfärg */
-    --muted: hsl(0, 0%, 90%); /* Ljusgrå för nedtonade element */
+    --popover-foreground: hsl(210, 20%, 25%); /* Mörkblå textfärg */
+    --primary: hsl(0, 0%, 95%); /* Ljusgrå för primära element */
+    --primary-foreground: hsl(210, 20%, 25%); /* Mjuk mörkblå text på primära element */
+    --secondary: hsl(0, 0%, 90%); /* Ljusgrå för sekundära element */
+    --secondary-foreground: hsl(210, 20%, 25%); /* Mörkblå textfärg */
+    --muted: hsl(0, 0%, 95%); /* Ljusgrå för nedtonade element */
     --muted-foreground: hsl(0, 0%, 50%); /* Mellangrå textfärg */
-    --accent: hsl(39, 38%, 59%); /* #C0A16B i HSL för knappar */
+    --accent: hsl(29, 64%, 47%); /* Kopparfärgad accentfärg */
     --accent-foreground: hsl(0, 0%, 100%); /* Vit text på accentfärger */
-    --destructive: hsl(0, 100%, 50%); /* ShadCN röd för destruktiva element */
+    --destructive: hsl(29, 64%, 47%); /* Kopparfärgad för destruktiva element */
     --destructive-foreground: hsl(0, 0%, 100%); /* Vit text på destruktiva element */
-    --border: hsl(210, 16%, 86%); /* ShadCN borderfärg */
+    --border: hsl(0, 0%, 90%); /* Ljusgrå ramar */
     --input: hsl(0, 0%, 100%); /* Vit input-bakgrund */
-    --ring: hsl(210, 20%, 25%); /* ShadCN ringfärg */
+    --ring: hsl(210, 20%, 25%); /* Mörkblå kantfärg */
+    --chart-1: hsl(120, 25%, 70%); /* Ljus salviagrön för diagram */
+    --chart-2: hsl(0, 0%, 90%); /* Ljusgrå för diagram */
+    --chart-3: hsl(29, 64%, 47%); /* Kopparfärg för diagram */
+    --chart-4: hsl(0, 0%, 96%); /* Mycket ljusgrå för diagram */
+    --chart-5: hsl(0, 0%, 100%); /* Vit för diagram */
+    --radius: 0.5rem; /* Standardradie för rundade hörn */
   }
 
   .dark {
-    --background: hsl(210, 10%, 10%); /* ShadCN darkmode bakgrundsfärg */
+    --background: hsl(210, 20%, 25%); /* Mörkblå bakgrund för mörkt tema */
     --foreground: hsl(0, 0%, 100%); /* Vit textfärg för mörkt tema */
-    --card: hsl(210, 15%, 20%); /* ShadCN mörk kortfärg */
+    --card: hsl(210, 15%, 20%); /* Mörkare blå för kort */
     --card-foreground: hsl(0, 0%, 100%); /* Vit text på kort */
-    --popover: hsl(210, 15%, 20%); /* ShadCN mörk bakgrund för popovers */
+    --popover: hsl(210, 15%, 20%); /* Mörkblå bakgrund för popovers */
     --popover-foreground: hsl(0, 0%, 100%); /* Vit textfärg */
-    --primary: hsl(210, 15%, 20%); /* ShadCN mörk bakgrund för primära element */
+    --primary: hsl(210, 15%, 20%); /* Mörkare blå för primära element */
     --primary-foreground: hsl(0, 0%, 100%); /* Vit text på primära element */
     --secondary: hsl(210, 10%, 15%); /* Mörkblå för sekundära element */
     --secondary-foreground: hsl(0, 0%, 100%); /* Vit textfärg */
     --muted: hsl(210, 10%, 10%); /* Mycket mörkblå för nedtonade element */
     --muted-foreground: hsl(0, 0%, 50%); /* Mellangrå textfärg */
-    --accent: hsl(39, 38%, 59%); /* #C0A16B i HSL för accent */
+    --accent: hsl(29, 64%, 47%); /* Kopparfärgad accentfärg */
     --accent-foreground: hsl(0, 0%, 100%); /* Vit textfärg */
-    --destructive: hsl(0, 100%, 50%); /* ShadCN röd för destruktiva element */
+    --destructive: hsl(29, 64%, 47%); /* Kopparfärgad för destruktiva element */
     --destructive-foreground: hsl(0, 0%, 100%); /* Vit textfärg */
-    --border: hsl(210, 10%, 20%); /* ShadCN mörk borderfärg */
+    --border: hsl(210, 10%, 15%); /* Mörkblå ramar */
     --input: hsl(210, 10%, 15%); /* Mörkblå bakgrund för inputs */
     --ring: hsl(0, 0%, 100%); /* Vit kantfärg */
+    --chart-1: hsl(120, 25%, 70%); /* Ljus salviagrön för diagram */
+    --chart-2: hsl(0, 0%, 90%); /* Ljusgrå för diagram */
+    --chart-3: hsl(29, 64%, 47%); /* Kopparfärg för diagram */
+    --chart-4: hsl(0, 0%, 96%); /* Mycket ljusgrå för diagram */
+    --chart-5: hsl(0, 0%, 100%); /* Vit för diagram */
   }
 }
 
