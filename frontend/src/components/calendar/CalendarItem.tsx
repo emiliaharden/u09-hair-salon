@@ -11,7 +11,7 @@ const CalendarItem: React.FC<CalendarItemProps> = ({ day, schedules }: CalendarI
     );
 
     return (
-        <div className="p-4 border rounded-lg shadow-md bg-white flex flex-col w-full max-w-md mx-auto">
+        <div className="p-4 border rounded-lg shadow-md flex flex-col w-full max-w-md mx-auto">
             <div className="text-lg font-semibold mb-2 text-center">
                 {new Date(day).toLocaleDateString('sv-SE', { weekday: 'long', day: 'numeric', month: 'short' })}
             </div>

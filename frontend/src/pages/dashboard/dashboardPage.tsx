@@ -5,7 +5,7 @@ const DashboardPage = () => {
     return (
         <div className="flex flex-col sm:flex-row justify-between p-6 mt-10">
             {/* Huvudinnehåll */}
-            <div className="w-full max-w-4xl h-[600px] p-6 bg-white shadow-md rounded-lg overflow-y-auto">
+            <div className="w-full max-w-4xl h-[600px] p-6 shadow-md rounded-lg overflow-y-auto">
                 <Outlet />
             </div>
 

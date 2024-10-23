@@ -5,57 +5,57 @@
 @layer base {
   :root {
     --background: 0 0% 100%; /* Vit bakgrund */
-    --foreground: 240 10% 3.9%; /* Mörk textfärg */
-    --card: 0 0% 98%; /* Ljusgrå bakgrund */
-    --card-foreground: 240 10% 3.9%; /* Mörk textfärg på kort */
-    --popover: 0 0% 100%; /* Vit bakgrund för popover */
-    --popover-foreground: 240 10% 3.9%; /* Mörk textfärg */
-    --primary: 16 100% 72%; /* Korallfärg för primära element */
-    --primary-foreground: 0 0% 98%; /* Vit text på primära element */
-    --secondary: 180 46% 70%; /* Turkos för sekundära element */
-    --secondary-foreground: 240 5.9% 10%; /* Mörk textfärg */
-    --muted: 240 4.8% 95.9%; /* Ljusgrå för nedtonade element */
-    --muted-foreground: 240 3.8% 46.1%; /* Mellangrå textfärg */
-    --accent: 270 50% 85%; /* Ljuslila accentfärg */
-    --accent-foreground: 240 5.9% 10%; /* Mörk textfärg */
-    --destructive: 0 84.2% 60.2%; /* Röd för destruktiva element */
-    --destructive-foreground: 0 0% 98%; /* Vit text på destruktiva element */
-    --border: 240 5.9% 90%; /* Ljusgråa ramar */
-    --input: 240 5.9% 90%; /* Input-bakgrundsfärg */
-    --ring: 240 10% 3.9%; /* Mörk kantfärg */
-    --chart-1: 12 76% 61%; /* Korall för diagram */
-    --chart-2: 173 58% 39%; /* Turkos för diagram */
-    --chart-3: 197 37% 24%; /* Mörkblå för diagram */
-    --chart-4: 43 74% 66%; /* Gul för diagram */
-    --chart-5: 27 87% 67%; /* Orange för diagram */
+    --foreground: 0 0% 20%; /* Mjuk mörkgrå textfärg */
+    --card: 0 0% 98%; /* Ljus vit för kort */
+    --card-foreground: 0 0% 20%; /* Mörkgrå textfärg på kort */
+    --popover: 0 0% 100%; /* Vit bakgrund för popovers */
+    --popover-foreground: 0 0% 20%; /* Mörkgrå textfärg */
+    --primary: 0 0% 90%; /* Mycket ljusgrå för primära element */
+    --primary-foreground: 0 0% 10%; /* Mjuk mörkgrå text på primära element */
+    --secondary: 0 0% 95%; /* Ljusare gråvit för sekundära element */
+    --secondary-foreground: 0 0% 20%; /* Mörkgrå textfärg */
+    --muted: 0 0% 98%; /* Ljus vitgrå för nedtonade element */
+    --muted-foreground: 0 0% 50%; /* Mellangrå textfärg */
+    --accent: 40 15% 95%; /* Varm krämvit accentfärg */
+    --accent-foreground: 0 0% 20%; /* Mjuk mörk textfärg */
+    --destructive: 0 70% 60%; /* Ljus korallröd för destruktiva element */
+    --destructive-foreground: 0 0% 100%; /* Vit text på destruktiva element */
+    --border: 0 0% 90%; /* Ljusgrå ramar */
+    --input: 0 0% 98%; /* Ljus vitgrå input-bakgrund */
+    --ring: 0 0% 20%; /* Mjuk mörkgrå kantfärg */
+    --chart-1: 0 0% 90%; /* Ljusgrå för diagram */
+    --chart-2: 40 20% 95%; /* Krämig vit för diagram */
+    --chart-3: 60 10% 85%; /* Ljus beige för diagram */
+    --chart-4: 0 0% 90%; /* Ljusgrå för diagram */
+    --chart-5: 0 0% 95%; /* Mycket ljusgrå för diagram */
     --radius: 0.5rem; /* Standardradie för rundade hörn */
   }
 
   .dark {
-    --background: 240 10% 3.9%; /* Mörk bakgrund för mörkt tema */
+    --background: 0 0% 15%; /* Mjuk mörkgrå bakgrund för mörkt tema */
     --foreground: 0 0% 98%; /* Vit textfärg för mörkt tema */
-    --card: 240 10% 3.9%; /* Mörkare kortbakgrund */
-    --card-foreground: 0 0% 98%; /* Vit textfärg på kort */
-    --popover: 240 10% 3.9%; /* Mörk bakgrund för popover */
+    --card: 0 0% 20%; /* Mörkgrå kortbakgrund */
+    --card-foreground: 0 0% 98%; /* Vit text på kort */
+    --popover: 0 0% 20%; /* Mörkgrå bakgrund för popover */
     --popover-foreground: 0 0% 98%; /* Vit textfärg */
-    --primary: 16 100% 72%; /* Korallfärg för primära element i mörkt tema */
+    --primary: 0 0% 30%; /* Mörkgrå för primära element */
     --primary-foreground: 0 0% 98%; /* Vit text på primära element */
-    --secondary: 180 46% 70%; /* Turkos för sekundära element i mörkt tema */
+    --secondary: 0 0% 25%; /* Mörkare grå för sekundära element */
     --secondary-foreground: 0 0% 98%; /* Vit textfärg */
-    --muted: 240 3.7% 15.9%; /* Mörkgrå för nedtonade element */
-    --muted-foreground: 240 5% 64.9%; /* Ljusare textfärg */
-    --accent: 270 50% 85%; /* Ljuslila accentfärg */
+    --muted: 0 0% 10%; /* Mycket mörkgrå för nedtonade element */
+    --muted-foreground: 0 0% 60%; /* Ljusare grå textfärg */
+    --accent: 40 10% 85%; /* Krämig ljusbeige accentfärg */
     --accent-foreground: 0 0% 98%; /* Vit textfärg */
-    --destructive: 0 62.8% 30.6%; /* Mörkröd för destruktiva element */
+    --destructive: 0 50% 40%; /* Mörkröd för destruktiva element */
     --destructive-foreground: 0 0% 98%; /* Vit textfärg */
-    --border: 240 3.7% 15.9%; /* Mörkare ramar */
-    --input: 240 3.7% 15.9%; /* Mörk bakgrund för inputs */
-    --ring: 240 4.9% 83.9%; /* Mörk kantfärg */
-    --chart-1: 220 70% 50%; /* Blå för diagram */
-    --chart-2: 160 60% 45%; /* Grön för diagram */
-    --chart-3: 30 80% 55%; /* Orange för diagram */
-    --chart-4: 280 65% 60%; /* Lila för diagram */
-    --chart-5: 340 75% 55%; /* Röd för diagram */
+    --border: 0 0% 25%; /* Mörkgrå ramar */
+    --input: 0 0% 25%; /* Mörkgrå bakgrund för inputs */
+    --ring: 0 0% 98%; /* Vit kantfärg */
+    --chart-1: 0 0% 30%; /* Mörkgrå för diagram */
+    --chart-2: 40 10% 85%; /* Krämig ljusbeige för diagram */
+    --chart-3: 60 10% 50%; /* Beige för diagram */
+    --chart-4: 0 0% 30%; /* Mörkgrå för diagram */
+    --chart-5: 0 0% 95%; /* Mycket ljusgrå för diagram */
   }
 }
 
