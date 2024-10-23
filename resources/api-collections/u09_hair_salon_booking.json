@@ -1,0 +1,146 @@
+{
+  "info": {
+    "name": "u09_hair_salon_booking",
+    "description": "### **Booking Routes**\n\n| Method | Endpoint             | Description                                  | Protected |\n| ------ | -------------------- | -------------------------------------------- | --------- |\n| GET    | /api/bookings      | Get all bookings (admin only).               | Yes       |\n| GET    | /api/bookings/user | Get all bookings for the authenticated user. | Yes       |\n| GET    | /api/bookings/:id  | Get a specific booking by ID.                | Yes       |\n| POST   | /api/bookings      | Create a new booking (user only).            | Yes       |\n| PUT    | /api/bookings/:id  | Update a specific booking by ID.             | Yes       |\n| DELETE | /api/bookings/:id  | Delete a specific booking by ID.             | Yes       |\n\n",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "bruno",
+      "event": []
+    },
+    {
+      "name": "Change a booking",
+      "event": [],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "description": "```\n{\n  \"service\": \"hair cut\",\n  \"date\": \"2024-10-20T14:00:00Z\",\n  \"notes\": \"Change to a hair balayage\"\n}",
+        "url": {
+          "raw": "http://localhost:3000/api/bookings/:id",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"service\": \"hair cut\",\n  \"date\": \"2024-10-20T14:00:00Z\",\n  \"notes\": \"Change to a hair balayage\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Create booking",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "description": "```\n{\n  \"user\": \"userId\",\n  \"service\": [\"serviceId\"], \n  \"employee\": \"adminId\",\n  \"date\": \"2024-10-21\",\n  \"startTime\": \"13:00\",\n  \"endTime\": \"15:00\", \n  \"notes\": \"Please prepare before the session\"\n}\n",
+        "url": {
+          "raw": "http://localhost:3000/api/bookings",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user\": \"userId\",\n  \"service\": [\"serviceId\"], \n  \"employee\": \"adminId\",\n  \"date\": \"2024-10-21\",\n  \"startTime\": \"13:00\",\n  \"endTime\": \"15:00\", \n  \"notes\": \"Please prepare before the session\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Delete a booking",
+      "event": [],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "description": "Use Bearer token in Auth.",
+        "url": {
+          "raw": "http://localhost:3000/api/bookings/:id",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "Get all bookings for user",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "description": "",
+        "url": {
+          "raw": "GET http://localhost:3000/api/bookings/user",
+          "host": [],
+          "path": [],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "Get bookings",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "description": "Use Bearer Token in Auth.",
+        "url": {
+          "raw": "http://localhost:3000/api/bookings",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "Get specific booking",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "description": "Use Bearer Token in Auth.",
+        "url": {
+          "raw": "http://localhost:3000/api/bookings/:id",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "variable": []
+}

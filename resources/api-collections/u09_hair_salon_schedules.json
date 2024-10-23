@@ -1,0 +1,140 @@
+{
+  "info": {
+    "name": "u09_hair_salon_schedules",
+    "description": "### **Schedule Routes**\n\n| Method | Endpoint                   | Description                                      | Protected |\n| ------ | -------------------------- | ------------------------------------------------ | --------- |\n| GET    | /api/schedules           | Get all schedules (admin only).                  | Yes       |\n| GET    | /api/schedules/available | Get all available schedules for users.           | Yes       |\n| GET    | /api/schedules/:adminId  | Get schedules for a specific admin (admin only). | Yes       |\n| POST   | /api/schedules           | Create a new schedule (admin only).              | Yes       |\n| PUT    | /api/schedules/:id       | Update a specific schedule by ID (admin only).   | Yes       |\n| DELETE | /api/schedules/:id       | Delete a specific schedule by ID (admin only).   | Yes       |",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "All schedules",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "description": "Use Bearer Token in Auth.",
+        "url": {
+          "raw": "http://localhost:3000/api/schedules",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "Available schedules",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "description": "Use Bearer Token in Auth.",
+        "url": {
+          "raw": "http://localhost:3000/api/schedules/available",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "bruno",
+      "event": []
+    },
+    {
+      "name": "Create a schedule",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "description": "```\n{\n  \"adminId\": \"adminId\",\n  \"startTime\": \"09:00\",\n  \"endTime\": \"19:00\",\n  \"date\": \"2024-10-23\"\n}",
+        "url": {
+          "raw": "http://localhost:3000/api/schedules",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"adminId\": \"adminId\",\n  \"startTime\": \"09:00\",\n  \"endTime\": \"19:00\",\n  \"date\": \"2024-10-23\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Delete a schedule",
+      "event": [],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "description": "Use Bearer Token i Auth.",
+        "url": {
+          "raw": "http://localhost:3000/api/schedules/:id",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "Get schedules by id",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "description": "Use Bearer Token in Auth.",
+        "url": {
+          "raw": "http://localhost:3000/api/schedules/:adminId",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "Update schedules",
+      "event": [],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "description": "```\n{\n  \"adminId\": \"adminId\", \n  \"date\": \"2024-10-12T00:00:00Z\",\n  \"slots\": [\n    {\n      \"startTime\": \"2024-10-12T09:00:00Z\",\n      \"endTime\": \"2024-10-12T10:00:00Z\",\n      \"isBooked\": false\n    }\n  ]\n}",
+        "url": {
+          "raw": "http://localhost:3000/api/schedules/:id",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"adminId\": \"adminId\", \n  \"date\": \"2024-10-12T00:00:00Z\",\n  \"slots\": [\n    {\n      \"startTime\": \"2024-10-12T09:00:00Z\",\n      \"endTime\": \"2024-10-12T10:00:00Z\",\n      \"isBooked\": false\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "variable": []
+}
