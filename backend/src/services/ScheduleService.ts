@@ -25,6 +25,13 @@ export const createSchedule = async (
 
     console.log("Creating schedule for date:", date);
 
+    const existingSchedule = await Schedule.findOne({ admin: adminId, date });
+    if (existingSchedule) {
+      throw new Error(
+        "A schedule already exist for this admin on the selected date"
+      );
+    }
+
     const slots: ISlot[] = [];
     let currentStartTime = toUTC(
       `${date.toISOString().split("T")[0]}T${startTime}`
@@ -97,7 +104,8 @@ export const getSchedulesByAdmin = async (adminId: string) => {
       });
 
     if (!schedules || schedules.length === 0) {
-      throw new Error("No schedules found for this admin.");
+      console.log("No schedules found for this admin.");
+      return []; // Return an empty array if no schedules are found
     }
 
     const scheduleData = schedules.map((schedule) => ({
