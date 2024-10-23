@@ -1,0 +1,59 @@
+{
+  "info": {
+    "name": "u09_hair_salon_auth",
+    "description": "### **Authentication Routes**\n\n| Method | Endpoint                    | Description                                                         | Protected |\n| ------ | --------------------------- | ------------------------------------------------------------------- | --------- |\n| POST   | /api/auth/login           | Log in with the user's email and password.                          | No        |\n| POST   | /api/auth/user            | Register a new user.                                                | No        |\n| GET    | /api/auth/dashboard       | Access the user dashboard, returns user data.                       | Yes       |\n| GET    | /api/auth/admin/dashboard | Access the admin dashboard, requires admin role, returns user data. | Yes       |",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get dashboard",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "description": "Use Bearer Token in Auth.\n",
+        "url": {
+          "raw": "http://localhost:3000/api/dashboard",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "bruno",
+      "event": []
+    },
+    {
+      "name": "Login",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "description": "```\n{\n  \"email\": \"email@email.se\",\n  \"password\": \"123456\"\n}",
+        "url": {
+          "raw": "http://localhost:3000/api/auth/login",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"email@email.se\",\n  \"password\": \"123456\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "variable": []
+}

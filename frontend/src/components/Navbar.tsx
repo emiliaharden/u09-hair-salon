@@ -24,14 +24,14 @@ const Navbar: React.FC = () => {
     return (
         <header className="relative">
             <div className="flex justify-center py-4">
-                <h1 className="text-3xl font-bold">Salong Saxen</h1>
+                <h1 className="text-3xl font-bold">Lumi Locks</h1>
             </div>
 
             {/* Mobilnav */}
             <nav className="md:hidden flex justify-between items-center p-4">
                 <button
                     onClick={toggleMenu}
-                    className="text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="focus:outline-none focus:ring-2"
                 >
                     {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
                 </button>
@@ -41,14 +41,14 @@ const Navbar: React.FC = () => {
             <nav
                 className={`${
                     isMenuOpen ? 'block' : 'hidden'
-                } md:flex md:justify-center space-y-4 md:space-y-0 md:space-x-6 py-6 md:bg-transparent`}
+                } md:flex md:justify-center space-y-4 md:space-y-0 md:space-x-6 py-6`}
             >
                 <ul className="flex flex-col md:flex-row md:space-x-6 items-center">
                     <li>
                         <NavLink
                             to="/home"
                             className={({ isActive }) =>
-                                isActive ? 'text-blue-600' : 'text-black'
+                                isActive ? 'font-bold' : ''
                             }
                             onClick={closeMenu} // Stänger menyn efter att länken klickas
                         >
@@ -59,44 +59,44 @@ const Navbar: React.FC = () => {
                         <NavLink
                             to="/about"
                             className={({ isActive }) =>
-                                isActive ? 'text-blue-600' : 'text-black'
+                                isActive ? 'font-bold' : ''
                             }
                             onClick={closeMenu} // Stänger menyn efter att länken klickas
                         >
-                            Om Oss
+                            About
                         </NavLink>
                     </li>
                     <li>
                         <NavLink
                             to="/treatments"
                             className={({ isActive }) =>
-                                isActive ? 'text-blue-600' : 'text-black'
+                                isActive ? 'font-bold' : ''
                             }
                             onClick={closeMenu} // Stänger menyn efter att länken klickas
                         >
-                            Behandlingar
+                            Treatments
                         </NavLink>
                     </li>
                     <li>
                         <NavLink
                             to="/contact"
                             className={({ isActive }) =>
-                                isActive ? 'text-blue-600' : 'text-black'
+                                isActive ? 'font-bold' : ''
                             }
                             onClick={closeMenu} // Stänger menyn efter att länken klickas
                         >
-                            Hitta till oss
+                            Contact
                         </NavLink>
                     </li>
                     <li>
                         <NavLink
                             to="/bookings"
                             className={({ isActive }) =>
-                                isActive ? 'text-blue-600' : 'text-black'
+                                isActive ? 'font-bold' : ''
                             }
                             onClick={closeMenu} // Stänger menyn efter att länken klickas
                         >
-                            Boka tid
+                            Book now
                         </NavLink>
                     </li>
                     {!user ? (
@@ -104,7 +104,7 @@ const Navbar: React.FC = () => {
                         <NavLink
                             to="/login"
                             className={({ isActive }) =>
-                                isActive ? 'text-blue-600' : 'text-black'
+                                isActive ? 'font-bold' : ''
                             }
                             onClick={closeMenu} // Stänger menyn efter att länken klickas
                         >
@@ -116,7 +116,7 @@ const Navbar: React.FC = () => {
                             <NavLink
                                 to="/dashboard"
                                 className={({ isActive }) =>
-                                    isActive ? 'text-blue-600' : 'text-black'
+                                    isActive ? 'font-bold' : ''
                                 }
                                 onClick={closeMenu} // Stänger menyn efter att länken klickas
                             >
@@ -131,13 +131,13 @@ const Navbar: React.FC = () => {
             <div className="hidden md:block absolute top-4 right-4">
                 {!user ? (
                     <NavLink to="/login">
-                        <button className="py-2 px-4 rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                        <button className="py-2 px-4 rounded border focus:outline-none focus:ring-2 text-sm">
                             Sign in
                         </button>
                     </NavLink>
                 ) : (
                     <NavLink to="/dashboard">
-                        <button className="py-2 px-4 rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                        <button className="py-2 px-4 rounded border focus:outline-none focus:ring-2 text-sm">
                             {user.name}'s Dashboard
                         </button>
                     </NavLink>
@@ -147,4 +147,4 @@ const Navbar: React.FC = () => {
     )
 }
 
-export default Navbar
+export default Navbar  
