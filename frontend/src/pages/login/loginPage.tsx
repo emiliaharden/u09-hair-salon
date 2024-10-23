@@ -1,13 +1,14 @@
-import { useNavigate, Link } from 'react-router-dom';
-import FormComponent from '../../components/formComponents';
-import { useUserStore } from '../../store/useUserStore';
-import { useState } from 'react';
-import { API_URL } from '@/config';
+import { useNavigate, Link } from 'react-router-dom'
+import FormComponent from '../../components/formComponents'
+import { useUserStore } from '../../store/useUserStore'
+import { useState } from 'react'
+import { API_URL } from '@/config'
+import Layout from '@/components/Layout'
 
 const LoginPage = () => {
-    const [error, setError] = useState<string | null>(null);
-    const setUser = useUserStore((state) => state.setUser);
-    const navigate = useNavigate();
+    const [error, setError] = useState<string | null>(null)
+    const setUser = useUserStore((state) => state.setUser)
+    const navigate = useNavigate()
 
     const loginFields = [
         {
@@ -22,16 +23,19 @@ const LoginPage = () => {
             placeholder: 'Enter password',
             name: 'password',
         },
-    ];
+    ]
 
     const handleLogin = async (formData: { [key: string]: string | boolean }) => {
-        // Converts boolean to strings 
-        const preparedData = Object.keys(formData).reduce((acc, key) => {
-            acc[key] = typeof formData[key] === 'boolean' ? String(formData[key]) : formData[key];
-            return acc;
-        }, {} as { [key: string]: string });
+        const preparedData = Object.keys(formData).reduce(
+            (acc, key) => {
+                acc[key] =
+                    typeof formData[key] === 'boolean' ? String(formData[key]) : formData[key]
+                return acc
+            },
+            {} as { [key: string]: string }
+        )
 
-        const { email, password } = preparedData; 
+        const { email, password } = preparedData
 
         try {
             const response = await fetch(`${API_URL}/auth/login`, {
@@ -40,47 +44,44 @@ const LoginPage = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ email, password }),
-            });
+            })
 
-            const data = await response.json();
+            const data = await response.json()
 
             if (response.ok) {
-                localStorage.setItem('token', data.token);
-                setUser(data.user);
+                localStorage.setItem('token', data.token)
+                setUser(data.user)
 
                 if (data.user.roles.includes('admin')) {
-                    navigate('/admin/dashboard');
+                    navigate('/admin/dashboard')
                 } else {
-                    navigate('/dashboard');
+                    navigate('/dashboard')
                 }
             } else {
-                setError(data.message || 'Login failed');
+                setError(data.message || 'Login failed')
             }
         } catch (error) {
-            setError('Error logging in');
-            console.error('Error logging in:', error);
+            setError('Error logging in')
+            console.error('Error logging in:', error)
         }
-    };
+    }
 
     return (
-        <div className="max-w-md mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-lg mt-20">
-            <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
-            <FormComponent fields={loginFields} buttonText="Login" onSubmit={handleLogin} />
+        <Layout>
+            <div className="max-w-md mx-auto p-6 border rounded-lg shadow-lg mt-20">
+                <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
+                <FormComponent fields={loginFields} buttonText="Login" onSubmit={handleLogin} />
 
-            {/* Show error message if any */}
-            {error && <p className="text-red-500 text-center mt-4">{error}</p>}
+                {error && <p className="text-center mt-4">{error}</p>}
 
-            {/* Link to registration page */}
-            <div className="text-center mt-4">
-                <p>
-                    No account?{' '}
-                    <Link to="/register" className="text-blue-600 hover:underline">
-                        Register here
-                    </Link>
-                </p>
+                <div className="text-center mt-4">
+                    <p>
+                        No account? <Link to="/register">Register here</Link>
+                    </p>
+                </div>
             </div>
-        </div>
-    );
-};
+        </Layout>
+    )
+}
 
-export default LoginPage;
+export default LoginPage
