@@ -3,6 +3,7 @@ import './App.css'
 import { ModeToggle } from './components/ModeToogle'
 import Navbar from './components/Navbar'
 import { Toaster } from './components/ui/sonner'
+import Footer from './components/Footer'
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
             <div className="fixed bottom-4 right-4">
                 <ModeToggle />
             </div>
+            <Footer />
         </main>
     )
 }
