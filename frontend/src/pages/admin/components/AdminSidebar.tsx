@@ -13,39 +13,27 @@ const AdminSidebar: React.FC = () => {
 
     return (
         <nav
-            className="fixed left-0 top-0 w-64 h-screen bg-gray-800 text-white flex flex-col justify-between p-4"
+            className="fixed left-0 top-0 w-64 h-screen flex flex-col justify-between p-4"
             style={{ minHeight: '100vh' }} // säkerställer att sidobaren täcker hela höjden
         >
             <ul className="space-y-8">
                 <li>
-                    <NavLink to={'/admin/dashboard'} className="hover:text-gray-400">
-                        Dashboard
-                    </NavLink>
+                    <NavLink to={'/admin/dashboard'}>Dashboard</NavLink>
                 </li>
                 <li>
-                <NavLink to={'/admin/dashboard/schedules'} className="hover:text-gray-400">
-                        View Schedules
-                    </NavLink>
+                    <NavLink to={'/admin/dashboard/schedules'}>View Schedules</NavLink>
                 </li>
                 <li>
-                <NavLink to={'/admin/dashboard/schedules/create'} className="hover:text-gray-400">
-                        Create schedule
-                    </NavLink>
+                    <NavLink to={'/admin/dashboard/schedules/create'}>Create schedule</NavLink>
                 </li>
                 <li>
-                    <NavLink to={'/admin/dashboard/users'} className="hover:text-gray-400">
-                        Manage Users
-                    </NavLink>
+                    <NavLink to={'/admin/dashboard/users'}>Manage Users</NavLink>
                 </li>
                 <li>
-                    <NavLink to={'/admin/dashboard/services'} className="hover:text-gray-400">
-                        Manage Services
-                    </NavLink>
+                    <NavLink to={'/admin/dashboard/services'}>Manage Services</NavLink>
                 </li>
                 <li>
-                    <NavLink to={'/admin/dashboard/settings'} className="hover:text-gray-400">
-                        Settings
-                    </NavLink>
+                    <NavLink to={'/admin/dashboard/settings'}>Settings</NavLink>
                 </li>
                 <button onClick={handleLogout}>Logout</button>
             </ul>

@@ -1,8 +1,9 @@
+import { useEffect, useState } from 'react'
 import DialogComponent from '@/components/DialogComponent'
+import Layout from '@/components/Layout'
 import { API_URL } from '@/config'
 import { Booking } from '@/interfaces/Booking'
 import { useUserStore } from '@/store/useUserStore'
-import { useEffect, useState } from 'react'
 
 const UserBookingsList = () => {
     const user = useUserStore((state) => state.user)
@@ -87,57 +88,60 @@ const UserBookingsList = () => {
     }
 
     return (
-        <div className="max-w-4xl mx-auto p-4">
-            <h2 className="text-2xl font-semibold mb-6">Your Bookings</h2>
-            {bookings.length > 0 ? (
-                bookings.map((booking) => (
-                    <div
-                        key={booking._id}
-                        className="border border-black rounded-lg p-4 mb-4 shadow-md bg-white"
-                    >
-                        <h3 className="text-lg font-semibold">
-                            {booking.service && booking.service.length > 0 ? booking.service.map((s) => s.name).join(', ') : 'No services available'}</h3>
-                        <p className="text-gray-600">
-                            <strong>Date:</strong> {new Date(booking.date).toLocaleDateString('en-GB', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric',
-                                timeZone: 'Europe/Stockholm'
-                            })}
-                        </p>
-                        <p className="text-gray-600">
-                            <strong>Time:</strong>{' '}
-                            {new Date(booking.startTime).toLocaleTimeString('en-GB', {
-                                hour: '2-digit',
-                                minute: '2-digit',
-                                hour12: false,
-                                timeZone: 'Europe/Stockholm' // Use Stockholm time zone
-                            })}
-                        </p>
-                        <p className="text-gray-600">
-                            <strong>Employee:</strong> {booking.employee.name}
-                        </p>
-                        <p className="text-gray-600">
-                            <strong>Notes:</strong> {booking.notes || 'No notes'}
-                        </p>
+        <Layout>
+            <div className="max-w-4xl mx-auto p-4">
+                <h2 className="text-2xl font-semibold mb-6">Your Bookings</h2>
+                {bookings.length > 0 ? (
+                    bookings.map((booking) => (
+                        <div key={booking._id} className="border rounded-lg p-4 mb-4 shadow-md">
+                            <h3 className="text-lg font-semibold">
+                                {booking.service && booking.service.length > 0
+                                    ? booking.service.map((s) => s.name).join(', ')
+                                    : 'No services available'}
+                            </h3>
+                            <p>
+                                <strong>Date:</strong>{' '}
+                                {new Date(booking.date).toLocaleDateString('en-GB', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric',
+                                    timeZone: 'Europe/Stockholm',
+                                })}
+                            </p>
+                            <p>
+                                <strong>Time:</strong>{' '}
+                                {new Date(booking.startTime).toLocaleTimeString('en-GB', {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    hour12: false,
+                                    timeZone: 'Europe/Stockholm', // Use Stockholm time zone
+                                })}
+                            </p>
+                            <p>
+                                <strong>Employee:</strong> {booking.employee.name}
+                            </p>
+                            <p>
+                                <strong>Notes:</strong> {booking.notes || 'No notes'}
+                            </p>
 
-                        <div className="mt-4">
-                            <DialogComponent
-                             title="Cancel Booking"
-                             description="Are you sure you want to cancel this booking?"
-                             triggerText="Cancel appointment"
-                             onConfirm={() => handleCancelBooking(booking._id)}
-                             confirmText="Yes, cancel"
-                             cancelText="No, keep it"
-                             isDeleteConfirmation={true}
-                           />
+                            <div className="mt-4">
+                                <DialogComponent
+                                    title="Cancel Booking"
+                                    description="Are you sure you want to cancel this booking?"
+                                    triggerText="Cancel appointment"
+                                    onConfirm={() => handleCancelBooking(booking._id)}
+                                    confirmText="Yes, cancel"
+                                    cancelText="No, keep it"
+                                    isDeleteConfirmation={true}
+                                />
+                            </div>
                         </div>
-                    </div>
-                ))
-            ) : (
-                <p>You have no upcoming bookings</p>
-            )}
-        </div>
+                    ))
+                ) : (
+                    <p>You have no upcoming bookings</p>
+                )}
+            </div>
+        </Layout>
     )
 }
 
