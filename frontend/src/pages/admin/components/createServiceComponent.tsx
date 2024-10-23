@@ -157,7 +157,7 @@ const CreateServiceComponent = () => {
             <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
                     <AccordionTrigger>
-                        <h2 className="text-2xl font-bold">Create New Service</h2>
+                        <h2 className="text-2xl font-bold">Create New Treatment</h2>
                     </AccordionTrigger>
                     <AccordionContent>
                         <div className="bg-white shadow-md rounded-lg p-6">
@@ -220,7 +220,7 @@ const CreateServiceComponent = () => {
                 </AccordionItem>
             </Accordion>
 
-            <h3 className="text-xl font-bold mt-6 mb-4">Available Services</h3>
+            <h3 className="text-xl font-bold mt-6 mb-4">Available Treatments</h3>
             <TableComponent<Service>
                 data={services}
                 columns={serviceColumns}
