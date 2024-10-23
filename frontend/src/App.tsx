@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom'
 import './App.css'
-import { ModeToggle } from './components/ModeToogle'
+// import { ModeToggle } from './components/ModeToogle'
 import Navbar from './components/Navbar'
 import { Toaster } from './components/ui/sonner'
 import Footer from './components/Footer'
@@ -12,7 +12,7 @@ function App() {
             <Outlet />
             <Toaster position="top-right" />
             <div className="fixed bottom-4 right-4">
-                <ModeToggle />
+                {/* <ModeToggle /> */}
             </div>
             <Footer />
         </main>
