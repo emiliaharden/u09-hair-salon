@@ -57,7 +57,7 @@ const ServiceSelectionComponent: React.FC<ServiceSelectionProps> = ({
 
     return (
         <div>
-            <h2>Select Services</h2>
+            <h2>Select Treatments</h2>
             <ul>
                 {services.map((service) => (
                     <li key={service._id} className="flex items-center space-x-3">
