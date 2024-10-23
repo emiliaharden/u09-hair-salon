@@ -4,58 +4,58 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%; /* Vit bakgrund */
-    --foreground: 0 0% 20%; /* Mjuk mörkgrå textfärg */
-    --card: 0 0% 98%; /* Ljus vit för kort */
-    --card-foreground: 0 0% 20%; /* Mörkgrå textfärg på kort */
-    --popover: 0 0% 100%; /* Vit bakgrund för popovers */
-    --popover-foreground: 0 0% 20%; /* Mörkgrå textfärg */
-    --primary: 0 0% 90%; /* Mycket ljusgrå för primära element */
-    --primary-foreground: 0 0% 10%; /* Mjuk mörkgrå text på primära element */
-    --secondary: 0 0% 95%; /* Ljusare gråvit för sekundära element */
-    --secondary-foreground: 0 0% 20%; /* Mörkgrå textfärg */
-    --muted: 0 0% 98%; /* Ljus vitgrå för nedtonade element */
-    --muted-foreground: 0 0% 50%; /* Mellangrå textfärg */
-    --accent: 40 15% 95%; /* Varm krämvit accentfärg */
-    --accent-foreground: 0 0% 20%; /* Mjuk mörk textfärg */
-    --destructive: 0 70% 60%; /* Ljus korallröd för destruktiva element */
-    --destructive-foreground: 0 0% 100%; /* Vit text på destruktiva element */
-    --border: 0 0% 90%; /* Ljusgrå ramar */
-    --input: 0 0% 98%; /* Ljus vitgrå input-bakgrund */
-    --ring: 0 0% 20%; /* Mjuk mörkgrå kantfärg */
-    --chart-1: 0 0% 90%; /* Ljusgrå för diagram */
-    --chart-2: 40 20% 95%; /* Krämig vit för diagram */
-    --chart-3: 60 10% 85%; /* Ljus beige för diagram */
-    --chart-4: 0 0% 90%; /* Ljusgrå för diagram */
-    --chart-5: 0 0% 95%; /* Mycket ljusgrå för diagram */
+    --background: hsl(210, 60%, 98%); /* Ljusblå bakgrund */
+    --foreground: hsl(210, 20%, 25%); /* Mörkblå textfärg */
+    --card: hsl(0, 0%, 96%); /* Ljusgrå för kort och sektioner */
+    --card-foreground: hsl(210, 20%, 25%); /* Mörkblå text på kort */
+    --popover: hsl(0, 0%, 100%); /* Vit bakgrund för popovers */
+    --popover-foreground: hsl(210, 20%, 25%); /* Mörkblå textfärg */
+    --primary: hsl(0, 0%, 95%); /* Ljusgrå för primära element */
+    --primary-foreground: hsl(210, 20%, 25%); /* Mjuk mörkblå text på primära element */
+    --secondary: hsl(0, 0%, 90%); /* Ljusgrå för sekundära element */
+    --secondary-foreground: hsl(210, 20%, 25%); /* Mörkblå textfärg */
+    --muted: hsl(0, 0%, 95%); /* Ljusgrå för nedtonade element */
+    --muted-foreground: hsl(0, 0%, 50%); /* Mellangrå textfärg */
+    --accent: hsl(29, 64%, 47%); /* Kopparfärgad accentfärg */
+    --accent-foreground: hsl(0, 0%, 100%); /* Vit text på accentfärger */
+    --destructive: hsl(29, 64%, 47%); /* Kopparfärgad för destruktiva element */
+    --destructive-foreground: hsl(0, 0%, 100%); /* Vit text på destruktiva element */
+    --border: hsl(0, 0%, 90%); /* Ljusgrå ramar */
+    --input: hsl(0, 0%, 100%); /* Vit input-bakgrund */
+    --ring: hsl(210, 20%, 25%); /* Mörkblå kantfärg */
+    --chart-1: hsl(120, 25%, 70%); /* Ljus salviagrön för diagram */
+    --chart-2: hsl(0, 0%, 90%); /* Ljusgrå för diagram */
+    --chart-3: hsl(29, 64%, 47%); /* Kopparfärg för diagram */
+    --chart-4: hsl(0, 0%, 96%); /* Mycket ljusgrå för diagram */
+    --chart-5: hsl(0, 0%, 100%); /* Vit för diagram */
     --radius: 0.5rem; /* Standardradie för rundade hörn */
   }
 
   .dark {
-    --background: 0 0% 15%; /* Mjuk mörkgrå bakgrund för mörkt tema */
-    --foreground: 0 0% 98%; /* Vit textfärg för mörkt tema */
-    --card: 0 0% 20%; /* Mörkgrå kortbakgrund */
-    --card-foreground: 0 0% 98%; /* Vit text på kort */
-    --popover: 0 0% 20%; /* Mörkgrå bakgrund för popover */
-    --popover-foreground: 0 0% 98%; /* Vit textfärg */
-    --primary: 0 0% 30%; /* Mörkgrå för primära element */
-    --primary-foreground: 0 0% 98%; /* Vit text på primära element */
-    --secondary: 0 0% 25%; /* Mörkare grå för sekundära element */
-    --secondary-foreground: 0 0% 98%; /* Vit textfärg */
-    --muted: 0 0% 10%; /* Mycket mörkgrå för nedtonade element */
-    --muted-foreground: 0 0% 60%; /* Ljusare grå textfärg */
-    --accent: 40 10% 85%; /* Krämig ljusbeige accentfärg */
-    --accent-foreground: 0 0% 98%; /* Vit textfärg */
-    --destructive: 0 50% 40%; /* Mörkröd för destruktiva element */
-    --destructive-foreground: 0 0% 98%; /* Vit textfärg */
-    --border: 0 0% 25%; /* Mörkgrå ramar */
-    --input: 0 0% 25%; /* Mörkgrå bakgrund för inputs */
-    --ring: 0 0% 98%; /* Vit kantfärg */
-    --chart-1: 0 0% 30%; /* Mörkgrå för diagram */
-    --chart-2: 40 10% 85%; /* Krämig ljusbeige för diagram */
-    --chart-3: 60 10% 50%; /* Beige för diagram */
-    --chart-4: 0 0% 30%; /* Mörkgrå för diagram */
-    --chart-5: 0 0% 95%; /* Mycket ljusgrå för diagram */
+    --background: hsl(210, 20%, 25%); /* Mörkblå bakgrund för mörkt tema */
+    --foreground: hsl(0, 0%, 100%); /* Vit textfärg för mörkt tema */
+    --card: hsl(210, 15%, 20%); /* Mörkare blå för kort */
+    --card-foreground: hsl(0, 0%, 100%); /* Vit text på kort */
+    --popover: hsl(210, 15%, 20%); /* Mörkblå bakgrund för popovers */
+    --popover-foreground: hsl(0, 0%, 100%); /* Vit textfärg */
+    --primary: hsl(210, 15%, 20%); /* Mörkare blå för primära element */
+    --primary-foreground: hsl(0, 0%, 100%); /* Vit text på primära element */
+    --secondary: hsl(210, 10%, 15%); /* Mörkblå för sekundära element */
+    --secondary-foreground: hsl(0, 0%, 100%); /* Vit textfärg */
+    --muted: hsl(210, 10%, 10%); /* Mycket mörkblå för nedtonade element */
+    --muted-foreground: hsl(0, 0%, 50%); /* Mellangrå textfärg */
+    --accent: hsl(29, 64%, 47%); /* Kopparfärgad accentfärg */
+    --accent-foreground: hsl(0, 0%, 100%); /* Vit textfärg */
+    --destructive: hsl(29, 64%, 47%); /* Kopparfärgad för destruktiva element */
+    --destructive-foreground: hsl(0, 0%, 100%); /* Vit textfärg */
+    --border: hsl(210, 10%, 15%); /* Mörkblå ramar */
+    --input: hsl(210, 10%, 15%); /* Mörkblå bakgrund för inputs */
+    --ring: hsl(0, 0%, 100%); /* Vit kantfärg */
+    --chart-1: hsl(120, 25%, 70%); /* Ljus salviagrön för diagram */
+    --chart-2: hsl(0, 0%, 90%); /* Ljusgrå för diagram */
+    --chart-3: hsl(29, 64%, 47%); /* Kopparfärg för diagram */
+    --chart-4: hsl(0, 0%, 96%); /* Mycket ljusgrå för diagram */
+    --chart-5: hsl(0, 0%, 100%); /* Vit för diagram */
   }
 }
 
@@ -65,5 +65,26 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .bg-button {
+    background-color: var(--accent);
+  }
+  .text-button {
+    color: var(--accent-foreground);
+  }
+  .bg-card {
+    background-color: var(--card);
+  }
+  .text-card {
+    color: var(--card-foreground);
+  }
+  .bg-primary {
+    background-color: var(--primary);
+  }
+  .text-primary {
+    color: var(--primary-foreground);
   }
 }
