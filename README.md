@@ -26,7 +26,6 @@ This booking system is still under development, and several features are not ful
 - Full management of admin schedules in the frontend
 - Users' ability to view available slots based on selected services
 - Email notifications for bookings and reminders
-- Responsive admin dashboard
 
 The system works in its basic form, and more features are planned for future updates.
 
@@ -118,8 +117,8 @@ To run this project locally, follow the steps below:
 1. **Clone the repository**:
 
 ```bash
-git clone https://github.com/your-repo/salong-saxen.git
-cd salong-saxen
+git clone https://github.com/u09-hair-salon.git
+cd u09-hair-salon
 
 ```
 
